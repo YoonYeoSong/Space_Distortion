@@ -28,11 +28,10 @@ public class MainRoomView extends JFrame {
 //		});
 //	}
 
+
 	/**
 	 * Create the frame.
 	 */
-	
-	
 	
 	public MainRoomView() {
 		initialize();
@@ -59,6 +58,10 @@ public class MainRoomView extends JFrame {
 		btnNewButton.setBounds(12, 120, 97, 23);
 		contentPane.add(btnNewButton);
 		
+	}
+	
+	public JFrame getFrame() {
+		return frame;
 	}
 
 }

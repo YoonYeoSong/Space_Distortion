@@ -3,6 +3,7 @@ package com.space_distortion.view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -112,6 +113,7 @@ public class AccountView2 {
 		label_Create.setBounds(43, 29, 251, 31);
 		frame.getContentPane().add(label_Create);
 		
+		//URL path = AccountView.class.getResource("");
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\TaeYeop\\Desktop\\\uCC45 \uBC30\uAC38\u3155\u31472.jpg"));
 		lblNewLabel.setBounds(0, -18, 711, 729);

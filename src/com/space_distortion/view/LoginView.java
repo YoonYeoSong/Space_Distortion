@@ -19,9 +19,12 @@ public class LoginView extends JFrame {
 
 	private JFrame frame;
 	private JLabel lbl_Space;
+	
 	private JTextField textField_ID;
 	private JTextField textFieldPW;
-	private JButton btn_Register;
+	
+	private JButton btn_Register; // 회원가입
+	
 	private AccountView accountView = new AccountView();
 
 	/**
@@ -159,4 +162,9 @@ public class LoginView extends JFrame {
 			}
 		});
 	}
+
+	public JButton getBtn_Register() {
+		return btn_Register;
+	}
+	
 }
