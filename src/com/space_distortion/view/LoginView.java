@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 public class LoginView extends JFrame {
 
 	private JFrame frame;
+	private JLabel lbl_Space;
 	private JTextField textField_ID;
 	private JTextField textFieldPW;
 	private JButton btn_Register;
@@ -58,7 +59,7 @@ public class LoginView extends JFrame {
 		frame.setTitle("로그인 창");
 		frame.setResizable(false);
 
-		JLabel lbl_Space = new JLabel("space");
+		lbl_Space = new JLabel("space");
 		lbl_Space.setForeground(new Color(0, 0, 0));
 		lbl_Space.setFont(new Font("Raavi", Font.PLAIN, 90));
 		lbl_Space.setBounds(90, 12, 368, 151);
