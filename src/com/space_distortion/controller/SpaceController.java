@@ -1,11 +1,9 @@
 package com.space_distortion.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import com.space_distortion.event.SpaceActionEvent;
 import com.space_distortion.model.vo.Member;
@@ -22,19 +20,27 @@ public class SpaceController {
 	LoginView lv = new LoginView(); //로그인뷰
 	SpaceActionEvent sAe = new SpaceActionEvent();
 	MainRoomView mRv = new MainRoomView();
+	private JFrame jframe;
 	
 	
 	public void mainView()
 	{
-		mv = new MainRoomView(); //메인 뷰 생성		
-		mv.showMainView();       // 메인 뷰 초기화 후 setVisible(true)
+		mv = new MainRoomView(); //메인 뷰 생성
+		mv.init();
+		jframe = mv.getFrame();
+		mv.mainView(this);       // 메인 뷰 초기화 후 setVisible(true)
 	}
 	
 	// 회원가입으로 
-	public void setRegisterButton(JButton btn)
+	public void loginView()
 	{
-		//btn.addActionListener(sAe);		
+		lv.loginView(this);
 	}
+
+	public JFrame getJframe() {
+		return jframe;
+	}
+	
 	
 }
 	

@@ -6,19 +6,30 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
+import com.space_distortion.controller.SpaceController;
 import com.space_distortion.view.AccountView;
 import com.space_distortion.view.LoginView;
 
 public class SpaceActionEvent implements MouseListener{
 
 	
-	LoginView lv = new LoginView(); // 로그인뷰
-	AccountView av = new AccountView();  // 회원 가입뷰
-	private JButton lvRegister;
+	private int index;
+	private SpaceController sc;
+	private JPanel jp;
 	
 	
 	
+	public SpaceActionEvent(int index, SpaceController sc, JPanel jp) {
+		super();
+		this.index = index;
+		this.sc = sc;
+		this.jp = jp;
+	}
+
+
+
 	public SpaceActionEvent() {
 		
 	}
@@ -28,7 +39,18 @@ public class SpaceActionEvent implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		
+		if(index == 1) {
+			
+			sc.loginView();
+			jp.setVisible(false);
+		}
+		else if(index == 2) {
+			System.out.println("Btn 2 : " + e.getSource());
+			jp.setVisible(false);
+		}
+		else
+			System.out.println("버튼 없음");
+			
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

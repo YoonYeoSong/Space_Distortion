@@ -1,68 +1,50 @@
 package com.space_distortion.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import com.space_distortion.event.SpaceActionEvent;
+import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class MainRoomView extends SpaceActionEvent {
+import com.space_distortion.controller.SpaceController;
+import com.space_distortion.event.SpaceActionEvent;
 
-	private JPanel contentPane;
+public class MainRoomView extends SpaceActionEvent implements ViewIndex{
+
 	private JFrame frame;
 	private JButton RNum1Btn;
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					MainRoomView frame = new MainRoomView();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-
-	/**
-	 * Create the frame.
-	 */
 	
 	public MainRoomView() {
-		frame = new JFrame();
-		initialize();
+			
 	}
 	
-	public void showMainView()
+	
+	public void init()
 	{
-		frame.setVisible(true);
+	
+		frame = new JFrame("main view");
+		frame.setBounds(100, 100, 800, 800);
+		frame.getContentPane().setLayout(new FlowLayout());
+		frame.setDefaultCloseOperation(3);
+		frame.setVisible(true);	
+		
 	}
 	
-	public void initialize()
+	public void mainView(SpaceController sc)
 	{
-		//frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 614, 530);
-		contentPane = new JPanel();
+		JPanel jp = new JPanel();
+		jp.setBounds(100, 100, 800, 800);
 		
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//프레임 생성
-		frame.setContentPane(contentPane);
-		contentPane.setLayout(null);
+		JButton btn1 = new JButton("1번 방");
+		JButton btn2 = new JButton("2번 방");
+		JButton btn3 = new JButton("종료");
+		frame.getContentPane().add(jp);
 		
-		JButton RNum1Btn = new JButton("1\uBC88\uBC29");
-		RNum1Btn.setBounds(12, 120, 97, 23);
-		contentPane.add(RNum1Btn);
+		btn1.addMouseListener(new SpaceActionEvent(1, sc, jp));
+		btn2.addMouseListener(new SpaceActionEvent(2, sc, jp));
 		
+		jp.add(btn1);
+		jp.setVisible(true);
 	}
 	
 	public JFrame getFrame() {
