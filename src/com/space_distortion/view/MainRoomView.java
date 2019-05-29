@@ -6,12 +6,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.space_distortion.event.SpaceActionEvent;
+
 import javax.swing.JButton;
 
-public class MainRoomView extends JFrame {
+public class MainRoomView extends SpaceActionEvent {
 
 	private JPanel contentPane;
 	private JFrame frame;
+	private JButton RNum1Btn;
 	/**
 	 * Launch the application.
 	 */
@@ -34,6 +38,7 @@ public class MainRoomView extends JFrame {
 	 */
 	
 	public MainRoomView() {
+		frame = new JFrame();
 		initialize();
 	}
 	
@@ -44,8 +49,8 @@ public class MainRoomView extends JFrame {
 	
 	public void initialize()
 	{
-		frame = new JFrame();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 614, 530);
 		contentPane = new JPanel();
 		
@@ -54,14 +59,20 @@ public class MainRoomView extends JFrame {
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("1\uBC88\uBC29");
-		btnNewButton.setBounds(12, 120, 97, 23);
-		contentPane.add(btnNewButton);
+		JButton RNum1Btn = new JButton("1\uBC88\uBC29");
+		RNum1Btn.setBounds(12, 120, 97, 23);
+		contentPane.add(RNum1Btn);
 		
 	}
 	
 	public JFrame getFrame() {
 		return frame;
 	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+	
+	
 
 }

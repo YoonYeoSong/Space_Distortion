@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.space_distortion.controller.SpaceController;
+import com.space_distortion.main.Main;
+
 import javax.swing.JPanel;
 
 public class LoginView extends JFrame {
@@ -21,11 +25,11 @@ public class LoginView extends JFrame {
 	private JLabel lbl_Space;
 	
 	private JTextField textField_ID;
-	private JTextField textFieldPW;
-	
-	private JButton btn_Register; // 회원가입
+	private JTextField textFieldPW;	
+	private JButton btn_Register; // 회원가입	
 	
 	private AccountView accountView = new AccountView();
+	SpaceController sc = Main.getSpaceController();
 
 	/**
 	 * Launch the application.
@@ -149,19 +153,19 @@ public class LoginView extends JFrame {
 				}
 			}
 		});
-		setRegisterButton();
+		//setRegisterButton();
 	}
 	
 	// 
-	public void setRegisterButton() {
-		btn_Register.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				accountView.showThisView();
-			}
-		});
-	}
+//	public void setRegisterButton() {
+//		btn_Register.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				accountView.showThisView();
+//			}
+//		});
+//	}
 
 	public JButton getBtn_Register() {
 		return btn_Register;
