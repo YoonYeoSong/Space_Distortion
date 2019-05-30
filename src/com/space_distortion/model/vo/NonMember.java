@@ -13,6 +13,8 @@ public class NonMember extends User {
 
 	public NonMember(int userCode) {
 		super(userCode);
+		nCodeNumber++;
+		setnCodeNumber(nCodeNumber);
 		
 	}
 	

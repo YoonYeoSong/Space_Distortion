@@ -12,6 +12,8 @@ public class RoomInfo {
 	private String tool = "";  //랜덤으로 방마다 장비를 뿌린다
 	
 	
+	
+	
 
 	
 }

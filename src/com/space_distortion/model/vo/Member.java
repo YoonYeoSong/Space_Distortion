@@ -19,7 +19,9 @@ public class Member extends User {
 
 	public Member(String memberName, String memberPw, String emailId, String address, String phoneNumber,
 			String birthDay, int studentIsTrue) {
-		super();
+		super(mCodeNumber++);
+		//mCodeNumber++;
+		//setmCodeNumber(mCodeNumber);
 		this.memberName = memberName;
 		this.memberPw = memberPw;
 		this.emailId = emailId;
@@ -84,6 +86,37 @@ public class Member extends User {
 	public void setStudentIsTrue(int studentIsTrue) {
 		this.studentIsTrue = studentIsTrue;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Member member;
+		
+		if(obj instanceof Member)
+		{
+			member = (Member)obj;
+			if(memberName.equals(member.getMemberName()))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+
+	@Override
+	public String toString() {
+		return "Member [UserCode="+ super.getUserCode() + ", memberName=" + memberName + ", memberPw=" + memberPw + ", emailId=" + emailId + ", address="
+				+ address + ", phoneNumber=" + phoneNumber + ", birthDay=" + birthDay + ", studentIsTrue="
+				+ studentIsTrue + "]";
+	}
+	
 	
 	
 	
