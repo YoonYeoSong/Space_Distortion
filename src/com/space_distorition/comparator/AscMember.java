@@ -3,23 +3,49 @@ package com.space_distorition.comparator;
 import java.util.Comparator;
 
 import com.space_distortion.model.vo.Member;
+import com.space_distortion.model.vo.SnackBar;
 
-public class AscMember implements Comparator<Member> {
+public class AscMember implements Comparator<Object> {
 
 	
 	@Override
-	public int compare(Member o1, Member o2) {
-		String mName1 = o1.getMemberName();
-		String mName2 = o2.getMemberName();		
-		if(mName2.compareTo(mName1) < 0)
+	public int compare(Object o1, Object o2) {
+		
+		if(o1 instanceof Member)
 		{
-			return 1;
+			String mName1 = ((Member)o1).getMemberName();
+			String mName2 = ((Member)o2).getMemberName();					
+			if(mName2.compareTo(mName1) < 0)
+			{
+				return 1;
+			}
+			else if(mName2.compareTo(mName1) > -1)
+			{
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
 		}
-		else if(mName2.compareTo(mName1) > -1)
+		else if(o1 instanceof SnackBar)
 		{
-			return -1;
-		}
-		else
+			String mName1 = ((SnackBar)o1).getSnack();
+			String mName2 = ((SnackBar)o2).getSnack();					
+			if(mName2.compareTo(mName1) < 0)
+			{
+				return 1;
+			}
+			else if(mName2.compareTo(mName1) > -1)
+			{
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
+			
+		}else
 		{
 			return 0;
 		}

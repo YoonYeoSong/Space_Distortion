@@ -13,15 +13,13 @@ public class Member extends User {
 	
 	public Member() {
 		super();
-		mCodeNumber++;
-		setmCodeNumber(mCodeNumber);
 	}
-
+	
+	
+	
 	public Member(String memberName, String memberPw, String emailId, String address, String phoneNumber,
 			String birthDay, int studentIsTrue) {
-		super(mCodeNumber++);
-		//mCodeNumber++;
-		//setmCodeNumber(mCodeNumber);
+		super(mCodeNumber++);	
 		this.memberName = memberName;
 		this.memberPw = memberPw;
 		this.emailId = emailId;
@@ -95,6 +93,10 @@ public class Member extends User {
 		{
 			member = (Member)obj;
 			if(memberName.equals(member.getMemberName()))
+			{
+				return true;
+			}
+			else if(super.getUserCode() == member.getUserCode())
 			{
 				return true;
 			}

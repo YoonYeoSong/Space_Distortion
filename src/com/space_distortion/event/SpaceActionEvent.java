@@ -45,8 +45,6 @@ public class SpaceActionEvent implements MouseListener{
 			jp.setVisible(false);
 		}
 		else if(index == 2) {
-			System.out.println("Btn 2 : " + e.getSource());
-			jp.setVisible(false);
 		}
 		else
 			System.out.println("버튼 없음");
