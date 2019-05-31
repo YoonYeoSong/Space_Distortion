@@ -68,8 +68,8 @@ public class AdminView {
 			break;
 			case 16: spaceController.adminDelSnack();
 			break;
-//			case 17: spaceController.adminDelMember();
-//			break;
+			case 17: spaceController.SnackSeach();
+			break;
 //			case 18: spaceController.adminDelMember();
 //			break;
 			

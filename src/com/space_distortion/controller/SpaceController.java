@@ -250,15 +250,19 @@ public class SpaceController {
 		int indexNum = 0;
 		for(int i = 0 ; i < admin.getAdminSnackBarList().size(); i++)
 		{
-			if( ((SnackBar)admin.getAdminPaymentList().get(i)).getSnack() == snackName   )
+			if( ((SnackBar)admin.getAdminSnackBarList().get(i)).getSnack().equals(snackName)  )
 			{
 				indexNum = i;
 			}
 			//System.out.println(admin.getAdminSnackBarList().get(i));
 		}
 		System.out.println(indexNum);
-		((SnackBar)admin.getAdminPaymentList().get(indexNum)).
-		setSnackQuantity( ((SnackBar)admin.getAdminPaymentList().get(indexNum)).getSnackQuantity()+adminView.searchSnackQuntity());
+		System.out.println(adminView.searchSnackQuntity());
+		System.out.println(((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity());
+		
+		((SnackBar)admin.getAdminSnackBarList().get(indexNum)).
+		setSnackQuantity( ((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity()+adminView.searchSnackQuntity());	
+		
 		
 	}
 	 
@@ -269,13 +273,24 @@ public class SpaceController {
 		int indexNum = 0;
 		for(int i = 0 ; i < admin.getAdminSnackBarList().size(); i++)
 		{
-			if(((SnackBar)admin.getAdminPaymentList().get(i)).getSnack() == snackName)
+			if(((SnackBar)admin.getAdminSnackBarList().get(i)).getSnack().equals(snackName))
 			{
+				
 				indexNum = i;
 			}
 		}
-		admin.getAdminPaymentList().remove(indexNum);
+		admin.getAdminSnackBarList().remove(indexNum);
+		snackBarList = admin.getAdminSnackBarList();
 		
+		
+	}
+	
+	public void SnackSeach()
+	{
+		for(int i = 0 ; i < snackBarList.size(); i++)
+		{
+			System.out.println(snackBarList.get(i));
+		}
 	}
 	
 	
