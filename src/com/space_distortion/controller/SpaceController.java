@@ -3,7 +3,6 @@ package com.space_distortion.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,18 +19,23 @@ import com.space_distortion.model.vo.NonMember;
 import com.space_distortion.model.vo.Payment;
 import com.space_distortion.model.vo.RoomInfo;
 import com.space_distortion.model.vo.SnackBar;
+import com.space_distortion.view.AccountView;
+import com.space_distortion.view.AccountView2;
+import com.space_distortion.view.AddTimeRoomView;
 import com.space_distortion.view.AdminView;
 import com.space_distortion.view.LoginView;
 import com.space_distortion.view.MainRoomView;
+import com.space_distortion.view.PaymentView;
+import com.space_distortion.view.SnackBarView;
+import com.space_distortion.view.SubRoomView;
 
 // 기능구현 클래스
 public class SpaceController {
+	
+	//잠시 관리자에 에 쓰이는 변수
 	static int mKeyNumber = 0;
 	static int nKeyNumber = 0;
 	
-	
-	List<Member> mList = new ArrayList<Member>(); //회원
-	List<NonMember> nList = new ArrayList<NonMember>();  //비회원
 	
 	
 	/////////////////////////////// Model.vo 객체 리스트///////////
@@ -40,24 +44,47 @@ public class SpaceController {
 	List<RoomInfo> roomInfoList = new ArrayList<RoomInfo>(); // 룸에 대한 리스트
 	List<Payment> paymentList = new ArrayList<Payment>();  // 페이먼트 대한 리스트
 	List<SnackBar> snackBarList = new ArrayList<SnackBar>(); // 스낵관련리스트
+	
+	
 	Admin admin = new Admin();
 	
+	///////////////////////Model.vo 뷰/////////////////////////////////////////
 	
-	
-	
-	///////////////////////Model.vo객체리스트/////////////////////////////////////////
-	
-	MainRoomView mv; // 메인 뷰
-	LoginView lv = new LoginView(); //로그인뷰
+	MainRoomView mv = new MainRoomView(); // 메인 뷰
 	SpaceActionEvent sAe = new SpaceActionEvent();
-	MainRoomView mRv = new MainRoomView();
-	private JFrame jframe;
+	MainRoomView mRv = new MainRoomView();                  //메인 뷰 생성
+	private SubRoomView subRoomV = new SubRoomView();       // 서브룸
+	private LoginView lv = new LoginView();                         //로그인뷰
+	private AccountView accountV = new AccountView();		//회원 가입 뷰 생성
+	private AccountView2 subAccountV = new AccountView2();	//회원 가입 뷰 생성
+	private AddTimeRoomView addTimeV = new AddTimeRoomView();	//추가시간 뷰 생성
+	private AdminView adminV = new AdminView();				//관리자 뷰 생성
+	private PaymentView payV = new PaymentView();			//결재 뷰 생성
+	private SnackBarView snackV = new SnackBarView();		//간식 뷰 생성
+	private JFrame mainJframe = new JFrame();				//메인 프레임 생성
+	
+	/* 메인 컨트롤러 생성자 */
+	public SpaceController() {
+		this.init();
+	}
+	
+	// 메인 프레임 생성
+		public void init()
+		{
+			mainJframe = new JFrame("Space Distorition");
+			mainJframe.setBounds(100, 100, 800, 800);
+//			mainJframe.setLayout(new FlowLayout());
+			mainJframe.setDefaultCloseOperation(3);
+//			mainJframe.setVisible(true);	
+		}
+	
+	
 	
 ///////////////////////////////////////////////////////////////////////////consol ///////////////////////////////////////////////////////////////////////	
 	
 	AdminView adminView;
 	
-	public void init()
+	public void initConsol()
 	{
 		mMap.put(mKeyNumber++,new Member("윤여송", "1234", "dbsduthd123@naver.com", "경기도 부천", "01054035883", "1992/04/27", 1));
 		mMap.put(mKeyNumber++,new Member("김여송1", "12714110", "duthd123@naver.com", "서울", "01054035883", "1990/04/27", 0));
@@ -329,25 +356,54 @@ public class SpaceController {
 	
 /////////////////////////////////////////////////////////////////////////////////////Consol////////////////////////////////////////////////////////////////////		
 	
-	
-	public void mainView()
-	{
+	// 메인뷰
+		public void mainView()
+		{
+			mv.initialize(this, mainJframe);       // 메인 뷰 초기화
+		}
+		
+		// sub room view
+		public void subRoomView()
+		{
+			subRoomV.initialize(this, mainJframe);
+		}
+		
+		// 로긴 뷰 
+		public void loginView()
+		{
+			lv.initialize(this, mainJframe);
+		}
 
-//		mv = new MainRoomView(); //메인 뷰 생성
-//		mv.init();
-//		jframe = mv.getFrame();
-//		mv.mainView(this);       // 메인 뷰 초기화 후 setVisible(true)
-	}
-	
-	// 회원가입으로 
-	public void loginView()
-	{
-		lv.loginView(this);
-	}
+		// 회원 가입
+		public void accoutView() {
+			accountV.initialize(this, mainJframe);
+		}
 
-	public JFrame getJframe() {
-		return jframe;
-	}
+		// 회원 가입
+		public void accoutView2() {
+			subAccountV.initialize(this, mainJframe);
+		}
+		
+		// 추가시간 뷰
+		public void addTiemView() {
+			
+		}
+		
+		// 관리자 
+		public void adminView() {
+			
+		}
+		
+		// 결재정보 뷰
+		public void paymentView() {
+			payV.initialize(this, mainJframe);
+		}
+		
+		// 간식 뷰
+		public void snackView() {
+			
+		}
+	
 	
 	
 }

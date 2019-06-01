@@ -50,7 +50,7 @@ public class AdminView {
 			case 6:		
 			case 7:	//spaceController.adminSearchMemberName();
 				break;
-			case 8:	spaceController.init();
+			case 8:	spaceController.initConsol();
 				break;
 			case 9: spaceController.adminSearchAllMember();
 				break;

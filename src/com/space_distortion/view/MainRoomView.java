@@ -11,48 +11,36 @@ import com.space_distortion.event.SpaceActionEvent;
 
 public class MainRoomView extends SpaceActionEvent implements ViewIndex{
 
-	private JFrame frame;
-	private JButton RNum1Btn;
-	
 	public MainRoomView() {
 			
-	}
+		}
 	
-	
-	public void init()
+	public void initialize(SpaceController sc, JFrame mainJframe)
 	{
-	
-		frame = new JFrame("main view");
-		frame.setBounds(100, 100, 800, 800);
-		frame.getContentPane().setLayout(new FlowLayout());
-		frame.setDefaultCloseOperation(3);
-		frame.setVisible(true);	
 		
-	}
-	
-	public void mainView(SpaceController sc)
-	{
 		JPanel jp = new JPanel();
-		jp.setBounds(100, 100, 800, 800);
+		jp.setBounds(10, 10, 700, 700);
+		jp.setLayout(new FlowLayout());
+		
 		
 		JButton btn1 = new JButton("1번 방");
-		JButton btn2 = new JButton("2번 방");
+		JButton btn2 = new JButton("2번 방(X)");
 		JButton btn3 = new JButton("종료");
-		frame.getContentPane().add(jp);
 		
-		btn1.addMouseListener(new SpaceActionEvent(1, sc, jp));
-		btn2.addMouseListener(new SpaceActionEvent(2, sc, jp));
+		btn1.addMouseListener(new SpaceActionEvent(MAIN_ROOM_VIEW_NUM, 1, sc, mainJframe, jp));
+		btn2.addMouseListener(new SpaceActionEvent(MAIN_ROOM_VIEW_NUM, 2, sc, mainJframe, jp));
+		btn3.addMouseListener(new SpaceActionEvent(MAIN_ROOM_VIEW_NUM, 3, sc, mainJframe, jp));
 		
 		jp.add(btn1);
+		jp.add(btn2);
+		jp.add(btn3);
+		
+		//mainJframe.setContentPane(jp);
+		mainJframe.add(jp);
+		jp.revalidate();
+		jp.repaint();
 		jp.setVisible(true);
-	}
-	
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
+		mainJframe.setVisible(true);
 	}
 	
 	
