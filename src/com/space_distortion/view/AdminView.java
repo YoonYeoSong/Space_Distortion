@@ -39,7 +39,7 @@ public class AdminView {
 			switch (num) {
 			case 1:	spaceController.seachMem();
 				break;
-			case 2:	//spaceController.searchAllRoomInfo();
+			case 2:	paymentAndRoomInfo();
 				break;
 			case 3:		//spaceController.search();
 				break;
@@ -78,6 +78,43 @@ public class AdminView {
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	public void paymentAndRoomInfo()
+	{
+		while(true)
+		{
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Space_Distorition");
+			System.out.println("1. 모든방 검색 ");
+			System.out.println("2. 방번호로 찾기");
+			System.out.println("3. 룸 수정 노트북 갯수");
+			System.out.println("4. 모든 매출" );		
+			System.out.println("5. back");
+			System.out.print("번호 입력 : ");
+			int num = sc.nextInt();
+			
+			switch (num) {
+			case 1:	spaceController.adminSearchAllRoomInfo();
+				break;
+			case 2:	spaceController.adminSearchRoomInfo();
+				break;
+			case 3:	spaceController.adminModifyRoom();
+				break;
+			case 4: spaceController.adminSearchTotalPay();
+				break;
+			case 5: 
+				break;	
+			default:
+				break;
+			}
+		}
+	}
+	
+	
 	
 	public String searchMemberName()
 	{
@@ -119,7 +156,13 @@ public class AdminView {
 		return snackName;
 	}
 	
-	
-	
+	public int searchRoomNum()
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.print("룸 번호 입력 : ");
+		int number = sc.nextInt();
+		return number;
+	}
+
 
 }

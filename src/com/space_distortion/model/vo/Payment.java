@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 public class Payment {
 	
 	//임시방번호
-	private int usedRoomNumber;
+	private int roomNumberInUse;
 	// 임으로 만든 유저 더미
 	private String user = "member";
 	// 시간당 가격은 3000원을 지정
@@ -40,9 +40,11 @@ public class Payment {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Payment(String user, int hourlyCost, int hour, int ppl, double discountRate, boolean whiteBoard,
+	public Payment(int roomNumberInUse,String user, int hourlyCost, int hour, int ppl, double discountRate, boolean whiteBoard,
 			boolean beamProjector, int whiteBoardCost, int beamProjectorCost, int laptopCost, int laptop,
 			int totalHourlyCost, int totalLaptopCost, int totalCost, int finalCost) {
+		
+		this.roomNumberInUse = roomNumberInUse;
 		this.user = user;
 		this.hourlyCost = hourlyCost;
 		this.hour = hour;
@@ -60,6 +62,16 @@ public class Payment {
 		this.finalCost = finalCost;
 	}
 	
+	
+
+	public int getRoomNumberInUse() {
+		return roomNumberInUse;
+	}
+
+	public void setRoomNumberInUse(int roomNumberInUse) {
+		this.roomNumberInUse = roomNumberInUse;
+	}
+
 	public String getUser() {
 		return user;
 	}

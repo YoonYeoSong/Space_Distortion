@@ -11,11 +11,10 @@ public class Member extends User {
 	private String birthDay; // 생년월일
 	private int studentIsTrue;  // 0 false 1 true
 	
+	
 	public Member() {
 		super();
 	}
-	
-	
 	
 	public Member(String memberName, String memberPw, String emailId, String address, String phoneNumber,
 			String birthDay, int studentIsTrue) {
