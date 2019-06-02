@@ -2,14 +2,337 @@ package com.space_distortion.view;
 
 import java.util.Scanner;
 
-import com.space_distortion.controller.SpaceController;
-import com.space_distortion.main.Main;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.xml.ws.handler.MessageContext.Scope;
 
-public class AdminView {
+import com.space_distortion.controller.SpaceController;
+import com.space_distortion.event.SpaceActionEvent;
+import com.space_distortion.main.Main;
+import com.space_distortion.model.vo.Admin;
+import com.space_distortion.model.vo.SnackBar;
+
+public class AdminView extends SpaceActionEvent implements ViewIndex {
 	
 	SpaceController spaceController = Main.getSpaceController();
 	
+	Admin admin = new Admin();
+	public AdminView()
+	{
+		
+	}
 	
+	
+	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
+	public void initialize(SpaceController sc, JFrame mainJframe)
+	{
+		JPanel jp = new JPanel();
+		jp.setBounds(10, 10, 1024, 768);
+		jp.setLayout(null);
+		
+		JPanel menuJp = new JPanel();
+		menuJp.setBounds(12, 5, 1000, 82);
+		menuJp.setLayout(null);
+		
+		JPanel TableJp = new JPanel();
+		TableJp.setBounds(12, 114, 1000, 599);
+		TableJp.setLayout(null);
+		
+		JButton btn1 = new JButton("Member");
+		btn1.setBounds(55, 10, 117, 37);
+		menuJp.add(btn1);
+		
+		
+		JButton btn2 = new JButton("RoomInfo");
+		btn2.setBounds(229, 10, 117, 37);
+		menuJp.add(btn2);		
+		
+		
+		JButton btn3 = new JButton("Snack");
+		btn3.setBounds(429, 10, 117, 37);
+		menuJp.add(btn3);
+		
+		JButton btn4 = new JButton("예약정보");
+		btn4.setBounds(636, 10, 117, 37);
+		menuJp.add(btn4);
+		
+		JButton btn5 = new JButton("TotalPay");
+		btn5.setBounds(825, 10, 117, 37);
+		menuJp.add(btn5);
+		
+		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 1, sc, mainJframe ,jp));
+		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 2, sc, mainJframe ,jp));
+		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 3, sc, mainJframe ,jp));
+		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 4, sc, mainJframe ,jp));
+		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 5, sc, mainJframe ,jp));
+		
+		
+
+		DefaultTableModel defaultModel = new DefaultTableModel(0, 0);
+		JTable defaultTable = new JTable(defaultModel);
+		JScrollPane scrollPane = new JScrollPane(defaultTable);
+		scrollPane.setLocation(0, 0);
+		scrollPane.setSize(988, 480);
+				
+		TableJp.add(scrollPane,null);
+	
+		jp.add(menuJp);
+		jp.add(TableJp);
+		
+			
+//		JButton btn6 = new JButton("삭제");
+//		btn6.setBounds(871, 504, 117, 48);
+//		TableJp.add(btn6);
+//		
+//		JButton btn7= new JButton("검색");
+//		btn7.setBounds(750, 504, 117, 48);
+//		TableJp.add(btn7);
+//		
+//		JTextField nameField = new JTextField(5);
+//		nameField.setBounds(595, 505, 149, 48);
+//		TableJp.add(nameField);
+		
+		
+		
+		mainJframe.getContentPane().add(jp);
+		jp.revalidate();
+		jp.repaint();
+		
+		
+	}
+	
+	
+	
+	
+	
+	public void memberTableInitialize(SpaceController sc ,JFrame mainJframe)
+	{	
+		
+	
+		
+		JPanel jp = new JPanel();
+		jp.setBounds(10, 10, 1024, 768);
+		jp.setLayout(null);
+		
+		JPanel menuJp = new JPanel();
+		menuJp.setBounds(12, 5, 1000, 82);
+		menuJp.setLayout(null);
+		
+
+		JPanel TableJp = new JPanel();
+		TableJp.setBounds(12, 114, 1000, 599);
+		TableJp.setLayout(null);
+		
+		JButton btn1 = new JButton("Member");
+		btn1.setBounds(55, 10, 117, 37);
+		menuJp.add(btn1);
+		
+		
+		JButton btn2 = new JButton("RoomInfo");
+		btn2.setBounds(229, 10, 117, 37);
+		menuJp.add(btn2);		
+		
+		
+		JButton btn3 = new JButton("Snack");
+		btn3.setBounds(429, 10, 117, 37);
+		menuJp.add(btn3);
+		
+		JButton btn4 = new JButton("예약정보");
+		btn4.setBounds(636, 10, 117, 37);
+		menuJp.add(btn4);
+		
+		JButton btn5 = new JButton("TotalPay");
+		btn5.setBounds(825, 10, 117, 37);
+		menuJp.add(btn5);
+	
+		
+		JButton btn6 = new JButton("삭제");
+		btn6.setBounds(871, 504, 117, 48);
+		TableJp.add(btn6);
+		
+		JButton btn7= new JButton("검색");
+		btn7.setBounds(750, 504, 117, 48);
+		TableJp.add(btn7);
+		
+		JTextField nameField = new JTextField(5);
+		nameField.setBounds(595, 505, 149, 48);
+		TableJp.add(nameField);
+		
+		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 1, sc, mainJframe ,jp));
+		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 2, sc, mainJframe ,jp));
+		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 3, sc, mainJframe ,jp));
+		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 4, sc, mainJframe ,jp));
+		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 5, sc, mainJframe ,jp));
+		
+		
+		String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
+		DefaultTableModel model = new DefaultTableModel(sc.adminSearchAllMember(modelName),modelName);
+		JTable table = new JTable(model);
+		JScrollPane scrollpane = new JScrollPane(table);
+		scrollpane.setLocation(0, 0);
+		scrollpane.setSize(1000, 480);
+		TableJp.add(scrollpane,null);
+		
+	
+		
+	
+		jp.add(menuJp);
+		jp.add(TableJp);
+		mainJframe.getContentPane().add(jp);
+		jp.revalidate();
+		jp.repaint();
+		
+		System.out.println("회원");
+		
+	
+	}
+	public void roomInfoTableInitialize(SpaceController sc ,JFrame mainJframe )
+	{
+		
+	}
+	
+	
+	public void snackTableInitialize(SpaceController sc ,JFrame mainJframe)
+	{
+		
+		JPanel jp = new JPanel();
+		jp.setBounds(10, 10, 1024, 768);
+		jp.setLayout(null);
+		
+		JPanel menuJp = new JPanel();
+		menuJp.setBounds(12, 5, 1000, 82);
+		menuJp.setLayout(null);
+		
+
+		JPanel TableJp = new JPanel();
+		TableJp.setBounds(12, 114, 1000, 599);
+		TableJp.setLayout(null);
+		
+		JButton btn1 = new JButton("Member");
+		btn1.setBounds(55, 10, 117, 37);
+		menuJp.add(btn1);
+		
+		
+		JButton btn2 = new JButton("RoomInfo");
+		btn2.setBounds(229, 10, 117, 37);
+		menuJp.add(btn2);		
+		
+		
+		JButton btn3 = new JButton("Snack");
+		btn3.setBounds(429, 10, 117, 37);
+		menuJp.add(btn3);
+		
+		JButton btn4 = new JButton("예약정보");
+		btn4.setBounds(636, 10, 117, 37);
+		menuJp.add(btn4);
+		
+		JButton btn5 = new JButton("TotalPay");
+		btn5.setBounds(825, 10, 117, 37);
+		menuJp.add(btn5);
+		
+		JButton btn6 = new JButton("삭제");
+		btn6.setBounds(871, 504, 117, 48);
+		TableJp.add(btn6);
+		
+		JButton btn7= new JButton("검색");
+		btn7.setBounds(750, 504, 117, 48);
+		TableJp.add(btn7);
+		
+		JTextField nameField = new JTextField(5);
+		nameField.setBounds(595, 505, 149, 48);
+		TableJp.add(nameField);
+	
+		
+		
+		String[] modelName = {"스낵인덱스","스낵이름","수량","코멘트"};
+		DefaultTableModel snackModel = new DefaultTableModel(sc.adminSearchAllSnack(modelName),modelName);
+		JTable table = new JTable(snackModel);
+		JScrollPane scrollpane = new JScrollPane(table);
+		scrollpane.setLocation(0, 0);
+		scrollpane.setSize(1000, 480);
+		TableJp.add(scrollpane,null);
+		
+		
+		
+		
+		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 1, sc, mainJframe ,jp));
+		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 2, sc, mainJframe ,jp));
+		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 3, sc, mainJframe ,jp));
+		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 4, sc, mainJframe ,jp));
+		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 5, sc, mainJframe ,jp));
+		btn6.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 6, sc, mainJframe ,jp, table, snackModel));
+			
+		jp.add(menuJp);
+		jp.add(TableJp);
+		mainJframe.getContentPane().add(jp);
+		jp.revalidate();
+		jp.repaint();
+		System.out.println("스낵");
+		
+	}
+	
+	public void ReservationTableInitialize(SpaceController sc ,JFrame mainJframe )
+	{
+		
+	}
+	
+	public void payTableInitialize(SpaceController sc ,JFrame mainJframe )
+	{
+		
+	}
+	
+
+	
+	
+	public void snackTablePrint(SpaceController sc, JPanel tableJp, int num )
+	{
+		
+		String[] modelName = {"스낵인덱스","스낵이름","수량","코멘트"};
+		DefaultTableModel snackModel = new DefaultTableModel(sc.adminSearchAllSnack(modelName),modelName);
+		JTable table = new JTable(snackModel);
+		JScrollPane scrollpane = new JScrollPane(table);
+		scrollpane.setLocation(0, 0);
+		scrollpane.setSize(1000, 480);
+		tableJp.add(scrollpane,null);
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////////////////////////////////////consol//////////////////////////////////////////////////////////////////
 	public void SpaceMainMenu()
 	{
 		while(true)
@@ -52,7 +375,7 @@ public class AdminView {
 				break;
 			case 8:	spaceController.initConsol();
 				break;
-			case 9: spaceController.adminSearchAllMember();
+			case 9: //spaceController.adminSearchAllMember();
 				break;
 			case 10: spaceController.adminSearchMemberName();
 			break;
@@ -60,13 +383,13 @@ public class AdminView {
 			break;
 			case 12: spaceController.adminDelMember();
 			break;
-			case 13: spaceController.adminSearchAllSnack();
+			case 13: //spaceController.adminSearchAllSnack();
 			break;
 			case 14: spaceController.adminSearchSnack();
 			break;
 			case 15: spaceController.adminModifySnack();
 			break;
-			case 16: spaceController.adminDelSnack();
+			case 16: //spaceController.adminDelSnack();
 			break;
 			case 17: spaceController.SnackSeach();
 			break;
@@ -163,6 +486,4 @@ public class AdminView {
 		int number = sc.nextInt();
 		return number;
 	}
-
-
 }

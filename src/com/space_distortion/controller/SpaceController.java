@@ -67,13 +67,14 @@ public class SpaceController {
 	/* 메인 컨트롤러 생성자 */
 	public SpaceController() {
 		this.init();
+		initConsol();
 	}
 	
 	// 메인 프레임 생성
 		public void init()
 		{
 			mainJframe = new JFrame("Space Distorition");
-			mainJframe.setBounds(100, 100, 800, 800);
+			mainJframe.setBounds(100, 100, 1024, 768);
 //			mainJframe.setLayout(new FlowLayout());
 			mainJframe.setDefaultCloseOperation(3);
 //			mainJframe.setVisible(true);	
@@ -163,8 +164,11 @@ public class SpaceController {
 	}
 	
 	//관리자용 모든 멤버 검색(오름차순)
-	public void adminSearchAllMember()
+	public String[][] adminSearchAllMember(String[] modelName)
 	{
+		String[][] membrContents = new String[admin.getAdminMemberMap().size()][modelName.length];
+		
+		
 		
 		Set mSet;
 		mSet = admin.getAdminMemberMap().entrySet();
@@ -178,11 +182,63 @@ public class SpaceController {
 		}
 		Collections.sort(list,new AscMember());
 		
-		Iterator itList = list.iterator();
+		//Iterator itList = list.iterator();
 		
-		while(itList.hasNext())
-			System.out.println(itList.next());
+//		while(itList.hasNext())
+//		{
+//			Member m = (Member)itList.next();
+//			
+//			
+//		}
 		
+		
+		// {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"}
+		
+		int i = 0;
+		for(Iterator<Member> itList = list.iterator(); itList.hasNext();)
+		{
+			Member m = (Member)itList.next();
+			
+			for(int j = 0; j < membrContents[i].length; j++)
+			{
+				if(j == 0)
+				{
+					membrContents[i][j] = String.valueOf(m.getUserCode());
+				}
+				else if(j == 1) 
+				{
+					membrContents[i][j] = m.getMemberName();
+				}
+				else if(j == 2)
+				{
+					membrContents[i][j] = m.getEmailId();
+				}
+				else if(j == 3)
+				{
+					membrContents[i][j] = String.valueOf(m.getMemberPw());
+				}
+				else if(j == 4)
+				{
+					membrContents[i][j] = m.getAddress();
+				}
+				else if(j == 5)
+				{
+					membrContents[i][j] = m.getPhoneNumber();
+				}
+				else if(j == 6)
+				{
+					membrContents[i][j] = m.getBirthDay();
+				}
+				else if(j == 7)
+				{
+					membrContents[i][j] = String.valueOf(m.getStudentIsTrue());
+				}
+				
+			}
+			i++;
+		}
+		
+		return membrContents;	
 	}
 	
 	// 관리자용 이름으로 검색기능
@@ -234,19 +290,56 @@ public class SpaceController {
 	
 ////////////////////////////////////////////////////SnackBar///////////////////////////////////////////////////////////
 
-	// 관리자 모든 드링크 검색
-	public void adminSearchAllSnack()
+//	// 관리자 모든 드링크 검색
+//	public void adminSearchAllSnack(String[] modelName)
+//	{
+//		
+//		
+//		Collections.sort(admin.getAdminSnackBarList(),new AscMember());
+//			
+//		for(Iterator<SnackBar> it = admin.getAdminSnackBarList().iterator(); it.hasNext();)
+//		{
+//			System.out.println(it.next());
+//		}
+//		
+//
+//	}
+	
+	public String[][] adminSearchAllSnack(String[] modelName)
 	{
 		
+		String[][] snackContetnts = new String[admin.getAdminSnackBarList().size()][modelName.length];
 		
 		Collections.sort(admin.getAdminSnackBarList(),new AscMember());
 			
+		int i = 0;
 		for(Iterator<SnackBar> it = admin.getAdminSnackBarList().iterator(); it.hasNext();)
 		{
-			System.out.println(it.next());
+			SnackBar sb = it.next();
+			
+			for(int j = 0; j < snackContetnts[i].length; j++)
+			{
+				if(j == 0)
+				{
+					snackContetnts[i][j] = String.valueOf(sb.getSnackBarIndex());
+				}
+				else if(j == 1) 
+				{
+					snackContetnts[i][j] = sb.getSnack();
+				}
+				else if(j == 2)
+				{
+					snackContetnts[i][j] = String.valueOf(sb.getSnackQuantity());
+				}
+				else if(j == 3)
+				{
+					snackContetnts[i][j] = sb.getSnackComment();
+				}				
+			}
+			i++;
 		}
 		
-
+		return snackContetnts;
 	}
 	
 	
@@ -316,9 +409,22 @@ public class SpaceController {
 	}
 	 
 	// 스낵 이름으로 삭제
-	public void adminDelSnack()
+	public void adminDelSnack(String name)
 	{
-		String snackName = adminView.searchSnackName();
+//		String snackName = adminView.searchSnackName();
+//		int indexNum = 0;
+//		for(int i = 0 ; i < admin.getAdminSnackBarList().size(); i++)
+//		{
+//			if(((SnackBar)admin.getAdminSnackBarList().get(i)).getSnack().equals(snackName))
+//			{
+//				
+//				indexNum = i;
+//			}
+//		}
+//		admin.getAdminSnackBarList().remove(indexNum);
+//		snackBarList = admin.getAdminSnackBarList();
+		
+		String snackName = name;
 		int indexNum = 0;
 		for(int i = 0 ; i < admin.getAdminSnackBarList().size(); i++)
 		{
@@ -448,8 +554,45 @@ public class SpaceController {
 	
 	// 관리자 
 	public void adminView() {
-		
+		adminV1.initialize(this, mainJframe);
 	}
+
+	/////////////////////////////////////////////////////////////////////
+	//회원 테이블 뷰
+	public void adminMemberTable()
+	{
+		adminV1.memberTableInitialize(this, mainJframe);
+	}
+	
+	//룸 테이블 뷰
+	public void adminRoomInfoTable()
+	{
+		adminV1.roomInfoTableInitialize(this,mainJframe);
+	}
+	
+	//스낵 테이블 뷰
+	public void adminSnackTable(int num)
+	{
+		adminV1.snackTableInitialize(this,mainJframe);
+	}
+	
+	
+	
+	//예약 테이블 뷰
+	public void adminReservationTable()
+	{
+		adminV1.ReservationTableInitialize(this,mainJframe);
+	}
+	
+	//매출 테이블 뷰
+	public void adminPayTable()
+	{
+		adminV1.payTableInitialize(this,mainJframe);
+	}
+	
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	
 	// 결재정보 뷰
 	public void paymentView() {

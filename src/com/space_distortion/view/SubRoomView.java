@@ -56,6 +56,10 @@ public class SubRoomView extends SpaceActionEvent implements ViewIndex{
 		mainJframe.add(jp);
 		jp.revalidate();
 		jp.repaint();
+		
+		
+		
+		
 //		jp.revalidate();
 //		jp.repaint();
 //		mainJframe.setVisible(true);

@@ -5,6 +5,8 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import com.space_distortion.controller.SpaceController;
 import com.space_distortion.view.ViewIndex;
@@ -17,6 +19,9 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 	private SpaceController sc;
 	private JFrame jf;
 	private JPanel jp;
+	private JPanel jp1;
+	private JTable jt;
+	private DefaultTableModel dt;
 	
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf ,JPanel jp) {
 		super();
@@ -27,7 +32,39 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 		this.jp = jp;
 		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
 	}
-
+	
+	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JPanel jp ,JPanel jp1, JFrame jf) {
+		super();
+		this.viewIndex = viewIndex;
+		this.buttonIndex = buttonIndex;
+		this.sc = sc;
+		this.jp = jp;
+		this.jp1 = jp1;
+		this.jf = jf;
+		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
+	}
+	
+	
+	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf ,JPanel jp, JTable jt, DefaultTableModel dt) {
+		super();
+		this.viewIndex = viewIndex;
+		this.buttonIndex = buttonIndex;
+		this.sc = sc;
+		this.jp = jp;
+		this.jf = jf;
+		this.jt = jt;
+		this.dt = dt;
+		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
+	}
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public SpaceActionEvent() {
 		System.out.println("기본 생성자 :" + buttonIndex);
 		// TODO Auto-generated constructor stub
@@ -49,10 +86,17 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 		}
 		else if(buttonIndex == 2) {
 			System.out.println("2번방 선택");
-		}else if(buttonIndex == 3) {
+		}
+		else if(buttonIndex == 3) {
 			System.out.println("종료 합니다.");
 //			System.out.println(this.buttonIndex);
 			System.exit(0);
+		}	
+		else if(buttonIndex == 4)
+		{
+			jf.remove(jp);
+			sc.adminView();
+			
 		}	
 		else
 			System.out.println("err....");
@@ -157,8 +201,63 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 	
 	// 관리자 이벤트
 	public void adminViewSelected() {
-		System.out.println("관리자 버튼 클릭 이벤트");
-		
+		if(buttonIndex == 1)
+		{
+			
+			jf.remove(jp);
+			
+			sc.adminMemberTable();
+			
+		}
+		else if(buttonIndex == 2)
+		{
+			
+			jf.remove(jp);
+			sc.adminRoomInfoTable();
+		}
+		else if(buttonIndex == 3)
+		{
+			jf.remove(jp);
+			
+			sc.adminSnackTable(1);
+			
+			
+		}	
+		else if(buttonIndex == 4)
+		{
+			
+			jf.remove(jp);
+			sc.adminReservationTable();
+		}	
+		else if(buttonIndex == 5)
+		{
+			
+			jf.remove(jp);
+			sc.adminPayTable();
+		}
+		else if(buttonIndex == 6)
+		{
+			if(jt.getSelectedRow() == -1)
+				
+			{
+				return;
+			}
+			else
+			{
+				int row = jt.getSelectedRow();
+				//int column = jt.getSelectedColumn();
+				String selectName = jt.getValueAt(row, 1).toString();
+				sc.adminDelSnack(selectName);
+				dt.removeRow(jt.getSelectedRow());
+			}		
+			
+			
+			//System.out.println(jt.getValueAt(row, column));
+			
+		}
+		else if(buttonIndex == 7)
+		{
+		}
 	}
 	
 	// 결재정보 이벤트
@@ -178,10 +277,6 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 			sc.mainView();
 		}else
 			System.out.println("err....");
-
-		
-		
-		
 		
 	}
 	

@@ -15,8 +15,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		//spaceController.mainView();
-		spaceController.mainConsolView();
+		spaceController.mainView();
+		//spaceController.mainConsolView();
 	}
 
 }
