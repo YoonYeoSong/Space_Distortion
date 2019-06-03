@@ -159,7 +159,7 @@ public class SpaceController {
 		while(it.hasNext())
 		{
 			Map.Entry obj = (Map.Entry)it.next();
-			System.out.println("key : " +obj.getKey()+" " + " value : "+ obj.getValue());
+			System.out.println("key : " +obj.getKey() +" " + " value : "+ obj.getValue());
 		}
 	}
 	
@@ -232,13 +232,87 @@ public class SpaceController {
 				else if(j == 7)
 				{
 					membrContents[i][j] = String.valueOf(m.getStudentIsTrue());
-				}
-				
+				}				
 			}
 			i++;
 		}
 		
 		return membrContents;	
+	}
+	
+
+	// 관리자용 회원 코드로 이름 수정
+	public void adminModifyMember(int column,int userCode, String userStr)
+	{	
+		//맵에 엔트리셋을 이용하여 iter로 출력
+		Set<Map.Entry<Integer,Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
+		int columns = column;
+		int memberCode = userCode;
+		String memberStr = userStr;  // 칼럼 1~ 7까지 뭐가 올지모름
+		Iterator<Map.Entry<Integer,Member>> it = mSet.iterator();
+		int modifyIndex = 0;
+		
+		
+		// "회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"
+		
+		if(column == 0) 
+		{
+			while(it.hasNext())
+			{
+				Map.Entry<Integer,Member> obj = (Entry<Integer, Member>) it.next();
+				if( ((Member)obj.getValue()).getMemberName().equals(memberStr))
+				{		
+					modifyIndex = obj.getKey();
+				}
+			}	
+		}
+		else if(column > 0)
+		{
+			while(it.hasNext())
+			{
+				Map.Entry<Integer,Member> obj = (Entry<Integer, Member>) it.next();
+				if( ((Member)obj.getValue()).getUserCode() == memberCode )
+				{		
+					modifyIndex = obj.getKey();
+				}
+			}		
+		}
+		
+		switch (column) {
+		case 0:	
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setUserCode(memberCode);
+			mMap = admin.getAdminMemberMap();	
+			break;
+		case 1:	
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setMemberName(memberStr);
+			mMap = admin.getAdminMemberMap();		
+			break;
+		case 2:		
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setEmailId(memberStr);
+			mMap = admin.getAdminMemberMap();	
+			break;
+		case 3:		
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setMemberPw(memberStr);
+			mMap = admin.getAdminMemberMap();	
+			break;
+		case 4:	
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setAddress(memberStr);
+			mMap = admin.getAdminMemberMap();	
+			break;
+		case 5:	
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setPhoneNumber(memberStr);
+			mMap = admin.getAdminMemberMap();	
+			break;
+		case 6:	
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setBirthDay(memberStr);
+			mMap = admin.getAdminMemberMap();	
+			break;
+		case 7:		
+			((Member)admin.getAdminMemberMap().get(modifyIndex)).setStudentIsTrue(Integer.parseInt(memberStr));
+			mMap = admin.getAdminMemberMap();	
+			break;
+		}
+		
 	}
 	
 	// 관리자용 이름으로 검색기능
@@ -266,11 +340,11 @@ public class SpaceController {
 	}
 	
 	// 관리자용 회원 코드로 삭제
-	public void adminDelMember()
+	public void adminDelMember(int userCode)
 	{	
 		//맵에 엔트리셋을 이용하여 iter로 출력
 		Set<Map.Entry<Integer,Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
-		int memberCode = adminView.searchMemberKey();
+		int memberCode = userCode;
 		Iterator<Map.Entry<Integer,Member>> it = mSet.iterator();
 		int deleteIndex = 0;
 		
@@ -282,7 +356,8 @@ public class SpaceController {
 				deleteIndex = obj.getKey();
 			}
 		}
-		admin.getAdminMemberMap().remove(deleteIndex);
+		
+		admin.getAdminMemberMap() .remove(deleteIndex);
 		mMap = admin.getAdminMemberMap();	
 	}
 	
@@ -371,8 +446,7 @@ public class SpaceController {
 				{
 					if(((SnackBar)admin.getAdminSnackBarList().get(i)).getSnackBarIndex() == num)
 					{
-						System.out.println(admin.getAdminSnackBarList().get(i));
-						
+						System.out.println(admin.getAdminSnackBarList().get(i));						
 					}
 				}
 			
@@ -403,7 +477,7 @@ public class SpaceController {
 		System.out.println(((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity());
 		
 		((SnackBar)admin.getAdminSnackBarList().get(indexNum)).
-		setSnackQuantity( ((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity()+adminView.searchSnackQuntity());	
+		setSnackQuantity( ((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity()+adminView.searchSnackQuntity());
 		
 		
 	}
@@ -571,7 +645,7 @@ public class SpaceController {
 	}
 	
 	//스낵 테이블 뷰
-	public void adminSnackTable(int num)
+	public void adminSnackTable()
 	{
 		adminV1.snackTableInitialize(this,mainJframe);
 	}

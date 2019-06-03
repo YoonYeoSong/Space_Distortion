@@ -6,14 +6,19 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import com.space_distortion.controller.SpaceController;
+import com.space_distortion.main.Main;
 import com.space_distortion.view.ViewIndex;
 
-public class SpaceActionEvent implements MouseListener, ViewIndex{
+public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelListener{
 
 	
+	private SpaceController spaceController = Main.getSpaceController();
 	private int viewIndex; // 사용하는 뷰의 인덱스
 	private int buttonIndex;
 	private SpaceController sc;
@@ -201,7 +206,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 	
 	// 관리자 이벤트
 	public void adminViewSelected() {
-		if(buttonIndex == 1)
+		if(buttonIndex == ADMIN_VIEW_BUTTON1)
 		{
 			
 			jf.remove(jp);
@@ -209,33 +214,33 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 			sc.adminMemberTable();
 			
 		}
-		else if(buttonIndex == 2)
+		else if(buttonIndex == ADMIN_VIEW_BUTTON2)
 		{
 			
 			jf.remove(jp);
 			sc.adminRoomInfoTable();
 		}
-		else if(buttonIndex == 3)
+		else if(buttonIndex == ADMIN_VIEW_BUTTON3)
 		{
 			jf.remove(jp);
 			
-			sc.adminSnackTable(1);
+			sc.adminSnackTable();
 			
 			
 		}	
-		else if(buttonIndex == 4)
+		else if(buttonIndex == ADMIN_VIEW_BUTTON4)
 		{
 			
 			jf.remove(jp);
 			sc.adminReservationTable();
 		}	
-		else if(buttonIndex == 5)
+		else if(buttonIndex == ADMIN_VIEW_BUTTON5)
 		{
 			
 			jf.remove(jp);
 			sc.adminPayTable();
 		}
-		else if(buttonIndex == 6)
+		else if(buttonIndex == ADMIN_VIEW_BUTTON6)
 		{
 			if(jt.getSelectedRow() == -1)
 				
@@ -244,11 +249,26 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 			}
 			else
 			{
-				int row = jt.getSelectedRow();
-				//int column = jt.getSelectedColumn();
-				String selectName = jt.getValueAt(row, 1).toString();
-				sc.adminDelSnack(selectName);
-				dt.removeRow(jt.getSelectedRow());
+				if( jt.getColumnCount() == 4) // 일때 스낵
+				{
+					int row = jt.getSelectedRow();
+					int column = jt.getSelectedColumn();
+					//System.out.println(jt.getColumnCount());
+					String selectName = jt.getValueAt(row, 1).toString();
+					sc.adminDelSnack(selectName);
+					dt.removeRow(jt.getSelectedRow());
+					//jt.setce					
+				}
+				else if(jt.getColumnCount() == 8) // 8일때 회원
+				{
+					int row = jt.getSelectedRow();
+					int column = jt.getSelectedColumn();
+					System.out.println(jt.getColumnCount());
+					String selectNum = jt.getValueAt(row, 0).toString();
+					System.out.println(selectNum);
+					sc.adminDelMember(Integer.parseInt(selectNum));
+					dt.removeRow(jt.getSelectedRow());
+				}
 			}		
 			
 			
@@ -326,7 +346,67 @@ public class SpaceActionEvent implements MouseListener, ViewIndex{
 		}
 
 			
+		
+		
 	}
+	
+	
+	
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		// TODO Auto-generated method stub
+	
+		TableModel model = (TableModel) e.getSource();
+
+		if(model.getColumnCount() == 8) // 학생 컬럼 카운트
+		{
+			
+			int row = e.getFirstRow();
+			int column = e.getColumn();
+			int columnCode = 0;
+			System.out.println(column);
+			
+			
+			if(column == 0)
+			{
+				String str = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	
+				String code = (String)model.getValueAt(row , columnCode);
+				
+				spaceController.adminModifyMember(column,Integer.parseInt(code) ,str);
+			}
+			else if (column > 0) // 이름
+			{ 	
+				// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
+				String colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
+				String str = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	
+				String code = (String)model.getValueAt(row , columnCode);
+				
+				spaceController.adminModifyMember(column,Integer.parseInt(code) ,str);
+
+			}			
+			
+		}
+		else if( model.getColumnCount() == 4)
+		{
+			
+			int row = e.getFirstRow();
+			int column = e.getColumn();
+			
+			
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub

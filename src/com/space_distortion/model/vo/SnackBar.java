@@ -19,7 +19,7 @@ public class SnackBar {
 		this.snackBarIndex = snackBarIndex;
 		this.snack = snack;
 		this.snackQuantity = snackQuantity;
-		this.snackComment = snackComment;
+		this.snackComment = snackComment;	
 	}
 
 	public int getSnackBarIndex() {

@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.ws.handler.MessageContext.Scope;
 
@@ -60,7 +62,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		btn3.setBounds(429, 10, 117, 37);
 		menuJp.add(btn3);
 		
-		JButton btn4 = new JButton("예약정보");
+		JButton btn4 = new JButton("Reservation");
 		btn4.setBounds(636, 10, 117, 37);
 		menuJp.add(btn4);
 		
@@ -68,11 +70,11 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		btn5.setBounds(825, 10, 117, 37);
 		menuJp.add(btn5);
 		
-		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 1, sc, mainJframe ,jp));
-		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 2, sc, mainJframe ,jp));
-		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 3, sc, mainJframe ,jp));
-		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 4, sc, mainJframe ,jp));
-		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 5, sc, mainJframe ,jp));
+		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON1, sc, mainJframe ,jp)); // member
+		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON2, sc, mainJframe ,jp)); // roomInfo
+		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON3, sc, mainJframe ,jp)); // snackbar
+		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON4, sc, mainJframe ,jp)); // reservation
+		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON5, sc, mainJframe ,jp)); // totalPay
 		
 		
 
@@ -102,7 +104,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		
 		
 		
-		mainJframe.getContentPane().add(jp);
+		mainJframe.add(jp);
 		jp.revalidate();
 		jp.repaint();
 		
@@ -145,7 +147,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		btn3.setBounds(429, 10, 117, 37);
 		menuJp.add(btn3);
 		
-		JButton btn4 = new JButton("예약정보");
+		JButton btn4 = new JButton("Reservation");
 		btn4.setBounds(636, 10, 117, 37);
 		menuJp.add(btn4);
 		
@@ -166,20 +168,42 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		nameField.setBounds(595, 505, 149, 48);
 		TableJp.add(nameField);
 		
-		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 1, sc, mainJframe ,jp));
-		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 2, sc, mainJframe ,jp));
-		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 3, sc, mainJframe ,jp));
-		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 4, sc, mainJframe ,jp));
-		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 5, sc, mainJframe ,jp));
+		
+		
 		
 		
 		String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
 		DefaultTableModel model = new DefaultTableModel(sc.adminSearchAllMember(modelName),modelName);
 		JTable table = new JTable(model);
+		
+		
+		
+		
+//      나중에 수정할 코드
+//		if(table != null)
+//		{
+//			table 
+//		}
+		
 		JScrollPane scrollpane = new JScrollPane(table);
 		scrollpane.setLocation(0, 0);
 		scrollpane.setSize(1000, 480);
 		TableJp.add(scrollpane,null);
+		
+		table.getModel().addTableModelListener(this);
+		
+		
+		
+		
+		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON1, sc, mainJframe ,jp)); // member
+		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON2, sc, mainJframe ,jp)); // roomInfo
+		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON3, sc, mainJframe ,jp)); // snackbar
+		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON4, sc, mainJframe ,jp)); // reservation
+		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON5, sc, mainJframe ,jp)); // totalPay
+		btn6.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON6, sc, mainJframe ,jp, table, model)); // Delete
+		
+		
+		
 		
 	
 		
@@ -230,7 +254,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		btn3.setBounds(429, 10, 117, 37);
 		menuJp.add(btn3);
 		
-		JButton btn4 = new JButton("예약정보");
+		JButton btn4 = new JButton("Reservation");
 		btn4.setBounds(636, 10, 117, 37);
 		menuJp.add(btn4);
 		
@@ -238,11 +262,11 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		btn5.setBounds(825, 10, 117, 37);
 		menuJp.add(btn5);
 		
-		JButton btn6 = new JButton("삭제");
+		JButton btn6 = new JButton("Delete");
 		btn6.setBounds(871, 504, 117, 48);
 		TableJp.add(btn6);
 		
-		JButton btn7= new JButton("검색");
+		JButton btn7= new JButton("Search");
 		btn7.setBounds(750, 504, 117, 48);
 		TableJp.add(btn7);
 		
@@ -263,12 +287,12 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		
 		
 		
-		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 1, sc, mainJframe ,jp));
-		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 2, sc, mainJframe ,jp));
-		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 3, sc, mainJframe ,jp));
-		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 4, sc, mainJframe ,jp));
-		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 5, sc, mainJframe ,jp));
-		btn6.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, 6, sc, mainJframe ,jp, table, snackModel));
+		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON1, sc, mainJframe ,jp)); // member
+		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON2, sc, mainJframe ,jp)); // roomInfo
+		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON3, sc, mainJframe ,jp)); // snackbar
+		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON4, sc, mainJframe ,jp)); // reservation
+		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON5, sc, mainJframe ,jp)); // totalPay
+		btn6.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON6, sc, mainJframe ,jp, table, snackModel)); // Delete
 			
 		jp.add(menuJp);
 		jp.add(TableJp);
@@ -292,18 +316,18 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 
 	
 	
-	public void snackTablePrint(SpaceController sc, JPanel tableJp, int num )
-	{
-		
-		String[] modelName = {"스낵인덱스","스낵이름","수량","코멘트"};
-		DefaultTableModel snackModel = new DefaultTableModel(sc.adminSearchAllSnack(modelName),modelName);
-		JTable table = new JTable(snackModel);
-		JScrollPane scrollpane = new JScrollPane(table);
-		scrollpane.setLocation(0, 0);
-		scrollpane.setSize(1000, 480);
-		tableJp.add(scrollpane,null);
-	
-	}
+//	public void snackTablePrint(SpaceController sc, JPanel tableJp, int num )
+//	{
+//		
+//		String[] modelName = {"스낵인덱스","스낵이름","수량","코멘트"};
+//		DefaultTableModel snackModel = new DefaultTableModel(sc.adminSearchAllSnack(modelName),modelName);
+//		JTable table = new JTable(snackModel);
+//		JScrollPane scrollpane = new JScrollPane(table);
+//		scrollpane.setLocation(0, 0);
+//		scrollpane.setSize(1000, 480);
+//		tableJp.add(scrollpane,null);
+//	
+//	}
 	
 	
 	
@@ -377,11 +401,11 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 				break;
 			case 9: //spaceController.adminSearchAllMember();
 				break;
-			case 10: spaceController.adminSearchMemberName();
+			case 10: //spaceController.adminSearchMemberName();
 			break;
-			case 11: spaceController.adminDelMember();
+			case 11:// spaceController.adminDelMember();
 			break;
-			case 12: spaceController.adminDelMember();
+			case 12: //spaceController.adminDelMember();
 			break;
 			case 13: //spaceController.adminSearchAllSnack();
 			break;
