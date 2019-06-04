@@ -6,16 +6,21 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import com.space_distortion.controller.SpaceController;
 import com.space_distortion.main.Main;
 import com.space_distortion.view.ViewIndex;
 
-public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelListener{
+public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelListener {
 
 	
 	private SpaceController spaceController = Main.getSpaceController();
@@ -26,6 +31,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	private JPanel jp;
 	private JPanel jp1;
 	private JTable jt;
+	private JTextField jtf;
 	private DefaultTableModel dt;
 	
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf ,JPanel jp) {
@@ -50,6 +56,18 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	}
 	
 	
+	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf ,JPanel jp, JTable jt, DefaultTableModel dt,JTextField jtf) {
+		super();
+		this.viewIndex = viewIndex;
+		this.buttonIndex = buttonIndex;
+		this.sc = sc;
+		this.jp = jp;
+		this.jf = jf;
+		this.jt = jt;
+		this.dt = dt;
+		this.jtf = jtf;
+		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
+	}
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf ,JPanel jp, JTable jt, DefaultTableModel dt) {
 		super();
 		this.viewIndex = viewIndex;
@@ -59,15 +77,12 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		this.jf = jf;
 		this.jt = jt;
 		this.dt = dt;
+
 		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
 	}
 	
 	
-	
-	
-	
-	
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public SpaceActionEvent() {
@@ -275,8 +290,12 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			//System.out.println(jt.getValueAt(row, column));
 			
 		}
-		else if(buttonIndex == 7)
-		{
+		else if(buttonIndex == ADMIN_VIEW_BUTTON7)
+		{				
+			jf.remove(jp);
+
+			String jtfText = jtf.getText();
+			sc.adminMemberTable(jtfText);
 		}
 	}
 	
@@ -355,57 +374,55 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
-	
+		
+		SpaceController sc = Main.getSpaceController();
 		TableModel model = (TableModel) e.getSource();
-
+		String colName = null;
+		String userValue = null;
+		String userCode = null;
+		int column = 0;
+		int row = 0;
+		int columnCode = 0;
+		
+		
+		
 		if(model.getColumnCount() == 8) // 학생 컬럼 카운트
 		{
 			
-			int row = e.getFirstRow();
-			int column = e.getColumn();
-			int columnCode = 0;
+			row = e.getFirstRow();
+			column = e.getColumn();
+			columnCode = 0;
 			System.out.println(column);
 			
+			userCode = (String)model.getValueAt(row , columnCode);
 			
-			if(column == 0)
-			{
-				String str = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	
-				String code = (String)model.getValueAt(row , columnCode);
-				
-				spaceController.adminModifyMember(column,Integer.parseInt(code) ,str);
-			}
-			else if (column > 0) // 이름
+			if (column > 0) // 이름
 			{ 	
 				// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
-				String colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
-				String str = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	
-				String code = (String)model.getValueAt(row , columnCode);
-				
-				spaceController.adminModifyMember(column,Integer.parseInt(code) ,str);
-
+				colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
+				userCode = (String)model.getValueAt(row , columnCode); // 코드
+				userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
 			}			
 			
+			sc.adminModifyMember(Integer.parseInt(userCode),userValue); 
 		}
 		else if( model.getColumnCount() == 4)
 		{
 			
-			int row = e.getFirstRow();
-			int column = e.getColumn();
-			
-			
-			
+			row = e.getFirstRow();
+			column = e.getColumn();	
 		}
+		
+		colName = null;
+		userCode = null;
+		userValue = null;
+		column = 0;
 	}
 	
 	
+
 	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -427,18 +444,6 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		// TODO Auto-generated method stub
 		
 	}
-	
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		lvRegister = (JButton)e.getSource();
-//		if(lvRegister ==lv.getBtn_Register() )
-//		{
-//			//회원가입뷰로
-//			av.showThisView();
-//		}		
-//	}
-	
-	
-	
-	
+
+
 }

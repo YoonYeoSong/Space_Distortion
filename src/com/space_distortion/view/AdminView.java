@@ -1,5 +1,6 @@
 package com.space_distortion.view;
 
+import java.awt.Component;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -8,10 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.xml.ws.handler.MessageContext.Scope;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import com.space_distortion.controller.SpaceController;
 import com.space_distortion.event.SpaceActionEvent;
@@ -19,10 +24,15 @@ import com.space_distortion.main.Main;
 import com.space_distortion.model.vo.Admin;
 import com.space_distortion.model.vo.SnackBar;
 
-public class AdminView extends SpaceActionEvent implements ViewIndex {
+public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellRenderer {
 	
 	SpaceController spaceController = Main.getSpaceController();
 	
+	DefaultTableModel model;
+	JTable table;
+	JScrollPane scrollpane;
+	
+	;
 	Admin admin = new Admin();
 	public AdminView()
 	{
@@ -171,12 +181,18 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		
 		
 		
-		
+			
 		String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
-		DefaultTableModel model = new DefaultTableModel(sc.adminSearchAllMember(modelName),modelName);
-		JTable table = new JTable(model);
+		model = new DefaultTableModel(sc.adminSearchAllMember(modelName),modelName) {
+			 @Override
+			    public boolean isCellEditable(int row, int column) {
+				 
+			        return column != 0;
+			    }
+			};
+			
 		
-		
+		table = new JTable(model);
 		
 		
 //      나중에 수정할 코드
@@ -185,12 +201,19 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 //			table 
 //		}
 		
-		JScrollPane scrollpane = new JScrollPane(table);
+		scrollpane = new JScrollPane(table);
 		scrollpane.setLocation(0, 0);
 		scrollpane.setSize(1000, 480);
 		TableJp.add(scrollpane,null);
 		
+		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+		table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기
 		table.getModel().addTableModelListener(this);
+		
+		
+			
+		
 		
 		
 		
@@ -201,6 +224,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON4, sc, mainJframe ,jp)); // reservation
 		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON5, sc, mainJframe ,jp)); // totalPay
 		btn6.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON6, sc, mainJframe ,jp, table, model)); // Delete
+		btn7.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON7, sc, mainJframe, jp, table, model, nameField));
 		
 		
 		
@@ -218,6 +242,125 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		
 	
 	}
+	
+	
+	public void memberTableInitialize( SpaceController sc ,JFrame mainJframe, String jtf)
+	{	JPanel jp = null;
+		
+	
+		
+		jp = new JPanel();
+		jp.setBounds(10, 10, 1024, 768);
+		jp.setLayout(null);
+		
+		JPanel menuJp = new JPanel();
+		menuJp.setBounds(12, 5, 1000, 82);
+		menuJp.setLayout(null);
+		
+
+		JPanel TableJp = new JPanel();
+		TableJp.setBounds(12, 114, 1000, 599);
+		TableJp.setLayout(null);
+		
+		JButton btn1 = new JButton("Member");
+		btn1.setBounds(55, 10, 117, 37);
+		menuJp.add(btn1);
+		
+		
+		JButton btn2 = new JButton("RoomInfo");
+		btn2.setBounds(229, 10, 117, 37);
+		menuJp.add(btn2);		
+		
+		
+		JButton btn3 = new JButton("Snack");
+		btn3.setBounds(429, 10, 117, 37);
+		menuJp.add(btn3);
+		
+		JButton btn4 = new JButton("Reservation");
+		btn4.setBounds(636, 10, 117, 37);
+		menuJp.add(btn4);
+		
+		JButton btn5 = new JButton("TotalPay");
+		btn5.setBounds(825, 10, 117, 37);
+		menuJp.add(btn5);
+	
+		
+		JButton btn6 = new JButton("삭제");
+		btn6.setBounds(871, 504, 117, 48);
+		TableJp.add(btn6);
+		
+		JButton btn7= new JButton("검색");
+		btn7.setBounds(750, 504, 117, 48);
+		TableJp.add(btn7);
+		
+		JTextField nameField = new JTextField(5);
+		nameField.setBounds(595, 505, 149, 48);
+		TableJp.add(nameField);
+		
+		
+		
+		scrollpane.remove(table);
+		scrollpane = null;
+		//TableJp.remove(scrollpane);
+		model = null;
+		
+		
+		String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
+		model = new DefaultTableModel(sc.adminSearchMember(modelName,jtf),modelName) {
+			 @Override
+			    public boolean isCellEditable(int row, int column) {
+				 
+			        return column != 0;
+			    }
+			};
+		
+		table = new JTable(model);
+		
+
+		
+		scrollpane = new JScrollPane(table);
+		scrollpane.setLocation(0, 0);
+		scrollpane.setSize(1000, 480);
+		TableJp.add(scrollpane,null);
+		
+		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+		table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기
+		table.getModel().addTableModelListener(this);
+		
+		
+			
+		
+		
+		
+		
+		
+		btn1.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON1, sc, mainJframe ,jp)); // member
+		btn2.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON2, sc, mainJframe ,jp)); // roomInfo
+		btn3.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON3, sc, mainJframe ,jp)); // snackbar
+		btn4.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON4, sc, mainJframe ,jp)); // reservation
+		btn5.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON5, sc, mainJframe ,jp)); // totalPay
+		btn6.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON6, sc, mainJframe ,jp, table, model)); // Delete
+		btn7.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON7, sc, mainJframe, jp, table, model, nameField));
+		
+		
+		
+		
+	
+		
+	
+		jp.add(menuJp);
+		jp.add(TableJp);
+		mainJframe.getContentPane().add(jp);
+		jp.revalidate();
+		jp.repaint();
+		
+		System.out.println("회원");
+		
+	
+	}
+	
+	
 	public void roomInfoTableInitialize(SpaceController sc ,JFrame mainJframe )
 	{
 		
@@ -510,4 +653,16 @@ public class AdminView extends SpaceActionEvent implements ViewIndex {
 		int number = sc.nextInt();
 		return number;
 	}
+
+
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
 }

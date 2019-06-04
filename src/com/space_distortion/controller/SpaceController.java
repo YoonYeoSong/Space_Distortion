@@ -37,6 +37,7 @@ public class SpaceController {
 	static int mKeyNumber = 0;
 	static int nKeyNumber = 0;
 	
+	List<Member> mList = new ArrayList<Member>();
 	
 	
 	/////////////////////////////// Model.vo 객체 리스트///////////
@@ -86,8 +87,13 @@ public class SpaceController {
 	
 	AdminView adminView;
 	
+	
+	
 	public void initConsol()
 	{
+	
+		
+		
 		//임시 회원 생성
 		mMap.put(mKeyNumber++,new Member("윤여송", "1234", "dbsduthd123@naver.com", "경기도 부천", "01054035883", "1992/04/27", 1));
 		mMap.put(mKeyNumber++,new Member("김여송1", "12714110", "duthd123@naver.com", "서울", "01054035883", "1990/04/27", 0));
@@ -137,7 +143,7 @@ public class SpaceController {
 //		
 //		while(it.hasNext())
 //			System.out.println(it.next());
-		
+	
 		
 	}
 	// 콘솔 메인
@@ -161,6 +167,7 @@ public class SpaceController {
 			Map.Entry obj = (Map.Entry)it.next();
 			System.out.println("key : " +obj.getKey() +" " + " value : "+ obj.getValue());
 		}
+		System.out.println("헤이");
 	}
 	
 	//관리자용 모든 멤버 검색(오름차순)
@@ -240,104 +247,124 @@ public class SpaceController {
 		return membrContents;	
 	}
 	
-
-	// 관리자용 회원 코드로 이름 수정
-	public void adminModifyMember(int column,int userCode, String userStr)
-	{	
-		//맵에 엔트리셋을 이용하여 iter로 출력
-		Set<Map.Entry<Integer,Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
-		int columns = column;
-		int memberCode = userCode;
-		String memberStr = userStr;  // 칼럼 1~ 7까지 뭐가 올지모름
-		Iterator<Map.Entry<Integer,Member>> it = mSet.iterator();
-		int modifyIndex = 0;
-		
-		
-		// "회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"
-		
-		if(column == 0) 
-		{
-			while(it.hasNext())
-			{
-				Map.Entry<Integer,Member> obj = (Entry<Integer, Member>) it.next();
-				if( ((Member)obj.getValue()).getMemberName().equals(memberStr))
-				{		
-					modifyIndex = obj.getKey();
-				}
-			}	
-		}
-		else if(column > 0)
-		{
-			while(it.hasNext())
-			{
-				Map.Entry<Integer,Member> obj = (Entry<Integer, Member>) it.next();
-				if( ((Member)obj.getValue()).getUserCode() == memberCode )
-				{		
-					modifyIndex = obj.getKey();
-				}
-			}		
-		}
-		
-		switch (column) {
-		case 0:	
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setUserCode(memberCode);
-			mMap = admin.getAdminMemberMap();	
-			break;
-		case 1:	
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setMemberName(memberStr);
-			mMap = admin.getAdminMemberMap();		
-			break;
-		case 2:		
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setEmailId(memberStr);
-			mMap = admin.getAdminMemberMap();	
-			break;
-		case 3:		
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setMemberPw(memberStr);
-			mMap = admin.getAdminMemberMap();	
-			break;
-		case 4:	
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setAddress(memberStr);
-			mMap = admin.getAdminMemberMap();	
-			break;
-		case 5:	
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setPhoneNumber(memberStr);
-			mMap = admin.getAdminMemberMap();	
-			break;
-		case 6:	
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setBirthDay(memberStr);
-			mMap = admin.getAdminMemberMap();	
-			break;
-		case 7:		
-			((Member)admin.getAdminMemberMap().get(modifyIndex)).setStudentIsTrue(Integer.parseInt(memberStr));
-			mMap = admin.getAdminMemberMap();	
-			break;
-		}
-		
-	}
 	
-	// 관리자용 이름으로 검색기능
-	public void adminSearchMemberName()
+	
+	
+	//관리자용 이름으로 찾기
+		public String[][] adminSearchMember(String[] modelName, String jtfName)
+		{
+			String[][] membrContents = new String[admin.getAdminMemberMap().size()][modelName.length];
+			String searchName = jtfName;
+			
+			
+			Set mSet;
+			mSet = admin.getAdminMemberMap().entrySet();
+			Iterator it = mSet.iterator();
+			List list = new ArrayList();
+			
+			while(it.hasNext())
+			{
+				Map.Entry obj = (Map.Entry)it.next();
+				if( ((Member)obj.getValue()).getMemberName().equals(searchName) )
+					list.add(((Member)obj.getValue()));
+			}
+			Collections.sort(list,new AscMember());
+			
+			//Iterator itList = list.iterator();
+			
+//			while(itList.hasNext())
+//			{
+//				Member m = (Member)itList.next();
+//				
+//				
+//			}
+			
+			
+			// {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"}
+			
+			int i = 0;
+			for(Iterator<Member> itList = list.iterator(); itList.hasNext();)
+			{
+				Member m = (Member)itList.next();
+				
+				for(int j = 0; j < membrContents[i].length; j++)
+				{
+					if(j == 0)
+					{
+						membrContents[i][j] = String.valueOf(m.getUserCode());
+					}
+					else if(j == 1) 
+					{
+						membrContents[i][j] = m.getMemberName();
+					}
+					else if(j == 2)
+					{
+						membrContents[i][j] = m.getEmailId();
+					}
+					else if(j == 3)
+					{
+						membrContents[i][j] = String.valueOf(m.getMemberPw());
+					}
+					else if(j == 4)
+					{
+						membrContents[i][j] = m.getAddress();
+					}
+					else if(j == 5)
+					{
+						membrContents[i][j] = m.getPhoneNumber();
+					}
+					else if(j == 6)
+					{
+						membrContents[i][j] = m.getBirthDay();
+					}
+					else if(j == 7)
+					{
+						membrContents[i][j] = String.valueOf(m.getStudentIsTrue());
+					}				
+				}
+				i++;
+			}
+			
+			return membrContents;	
+		}
+	
+	
+	
+	
+	
+	
+	
+
+	// 회원코드로 찾기
+	public void adminModifyMember(int userCode , String userValue)
 	{	
-		//이름으로 찾기
+		
+		//맵에 엔트리셋을 이용하여 iter로 출력
+		System.out.println(userCode);
+		System.out.println(userValue);
 		Set<Map.Entry<Integer,Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
-		String mName = adminView.searchMemberName();	
+		
+		int memberCode = userCode;  //유저코드
+		String memberPw = userValue; // 유저 비밀번호
 		Iterator<Map.Entry<Integer,Member>> it = mSet.iterator();
-		List list = new ArrayList();
+		int deleteIndex = 0;
 		
 		while(it.hasNext())
 		{
-			Map.Entry obj = (Map.Entry)it.next();
-			if( ((Member)obj.getValue()).getMemberName().equals(mName)   )
-			{
-				list.add( ((Member)obj.getValue()) );
+			
+			Map.Entry<Integer,Member> obj = (Entry<Integer, Member>) it.next();
+			if( ((Member)obj.getValue()).getUserCode() == memberCode )
+			{		
+				deleteIndex = obj.getKey();
+				
 			}
 		}
-		Collections.sort(list,new AscMember());
 		
-		Iterator itList = list.iterator();
-		while(itList.hasNext())
-			System.out.println(itList.next());
+		((Member)admin.getAdminMemberMap() .get(deleteIndex)).setMemberPw(memberPw);
+		mMap = admin.getAdminMemberMap();	
 	}
+	
+
 	
 	// 관리자용 회원 코드로 삭제
 	public void adminDelMember(int userCode)
@@ -510,8 +537,7 @@ public class SpaceController {
 		}
 		admin.getAdminSnackBarList().remove(indexNum);
 		snackBarList = admin.getAdminSnackBarList();
-		
-		
+				
 	}
 	
 	public void SnackSeach()
@@ -636,6 +662,11 @@ public class SpaceController {
 	public void adminMemberTable()
 	{
 		adminV1.memberTableInitialize(this, mainJframe);
+	}
+	
+	public void adminMemberTable(String jtf)
+	{
+		adminV1.memberTableInitialize(this, mainJframe,jtf);
 	}
 	
 	//룸 테이블 뷰
