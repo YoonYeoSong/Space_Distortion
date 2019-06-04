@@ -189,14 +189,6 @@ public class SpaceController {
 		}
 		Collections.sort(list,new AscMember());
 		
-		//Iterator itList = list.iterator();
-		
-//		while(itList.hasNext())
-//		{
-//			Member m = (Member)itList.next();
-//			
-//			
-//		}
 		
 		
 		// {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"}
@@ -251,84 +243,78 @@ public class SpaceController {
 	
 	
 	//관리자용 이름으로 찾기
-		public String[][] adminSearchMember(String[] modelName, String jtfName)
+	public String[][] adminSearchMember(String[] modelName, String jtfName)
+	{
+		
+		String searchName = jtfName;
+		
+		
+		Set mSet;
+		mSet = admin.getAdminMemberMap().entrySet();
+		Iterator it = mSet.iterator();
+		List list = new ArrayList();
+		
+		while(it.hasNext())
 		{
-			String[][] membrContents = new String[admin.getAdminMemberMap().size()][modelName.length];
-			String searchName = jtfName;
-			
-			
-			Set mSet;
-			mSet = admin.getAdminMemberMap().entrySet();
-			Iterator it = mSet.iterator();
-			List list = new ArrayList();
-			
-			while(it.hasNext())
-			{
-				Map.Entry obj = (Map.Entry)it.next();
-				if( ((Member)obj.getValue()).getMemberName().equals(searchName) )
-					list.add(((Member)obj.getValue()));
-			}
-			Collections.sort(list,new AscMember());
-			
-			//Iterator itList = list.iterator();
-			
-//			while(itList.hasNext())
-//			{
-//				Member m = (Member)itList.next();
-//				
-//				
-//			}
-			
-			
-			// {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"}
-			
-			int i = 0;
-			for(Iterator<Member> itList = list.iterator(); itList.hasNext();)
-			{
-				Member m = (Member)itList.next();
-				
-				for(int j = 0; j < membrContents[i].length; j++)
-				{
-					if(j == 0)
-					{
-						membrContents[i][j] = String.valueOf(m.getUserCode());
-					}
-					else if(j == 1) 
-					{
-						membrContents[i][j] = m.getMemberName();
-					}
-					else if(j == 2)
-					{
-						membrContents[i][j] = m.getEmailId();
-					}
-					else if(j == 3)
-					{
-						membrContents[i][j] = String.valueOf(m.getMemberPw());
-					}
-					else if(j == 4)
-					{
-						membrContents[i][j] = m.getAddress();
-					}
-					else if(j == 5)
-					{
-						membrContents[i][j] = m.getPhoneNumber();
-					}
-					else if(j == 6)
-					{
-						membrContents[i][j] = m.getBirthDay();
-					}
-					else if(j == 7)
-					{
-						membrContents[i][j] = String.valueOf(m.getStudentIsTrue());
-					}				
-				}
-				i++;
-			}
-			
-			return membrContents;	
+			Map.Entry obj = (Map.Entry)it.next();
+			if( ((Member)obj.getValue()).getMemberName().equals(searchName) )
+				list.add(((Member)obj.getValue()));
 		}
-	
-	
+		Collections.sort(list,new AscMember());
+		
+		
+		//검색한 사람 수만큼 행 컬럼수만큼 열을 늘린다.
+		String[][] membrContents = new String[list.size()][modelName.length];
+		
+		// {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"}
+		
+		int i = 0;
+		for(Iterator<Member> itList = list.iterator(); itList.hasNext();)
+		{
+			Member m = (Member)itList.next();
+			
+			for(int j = 0; j < membrContents[i].length; j++)
+			{
+				if(j == 0)
+				{
+					membrContents[i][j] = String.valueOf(m.getUserCode());
+				}
+				else if(j == 1) 
+				{
+					membrContents[i][j] = m.getMemberName();
+				}
+				else if(j == 2)
+				{
+					membrContents[i][j] = m.getEmailId();
+				}
+				else if(j == 3)
+				{
+					membrContents[i][j] = String.valueOf(m.getMemberPw());
+				}
+				else if(j == 4)
+				{
+					membrContents[i][j] = m.getAddress();
+				}
+				else if(j == 5)
+				{
+					membrContents[i][j] = m.getPhoneNumber();
+				}
+				else if(j == 6)
+				{
+					membrContents[i][j] = m.getBirthDay();
+				}
+				else if(j == 7)
+				{
+					membrContents[i][j] = String.valueOf(m.getStudentIsTrue());
+				}				
+			}
+			i++;
+		}
+		
+		return membrContents;	
+	}
+
+
 	
 	
 	
@@ -340,8 +326,6 @@ public class SpaceController {
 	{	
 		
 		//맵에 엔트리셋을 이용하여 iter로 출력
-		System.out.println(userCode);
-		System.out.println(userValue);
 		Set<Map.Entry<Integer,Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
 		
 		int memberCode = userCode;  //유저코드
@@ -658,42 +642,7 @@ public class SpaceController {
 	}
 
 	/////////////////////////////////////////////////////////////////////
-	//회원 테이블 뷰
-	public void adminMemberTable()
-	{
-		adminV1.memberTableInitialize(this, mainJframe);
-	}
-	
-	public void adminMemberTable(String jtf)
-	{
-		adminV1.memberTableInitialize(this, mainJframe,jtf);
-	}
-	
-	//룸 테이블 뷰
-	public void adminRoomInfoTable()
-	{
-		adminV1.roomInfoTableInitialize(this,mainJframe);
-	}
-	
-	//스낵 테이블 뷰
-	public void adminSnackTable()
-	{
-		adminV1.snackTableInitialize(this,mainJframe);
-	}
-	
-	
-	
-	//예약 테이블 뷰
-	public void adminReservationTable()
-	{
-		adminV1.ReservationTableInitialize(this,mainJframe);
-	}
-	
-	//매출 테이블 뷰
-	public void adminPayTable()
-	{
-		adminV1.payTableInitialize(this,mainJframe);
-	}
+
 	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////	

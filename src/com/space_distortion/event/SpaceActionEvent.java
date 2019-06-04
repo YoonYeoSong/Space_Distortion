@@ -226,20 +226,20 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			
 			jf.remove(jp);
 			
-			sc.adminMemberTable();
+			//sc.adminMemberTable();
 			
 		}
 		else if(buttonIndex == ADMIN_VIEW_BUTTON2)
 		{
 			
 			jf.remove(jp);
-			sc.adminRoomInfoTable();
+			//sc.adminRoomInfoTable();
 		}
 		else if(buttonIndex == ADMIN_VIEW_BUTTON3)
 		{
 			jf.remove(jp);
 			
-			sc.adminSnackTable();
+			//sc.adminSnackTable();
 			
 			
 		}	
@@ -247,13 +247,13 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		{
 			
 			jf.remove(jp);
-			sc.adminReservationTable();
-		}	
+			//sc.adminReservationTable();
+		}	//
 		else if(buttonIndex == ADMIN_VIEW_BUTTON5)
 		{
 			
 			jf.remove(jp);
-			sc.adminPayTable();
+			//sc.adminPayTable();
 		}
 		else if(buttonIndex == ADMIN_VIEW_BUTTON6)
 		{
@@ -295,7 +295,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			jf.remove(jp);
 
 			String jtfText = jtf.getText();
-			sc.adminMemberTable(jtfText);
+			//sc.adminMemberTable(jtfText);
 		}
 	}
 	
