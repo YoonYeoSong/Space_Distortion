@@ -9,6 +9,8 @@ public class Main {
 	
 	public static SpaceController getSpaceController()
 	{
+		
+		// Å×½ºÆ®
 		return spaceController;
 	}
 	
