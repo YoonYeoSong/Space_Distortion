@@ -6,17 +6,32 @@ public class RoomInfo {
 	private int roomNumber;  // 룸 번호
 	private String roomName; // 룸 이름
 	private int maxPpl;  // 최대 수용인원 인원 1부터 시작
-	private int curPpl;  // 현재 인원
-	private int remTime = 0;  // 남은시간
+	private String lightProjecter;  // 빔 1이면 true 0이면 false
+	
+	
+	
+	
 	private int noteBook;  //랜덤으로 방마다 장비를 뿌린다
-	private int LightProjecter;  // 빔 1이면 true 0이면 false
-	
-	
+	private int remTime = 0;  // 남은시간
+	private int curPpl;  // 현재 인원
+	 
 	public RoomInfo() {
 		
 	}
+	
+	
+	public RoomInfo(String roomName, int roomNumber, int maxPpl, String lightProjecter) {
+		super();
+		this.roomName = roomName;
+		this.roomNumber = roomNumber;
+		this.maxPpl = maxPpl;
+		this.lightProjecter = lightProjecter;
+	}
+	
+	
+	
 
-	public RoomInfo(int roomNumber, String roomName,int maxPpl, int curPpl, int remTime, int noteBook, int lightProjecter) {
+	public RoomInfo(int roomNumber, String roomName,int maxPpl, int curPpl, int remTime, int noteBook, String lightProjecter) {
 		super();
 		this.roomNumber = roomNumber;
 		this.roomName = roomName;
@@ -24,7 +39,7 @@ public class RoomInfo {
 		this.curPpl = curPpl;
 		this.remTime = remTime;
 		this.noteBook = noteBook;
-		this.LightProjecter = lightProjecter;
+		this.lightProjecter = lightProjecter;
 	}
 
 
@@ -33,11 +48,9 @@ public class RoomInfo {
 	}
 
 
-
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
-
 
 
 	public String getRoomName() {
@@ -45,35 +58,29 @@ public class RoomInfo {
 	}
 
 
-
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
 	}
 
 
-
-	public int getCurPpl() {
-		return curPpl;
+	public int getMaxPpl() {
+		return maxPpl;
 	}
 
 
-
-	public void setCurPpl(int curPpl) {
-		this.curPpl = curPpl;
+	public void setMaxPpl(int maxPpl) {
+		this.maxPpl = maxPpl;
 	}
 
 
-
-	public int getRemTime() {
-		return remTime;
+	public String getLightProjecter() {
+		return lightProjecter;
 	}
 
 
-
-	public void setRemTime(int remTime) {
-		this.remTime = remTime;
+	public void setLightProjecter(String lightProjecter) {
+		this.lightProjecter = lightProjecter;
 	}
-
 
 
 	public int getNoteBook() {
@@ -81,38 +88,38 @@ public class RoomInfo {
 	}
 
 
-
 	public void setNoteBook(int noteBook) {
 		this.noteBook = noteBook;
 	}
 
 
-
-	public int getLightProjecter() {
-		return LightProjecter;
+	public int getRemTime() {
+		return remTime;
 	}
 
 
-
-	public void setLightProjecter(int lightProjecter) {
-		LightProjecter = lightProjecter;
+	public void setRemTime(int remTime) {
+		this.remTime = remTime;
 	}
 
-	public int getMaxPpl() {
-		return maxPpl;
+
+	public int getCurPpl() {
+		return curPpl;
 	}
 
-	public void setMaxPpl(int maxPpl) {
-		this.maxPpl = maxPpl;
+
+	public void setCurPpl(int curPpl) {
+		this.curPpl = curPpl;
 	}
+
 
 	@Override
 	public String toString() {
-		return "RoomInfo [roomNumber=" + roomNumber + ", roomName=" + roomName + ", maxPpl=" + maxPpl + ", curPpl="
-				+ curPpl + ", remTime=" + remTime + ", noteBook=" + noteBook + ", LightProjecter=" + LightProjecter
-				+ "]";
+		return "RoomInfo [roomNumber=" + roomNumber + ", roomName=" + roomName + ", maxPpl=" + maxPpl
+				+ ", lightProjecter=" + lightProjecter + ", noteBook=" + noteBook + ", remTime=" + remTime + ", curPpl="
+				+ curPpl + "]";
 	}
-	
+
 	
 
 	

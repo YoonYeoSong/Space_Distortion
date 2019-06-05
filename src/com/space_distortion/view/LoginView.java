@@ -32,31 +32,31 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 		JPanel jp = new JPanel();
 		jp.setBounds(10, 10, 700, 700);
 		jp.setLayout(null);
-		
+		 
 		JLabel lbl_Space = new JLabel("space");
 		lbl_Space.setForeground(new Color(0, 0, 0));
-		lbl_Space.setFont(new Font("Raavi", Font.PLAIN, 90));
+		//lbl_Space.setFont(new Font("Raavi", Font.PLAIN, 90));
 		lbl_Space.setBounds(383, 175, 240, 125);
 		
 		JLabel lbl_Distortions = new JLabel("DISTORTIONS");
 		lbl_Distortions.setForeground(new Color(0, 0, 0));
-		lbl_Distortions.setFont(new Font("Ravie", Font.BOLD, 40));
+		//lbl_Distortions.setFont(new Font("Ravie", Font.BOLD, 40));
 		lbl_Distortions.setBounds(123, 111, 373, 54);
 		
 		JLabel lbl_LoginYourAccount = new JLabel("Login your account");
 		lbl_LoginYourAccount.setForeground(Color.BLACK);
-		lbl_LoginYourAccount.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 30));
+		//lbl_LoginYourAccount.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 30));
 		lbl_LoginYourAccount.setBounds(76, 175, 256, 35);
 		
 		JLabel lbl_Email = new JLabel("E-Mail");
-		lbl_Email.setFont(new Font("Ravie", Font.PLAIN, 20));
+		//lbl_Email.setFont(new Font("Ravie", Font.PLAIN, 20));
 		lbl_Email.setForeground(Color.WHITE);
 		lbl_Email.setBounds(156, 416, 88, 28);
 		
 		
 		JLabel lbl_Password = new JLabel("Password");
 		lbl_Password.setForeground(Color.WHITE);
-		lbl_Password.setFont(new Font("Ravie", Font.PLAIN, 20));
+		//lbl_Password.setFont(new Font("Ravie", Font.PLAIN, 20));
 		lbl_Password.setBounds(138, 473, 131, 28);
 		
 		JTextField textField_ID = new JTextField();
@@ -70,24 +70,24 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 		textField_PW.setColumns(10);
 		
 		JButton btn_Register = new JButton("Register");
-		btn_Register.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 15));
+		//btn_Register.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 15));
 		btn_Register.setForeground(new Color(0, 0, 0));
 		btn_Register.setBounds(279, 535, 144, 54);
 		
 		JButton loginBtn1 = new JButton("Login");
 		loginBtn1.setForeground(Color.BLACK);
-		loginBtn1.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
+		//loginBtn1.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
 		loginBtn1.setBounds(229, 28, 144, 54);
 		
 		JButton button_Skip = new JButton("Skip Registration");
 		button_Skip.setForeground(Color.BLACK);
-		button_Skip.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 15));
+		//button_Skip.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 15));
 		button_Skip.setBounds(20, 30, 193, 40);
 
 		
-		loginBtn1.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 1, sc, mainJframe ,jp));
+		loginBtn1.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 3, sc, mainJframe ,jp));
 		button_Skip.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 2, sc, mainJframe ,jp));
-		btn_Register.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 3, sc, mainJframe ,jp));
+		btn_Register.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 1, sc, mainJframe ,jp));
 		
 		
 		jp.add(lbl_Space);
@@ -102,15 +102,25 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 		jp.add(lbl_LoginYourAccount);
 		jp.add(lbl_Distortions);
 		
-		//mainJframe.setContentPane(jp);
+		
 		mainJframe.add(jp);
 		jp.revalidate();
 		jp.repaint();
 		jp.setVisible(true);
-//		mainJframe.setVisible(true);
+
 		
 		
-		
+		loginBtn1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String inputid=textField_ID.getText();
+				char[] inputpw=textField_PW.getPassword();
+				
+				sc.logincheck(inputid, inputpw);
+				
+			}
+		});
 		
 	}
 }

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -24,6 +23,7 @@ import com.space_distortion.view.AccountView;
 import com.space_distortion.view.AccountView2;
 import com.space_distortion.view.AddTimeRoomView;
 import com.space_distortion.view.AdminView;
+import com.space_distortion.view.FinalPaymentView;
 import com.space_distortion.view.LoginView;
 import com.space_distortion.view.MainRoomView;
 import com.space_distortion.view.PaymentView;
@@ -37,24 +37,25 @@ public class SpaceController {
 	static int mKeyNumber = 0;
 	static int nKeyNumber = 0;
 	
-	List<Member> mList = new ArrayList<Member>();
 	
 	
 	/////////////////////////////// Model.vo 객체 리스트///////////
-	Map<Integer,Member> mMap = new HashMap<Integer, Member>(); // 회원 맵
-	Map<Integer,NonMember> nMap = new HashMap<Integer, NonMember>(); // 비회원 맵
-	List<RoomInfo> roomInfoList = new ArrayList<RoomInfo>(); // 룸에 대한 리스트
-	List<Payment> paymentList = new ArrayList<Payment>();  // 페이먼트 대한 리스트
-	List<SnackBar> snackBarList = new ArrayList<SnackBar>(); // 스낵관련리스트
+	private List<Member> mList = new ArrayList<Member>();
+	private Map<Integer,Member> mMap = new HashMap<Integer, Member>(); // 회원 맵
+	private Map<Integer,NonMember> nMap = new HashMap<Integer, NonMember>(); // 비회원 맵
+	private List<RoomInfo> roomInfoList = new ArrayList<RoomInfo>(); // 룸에 대한 리스트
+	private List<Payment> paymentList = new ArrayList<Payment>();  // 페이먼트 대한 리스트
+	private List<SnackBar> snackBarList = new ArrayList<SnackBar>(); // 스낵관련리스트
+	private List<SnackBar> snackTmpList = new ArrayList<SnackBar>(); // 스낵/ 음료의 임시 리스트
+	private List<SnackBar> snackLocalList = new ArrayList<SnackBar>(); // 결재에 넘결줄 상풍 리스트
 	
-	
-	Admin admin = new Admin();
+	private Admin admin = new Admin();
 	
 	///////////////////////Model.vo 뷰/////////////////////////////////////////
 	
-	MainRoomView mv = new MainRoomView(); // 메인 뷰
-	SpaceActionEvent sAe = new SpaceActionEvent();
-	MainRoomView mRv = new MainRoomView();                  //메인 뷰 생성
+	private MainRoomView mv = new MainRoomView(); // 메인 뷰
+	private SpaceActionEvent sAe = new SpaceActionEvent();
+	private MainRoomView mRv = new MainRoomView();                  //메인 뷰 생성
 	private SubRoomView subRoomV = new SubRoomView();       // 서브룸
 	private LoginView lv = new LoginView();                         //로그인뷰
 	private AccountView accountV = new AccountView();		//회원 가입 뷰 생성
@@ -63,32 +64,284 @@ public class SpaceController {
 	private AdminView adminV1 = new AdminView();				//관리자 뷰 생성
 	private PaymentView payV = new PaymentView();			//결재 뷰 생성
 	private SnackBarView snackV = new SnackBarView();		//간식 뷰 생성
-	private JFrame mainJframe = new JFrame();				//메인 프레임 생성
+	private FinalPaymentView finalpv = new FinalPaymentView(); // 마지막 뷰 창
+	private JFrame mainJframe;			//메인 프레임 생성
+	public Payment pm;
 	
 	/* 메인 컨트롤러 생성자 */
 	public SpaceController() {
 		this.init();
-		initConsol();
+		
+		
+		
+		//initConsol();  // 관리자 테스트 생성자
+		//this.snackViewDidload();
 	}
 	
 	// 메인 프레임 생성
 		public void init()
 		{
+			
+			// 방정보 불러오기
+			// 방이름 방번호 수용인원 빔프로젝트 사용여부
+			roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
+			roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
+			
+			
 			mainJframe = new JFrame("Space Distorition");
-			mainJframe.setBounds(100, 100, 1024, 768);
+			mainJframe.setBounds(0, 0, 1024, 768);
 //			mainJframe.setLayout(new FlowLayout());
 			mainJframe.setDefaultCloseOperation(3);
-//			mainJframe.setVisible(true);	
+			mainJframe.setVisible(true);	
 		}
 	
+		AdminView adminView;
 	
 	
 ///////////////////////////////////////////////////////////////////////////consol ///////////////////////////////////////////////////////////////////////	
 	
-	AdminView adminView;
+	
+	
+		
+		
+	
+///////////////////로그인 기능 모든것///////////////////////////////////////////
+	
+	// LoginView 로그인확인
+	public void logincheck(String inputid, char[] inputpw) {
+	
+		for(int i=0;i<mMap.size();i++) {
+			if(((Member)mMap.get(i)).getEmailId().equals(inputid)) {
+				if(((Member)mMap.get(i)).getMemberPw().equals(inputpw)) {
+					System.out.println("로그인 확인");
+					//JOptionPane.showMessageDialog(null, "로그인 확인");
+					//로그인확인, 룸 리스트 출력
+					
+				} else { 
+					//JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
+					System.out.println("패스워드 오류"); }
+			} else { 
+				//JOptionPane.showMessageDialog(null, "아이디가 틀렸습니다."); 
+				System.out.println("아이디 오류");	}
+	
+		}
+		
+	}
+	
+	
+	//AcountView(회원가입 1번 창)
+	public void initMember(String name, String phone)
+	{
+		mList.add(new Member());
+	    mList.get(mList.size()-1).setMemberName(name);
+		mList.get(mList.size()-1).setPhoneNumber(phone);
+	}
+	  
+	//AcountView2(회원가입 2번 창)
+	public void initMember2(String email, String pw)
+	{
+		mList.get(mList.size()-1).setEmailId(email);
+		mList.get(mList.size()-1).setMemberPw(pw);
+		//mList.get(mList.size()).setStudentIsTrue(isTrueStudent);
+		mMap.put(mKeyNumber++,mList.get(mList.size()-1));
+	}
+	  
+	//Email Check(이메일 중복 체크)
+	public void emailCheck(String email)
+	{
+		for(int i = 0; i < mList.size(); i++)
+		{
+			if( !(mList.get(i).getEmailId().equals(email)))
+		    {                
+		    System.out.println("사용가능한 아이디 입니다");
+		     //JOptionPane.showMessageDialog(null, "사용가능합니다");
+		    } else {
+		     // 불가능
+		    //JOptionPane.showMessageDialog(null, "사용불가능합니다");
+		    System.out.println("중복된 아이디 입니다.");
+		    }
+		}
+	}
 	
 	
 	
+		
+		
+		
+		
+/////////////////////////////////로그인기능////////////////////////////
+	
+	
+	
+	
+	
+////////////////////////////////////// 스낵 관련 기능/////////////////	
+	
+	
+	/*
+	 * 1 : 과자
+	 * 2 : 음료
+	 */
+	
+	// 스낵 뷰가 로드될때 데이터 로드
+	public void snackViewDidload() {
+			
+		for (SnackBar snackBar : snackBarList) {
+			if(snackBar.getSnackBarIndex() == 2) {
+				snackTmpList.add(snackBar);
+			}
+		}//for
+	} //snackViewDidload
+	
+	
+	public void snackSel(int i) {
+		
+		if(snackTmpList != null)
+			snackTmpList.clear();
+		
+		if(i == 2) {
+			for (SnackBar snackBar : snackBarList) {
+				if(snackBar.getSnackBarIndex() == 2) {
+					snackTmpList.add(snackBar);
+//					System.out.println(snackBar);
+					
+				}
+			
+			}//for
+		}else {
+			for (SnackBar snackBar : snackBarList) {
+				if(snackBar.getSnackBarIndex() == 1) {
+					snackTmpList.add(snackBar);
+//					System.out.println(snackBar);
+				}
+			
+			}//for
+		}//else
+
+	}// snackSel
+	
+	
+	
+	
+	// 과자버튼 선택 후 과자 종류 선택
+	public List<SnackBar> snackSelList(int btnIndex) {
+		System.out.println("과자 세부선택");
+		snackLocalList.add(snackTmpList.get(btnIndex));
+		
+//		List<SnackBar> tmpList = new ArrayList<SnackBar>(); // = snackTmpList;
+		
+//		System.out.println(tmpList);
+//		System.out.println(snackBarList.get(0).getSnackBarIndex());
+		
+//		System.out.println(tmpList.get(btnIndex).getSnackBarIndex());
+	
+//		SnackBar snackTmp = new SnackBar();
+		
+//		tmpList.add(e)
+		
+//		int a = 0;
+//		a += tmpList.get(btnIndex).getSnackPrice();
+
+//		if ( tmpList.get(btnIndex).getSnackBarIndex() == 1) {
+//			System.out.println("dfdfdfdfadfwerwer");
+//		}
+		
+//		if(((SnackBar)snackBarList).getSnackBarIndex() == 1) {
+//			tmpList = snackBarList;
+//			
+//		}
+//		
+//		if(((SnackBar)snackBarList).getSnackBarIndex() == 2) {
+//			tmpList = snackBarList;
+			
+//		}//if
+		for (SnackBar s : snackLocalList) {
+			System.out.println(s);
+		}
+		
+		return snackLocalList;
+
+	}//snackSel
+	
+	
+	
+	
+	
+	
+//////////////////////////////////////스낵관련기능/////////////////////
+	
+	
+	
+	
+	
+	
+	
+/////////////////////////////////////Payment//////////////////////////////
+	// 모든 가격을 계산하고 프린트함
+	public void totalCostCalculator() {
+		
+	// 화이트보드를 빌린다면 가격에 3000원 오름. 아니면 빵원
+	if(pm.getWhiteBoardUsage() == 1) {
+		pm.setWhiteBoardCost(3000);
+	}else 
+	{
+		pm.setWhiteBoardCost(0);
+	}
+	
+	// 빔프로젝트 빌린다면 가격에 3000원 오름. 아니면 빵원
+	if(pm.getBeamProjectorUsage() == 1) {
+		pm.setBeamProjectorCost(3000);
+	}else 
+	{
+		pm.setBeamProjectorCost(0);
+	}
+//			 이 메소드는 디스카운트를 받을지 안 받을지 알려주는 메소드
+	if (pm.getUser() == "member") {
+		pm.setDiscountRate(0.7);
+	}else {
+		pm.setDiscountRate(1.0);
+	}
+	
+	hourlyCostCalculator();
+	
+	System.out.println("hour:   "+pm.getHour());
+	System.out.println(pm.getHourlyCost());
+	System.out.println("hchc"+pm.getTotalHourlyCost());
+	System.out.println(pm.getPpl());
+	
+	
+	pm.setTotalCost(pm.getTotalHourlyCost()+
+			pm.getWhiteBoardCost()+pm.getBeamProjectorCost()+
+			pm.getTotalLaptopCost());
+	
+	
+	pm.setFinalCost((int) (pm.getTotalCost()*pm.getDiscountRate()));
+	
+	String finalCost = String.valueOf(pm.getFinalCost());
+	payV.getDisplayPriceAfterDiscount().setText(finalCost);
+	String totalCost = String.valueOf(pm.getTotalCost());
+	payV.getDisplayTotalCost().setText(totalCost);
+//			System.out.println(getPm());
+	}
+	
+	public void hourlyCostCalculator() {
+		pm.setTotalHourlyCost((pm.getHour()*pm.getHourlyCost()*pm.getPpl())
+				+(pm.getLaptop()*pm.getLaptopCost()));
+	}
+	
+	
+/////////////////////////////////////Payment//////////////////////////////
+	
+	
+	
+	/*  관리자 테스트 객체 생성자
 	public void initConsol()
 	{
 	
@@ -102,54 +355,69 @@ public class SpaceController {
 		mMap.put(mKeyNumber++,new Member("챙송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
 		
 		//임시 스낵 생성
-		snackBarList.add(new SnackBar(1, "치토스", 30, "물량부족"));
-		snackBarList.add(new SnackBar(1, "포카칩", 20, "물량부족"));
-		snackBarList.add(new SnackBar(2, "포카리", 15, "물량부족"));
-		snackBarList.add(new SnackBar(2, "콜라", 10, "물량부족"));
-		snackBarList.add(new SnackBar(2, "마운틴듀", 33, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "치토스", 30, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "포카칩", 20, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "포카리", 15, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "콜라", 10, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "마운틴듀", 33, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+//		
+//		
+		
+		
+		// 방이름 방번호 수용인원 빔프로젝트 사용여부
+		roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
+		roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
+		
 		
 		
 		
 		
 		//임시 방 생성
-		roomInfoList.add(new RoomInfo(1, "A", 4, 4, 0, 4, 1) );
-		roomInfoList.add(new RoomInfo(2, "B", 6, 5, 0, 6, 0) );
-		roomInfoList.add(new RoomInfo(3, "C", 6, 4, 0, 6, 1) );
-		roomInfoList.add(new RoomInfo(4, "D", 4, 2, 0, 4, 1) );
-		roomInfoList.add(new RoomInfo(5, "E", 8, 8, 0, 8, 1) );
-		roomInfoList.add(new RoomInfo(6, "F", 8, 5, 0, 8, 0) );
-		roomInfoList.add(new RoomInfo(7, "G", 8, 6, 0, 8, 0) );
-		roomInfoList.add(new RoomInfo(8, "H", 16, 14, 0, 12, 0) );
+//		roomInfoList.add(new RoomInfo(1, "A", 4, 4, 0, 4, 1) );
+//		roomInfoList.add(new RoomInfo(2, "B", 6, 5, 0, 6, 0) );
+//		roomInfoList.add(new RoomInfo(3, "C", 6, 4, 0, 6, 1) );
+//		roomInfoList.add(new RoomInfo(4, "D", 4, 2, 0, 4, 1) );
+//		roomInfoList.add(new RoomInfo(5, "E", 8, 8, 0, 8, 1) );
+//		roomInfoList.add(new RoomInfo(6, "F", 8, 5, 0, 8, 0) );
+//		roomInfoList.add(new RoomInfo(7, "G", 8, 6, 0, 8, 0) );
+//		roomInfoList.add(new RoomInfo(8, "H", 16, 14, 0, 12, 0) );
 		
 		//임시 페이먼트 생성
 		//paymentList.add(new Payment(roomNumberInUse, user, hourlyCost, hour, ppl, discountRate, whiteBoard, beamProjector, whiteBoardCost, beamProjectorCost, laptopCost, laptop, totalHourlyCost, totalLaptopCost, totalCost, finalCost))
@@ -178,6 +446,7 @@ public class SpaceController {
 	
 		
 	}
+	*/
 	// 콘솔 메인
 	public void mainConsolView()
 	{
@@ -743,13 +1012,13 @@ public class SpaceController {
 	// 메인뷰
 	public void mainView()
 	{
-		mv.initialize(this, mainJframe);       // 메인 뷰 초기화
+		mv.initialize(this, mainJframe, this.roomInfoList);       // 메인 뷰 초기화
 	}
 	
 	// sub room view
-	public void subRoomView()
+	public void subRoomView(int roomNumber)
 	{
-		subRoomV.initialize(this, mainJframe);
+		subRoomV.initialize(this, mainJframe,this.roomInfoList, roomNumber);
 	}
 	
 	// 로긴 뷰 
@@ -787,12 +1056,13 @@ public class SpaceController {
 	
 	// 결재정보 뷰
 	public void paymentView() {
+		pm = new Payment();
 		payV.initialize(this, mainJframe);
 	}
 	
 	// 간식 뷰
 	public void snackView() {
-		
+		snackV.initialize(this, mainJframe, snackTmpList);
 	}
 	
 }

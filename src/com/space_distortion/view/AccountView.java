@@ -2,32 +2,28 @@ package com.space_distortion.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.space_distortion.controller.SpaceController;
 import com.space_distortion.event.SpaceActionEvent;
+import com.space_distortion.model.vo.Member;
 
 public class AccountView extends SpaceActionEvent implements ViewIndex{
 	
 
-
-
 	public AccountView ()  {
-//		initialize();
-	}
-	
-//	public void showThisView() {
-//		frame.setVisible(true);
-//	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	}
+
 	public void initialize(SpaceController sc, JFrame mainJframe) {
 		
 		JPanel jp = new JPanel();
@@ -76,6 +72,7 @@ public class AccountView extends SpaceActionEvent implements ViewIndex{
 		
 		
 		btn_Home.addMouseListener(new SpaceActionEvent(ACCOUNT_VIEW_NUM, 1, sc, mainJframe, jp));
+		// 버튼이 클릭됬을때 이동하는 이벤트 매개변수로는 (이뷰가 몇번의 어떤뷰인지,버튼 몇번 2번,컨트롤러 sc,메인프레임,메인패널)
 		btn_Next.addMouseListener(new SpaceActionEvent(ACCOUNT_VIEW_NUM, 2, sc, mainJframe, jp));
 		
 		
@@ -90,12 +87,36 @@ public class AccountView extends SpaceActionEvent implements ViewIndex{
 		jp.add(textField_Phone);
 
 		//mainJframe.setContentPane(jp);
-		mainJframe.add(jp);
+		mainJframe.getContentPane().add(jp);
 		jp.revalidate();
 		jp.repaint();
 		jp.setVisible(true);
 //		mainJframe.setVisible(true);
 		
-		
+		////// [btn_Next]Next버튼에 대한 액션 리스너
+		//입력 받은 값을 저장하고 AccountView2로 넘어가야한다.
+		btn_Next.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name=textFieldName.getText();
+				String phone=textField_Phone.getText();
+				String a="";
+				
+				
+				//자릿수 제한 ,영문 대소문자 Phone은 숫자만
+				if(name.equals(a)) {
+					JOptionPane.showMessageDialog(null, "Name을 입력해주세요.");
+				} else if(phone.equals(a)) {
+					JOptionPane.showMessageDialog(null, "Phone Number를 입력해주세요.");
+				} else {
+					
+					sc.initMember(name, phone);
+
+								
+				}
+				
+			}
+		});
 	}
 }

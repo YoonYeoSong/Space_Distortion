@@ -44,6 +44,25 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		//System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
 	}
 	
+	
+	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf) {
+		super();
+		this.viewIndex = viewIndex;
+		this.buttonIndex = buttonIndex;
+		this.sc = sc;
+		this.jf = jf;
+	}
+	
+	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc) {
+		super();
+		this.viewIndex = viewIndex;
+		this.buttonIndex = buttonIndex;
+		this.sc = sc;
+	}
+	
+	
+	
+	
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JPanel jp ,JPanel jp1, JFrame jf) {
 		super();
 		this.viewIndex = viewIndex;
@@ -101,9 +120,9 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			jf.remove(jp);
 			//jp.revalidate();
 			//jp.repaint();
-			sc.subRoomView();
+			sc.subRoomView(buttonIndex);
 			// 서브 로그인 뷰
-		}
+		} 
 		else if(buttonIndex == 2) {
 			System.out.println("2번방 선택");
 		}
@@ -167,16 +186,24 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			jf.remove(jp);
 			sc.accoutView();
 		}else if(buttonIndex == 2) {
-			System.out.println("회원 로긴 선택");
+			System.out.println("비회원 로긴 선택");
 			
-			// 로긴 성공 여/부 후에 결제 페이로 이동
+			// 비회원로그인 바로 페이먼트로 이동
 			
 			jf.remove(jp);
 			sc.paymentView();
 		}else if(buttonIndex == 3) {
-			System.out.println("ID & PW 찾기");
+			
+			//로그인
+			// 로그인 성공시 페이먼트 뷰로 이동
+			jf.remove(jp);
+			sc.paymentView();
 			// 찾기 페이지로 이동
 		}else
+			//생성 해야되는 부분
+			//System.out.println("ID & PW 찾기");
+			
+			//
 			System.out.println("err....");
 
 	}
@@ -193,8 +220,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			System.out.println("다음으로");
 			jf.remove(jp);
 			sc.accoutView2();
-		}
-		
+		}	
 	}
 	
 	// 회원 가입 서브 이벤트
@@ -208,7 +234,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		}else if(buttonIndex == 2) {
 			System.out.println("회원 가입 확인");
 			jf.remove(jp);
-			sc.paymentView();
+			sc.loginView();
 		}
 		
 	}
@@ -310,6 +336,9 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		}else if(buttonIndex == 2) {
 			System.out.println("지불 하기");
 			// 결재 지불
+			jf.remove(jp);
+			sc.paymentView();
+			
 		}else if(buttonIndex == 3) {
 			System.out.println("홈으로");
 			jf.remove(jp);
@@ -321,7 +350,46 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	
 	// 간식 뷰 이벤트
 	public void snackViewSelected() {
-		System.out.println("간식 버튼 클릭 이벤트");
+//		System.out.println("간식 버튼 클릭시 이벤트");
+		
+		/*
+		 * 버튼 갯수에 따른 이벤트 처리
+		 */
+		switch (buttonIndex) {
+			case SNACK_BAR_VIEW_NEXT:
+				jf.remove(jp);
+				System.out.println("프레임 지우기성공");
+				sc.paymentView();
+				break;
+			case SNACK_BAR_VIEW_CANSLE:
+//				System.out.println("버튼 인덱스 2 :" + buttonIndex);
+				jf.remove(jp);
+				System.out.println("프레임 지우기성공2");
+				sc.subRoomView(buttonIndex);
+				break;
+			default:
+				sc.snackSelList(buttonIndex);
+				break;
+		}
+		
+//		System.out.println("인덱스가 뭐냐:??? " + buttonIndex);
+//		System.out.println(buttonIndex);
+//		System.out.println();
+//		if(buttonIndex == 1) {	// 음료를 선택한 경우
+//			System.out.println("과자 이벤트");
+//			sc.snackSel(1);
+//			System.out.println("과자 버튼 인덱스 : " + buttonIndex);
+				
+			
+//		}else if(buttonIndex == 2) { // 과자를 선택한 경우
+//			System.out.println("음료 이벤트");
+//			sc.snackSel(2);
+//			List<SnackBar> list = sc.snackSel(2);
+//			sc.snackSelList();
+//
+//		}else
+//			System.out.println("snack err...");
+		
 		
 	}
 

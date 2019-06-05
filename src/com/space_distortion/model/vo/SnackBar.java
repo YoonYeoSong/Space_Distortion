@@ -8,18 +8,20 @@ public class SnackBar {
 	private int snackBarIndex;
 	private String snack;
 	private int snackQuantity;
+	private int snackPrice;
 	private String snackComment;
 	
 	public SnackBar() {
 		// 기본 생성자
 	}
 
-	public SnackBar(int snackBarIndex, String snack, int snackQuantity, String snackComment) {
+	public SnackBar(int snackBarIndex, String snack, int snackQuantity, int snackPrice, String snackComment) {
 		super();
 		this.snackBarIndex = snackBarIndex;
 		this.snack = snack;
 		this.snackQuantity = snackQuantity;
-		this.snackComment = snackComment;	
+		this.snackComment = snackComment;
+		this.snackPrice = snackPrice;
 	}
 
 	public int getSnackBarIndex() {
@@ -53,7 +55,15 @@ public class SnackBar {
 	public void setSnackComment(String snackComment) {
 		this.snackComment = snackComment;
 	}
-	
+
+	public int getSnackPrice() {
+		return snackPrice;
+	}
+
+	public void setSnackPrice(int snackPrice) {
+		this.snackPrice = snackPrice;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		SnackBar sb;
@@ -79,6 +89,10 @@ public class SnackBar {
 	@Override
 	public String toString() {
 		return "SnackBar [snackBarIndex=" + snackBarIndex + ", snack=" + snack + ", snackQuantity=" + snackQuantity
-				+ ", snackComment=" + snackComment + "]";
-	}	
+				+ ", snackPrice=" + snackPrice + ", snackComment=" + snackComment + "]";
+	}
+
+	
+
+	
 }

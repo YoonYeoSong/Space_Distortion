@@ -16,6 +16,12 @@ public class Member extends User {
 		super();
 	}
 	
+	public Member(String memberName, String phoneNumber) {
+		super(mCodeNumber++);	
+		this.memberName = memberName;
+		this.phoneNumber = phoneNumber;
+	}
+	
 	public Member(String memberName, String memberPw, String emailId, String address, String phoneNumber,
 			String birthDay, int studentIsTrue) {
 		super(mCodeNumber++);	
