@@ -74,7 +74,7 @@ public class SpaceController {
 		
 		
 		
-		//initConsol();  // 관리자 테스트 생성자
+		initConsol();  // 관리자 테스트 생성자
 		//this.snackViewDidload();
 	}
 	
@@ -341,7 +341,7 @@ public class SpaceController {
 	
 	
 	
-	/*  관리자 테스트 객체 생성자
+	//  관리자 테스트 객체 생성자
 	public void initConsol()
 	{
 	
@@ -355,43 +355,18 @@ public class SpaceController {
 		mMap.put(mKeyNumber++,new Member("챙송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
 		
 		//임시 스낵 생성
-//		snackBarList.add(new SnackBar(1, "치토스", 30, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "포카칩", 20, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "포카리", 15, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "콜라", 10, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "마운틴듀", 33, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
-//		
-//		
+		snackBarList.add(new SnackBar(1, "치토스", 30, 1000,"물량부족"));
+		snackBarList.add(new SnackBar(1, "포카칩", 20,1000, "물량부족"));
+		snackBarList.add(new SnackBar(2, "포카리", 15,1000, "물량부족"));
+		snackBarList.add(new SnackBar(2, "콜라", 10,1000, "물량부족"));
+		snackBarList.add(new SnackBar(2, "마운틴듀", 33,1000, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
+		
+		
+		
 		
 		
 		// 방이름 방번호 수용인원 빔프로젝트 사용여부
@@ -446,7 +421,7 @@ public class SpaceController {
 	
 		
 	}
-	*/
+	
 	// 콘솔 메인
 	public void mainConsolView()
 	{

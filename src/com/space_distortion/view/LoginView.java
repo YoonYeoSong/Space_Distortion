@@ -23,10 +23,16 @@ import javax.swing.JPanel;
 
 public class LoginView extends SpaceActionEvent implements ViewIndex {
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public LoginView() {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public void initialize(SpaceController sc, JFrame mainJframe)
 	{
 		JPanel jp = new JPanel();
@@ -103,7 +109,7 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 		jp.add(lbl_Distortions);
 		
 		
-		mainJframe.add(jp);
+		mainJframe.getContentPane().add(jp);
 		jp.revalidate();
 		jp.repaint();
 		jp.setVisible(true);

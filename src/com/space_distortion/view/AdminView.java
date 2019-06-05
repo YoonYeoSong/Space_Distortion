@@ -6,6 +6,11 @@ import java.awt.Component;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.Scanner;
 
@@ -137,6 +142,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		numberField.setBounds(413, 28, 149, 48);
 		subMenuJp.add(numberField);
 		
+		
 		nameField.setEnabled(false);
 		numberField.setEnabled(false);
 		
@@ -157,6 +163,40 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		btn7Search.setBounds(725, 27, 117, 48);
 		subMenuJp.add(btn7Search);
 		
+		
+		
+		
+		// 명칭만 가능 ( 특수문자 숫자 가 들어가면 바로바로 삭제 )
+		nameField.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyChar() > 32 && e.getKeyChar() < 65)
+					nameField.setText(null);
+				else if(e.getKeyChar() > 90 && e.getKeyChar() < 97)
+					nameField.setText(null);
+				else if(e.getKeyChar() > 122 && e.getKeyChar() < 127)
+					nameField.setText(null);
+			
+			}
+		});
+		
+		// 스낵관련 인덱스 1,2만가능 다른게 들어가면 바로 삭제
+		numberField.addKeyListener(new KeyAdapter() {
+		
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if( e.getKeyChar() != '1' && e.getKeyChar() != '2')							
+					numberField.setText(null);
+				
+				else if(e.getKeyChar() == '1' || e.getKeyChar() == '2')				
+					if(numberField.getText().length() > 1)
+						numberField.setText(null);				
+				
+			}
+			
+		});
 		
 		
 		// 회원 버튼
@@ -407,6 +447,24 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 					TableJp.remove(scrollPane);
 					System.out.println("여기 이름 텍스트 " + nameField.getText());
 					System.out.println("여기는 넘버 텍스트 : " + numberField.getText());
+					
+					numberField.addKeyListener(new KeyAdapter() {
+						
+						@Override
+						public void keyPressed(KeyEvent e) {
+							char c = e.getKeyChar();
+							if(!Character.isDigit(c))
+							{
+								e.consume();
+								return;
+							}	
+						}
+						
+					});
+						
+					
+				
+						
 					String[] modelName = {"스낵인덱스","스낵이름","수량","코멘트"};		
 					
 					int index = 0;
@@ -417,7 +475,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 					else
 						name = nameField.getText();
 					
-					if(numberField.getText().equals(""))
+					if(numberField.getText().equals("") )
 						index = 0;
 					else
 						index = Integer.parseInt( numberField.getText());
@@ -439,13 +497,11 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
 					table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기	
 					
-		
-		
-			
 					
 				}
 					
-				
+				nameField.setText(null);
+				numberField.setText(null);
 				
 				TableJp.add(scrollPane,null);
 				
@@ -458,21 +514,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		
 		
 		
-//		numberField.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				if( numberField.getText().charAt(0) > 0 || numberField.getText().charAt(0) < 3)
-//				{
-//					
-//				}else
-//				{
-//					return;
-//				}
-//				
-//			}
-//		});
+		//numberField.addKeyListener(new KeyListenerk);
 		
 		
 		//table.getModel().addTableModelListener(this);
@@ -493,69 +535,101 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		
 	}
 	
-	class Hendler implements TableModelListener
-	{
-		JButton btn;
-		public Hendler(JButton btn) {
-			// TODO Auto-generated constructor stub
-			this.btn = btn;
+class Hendler implements TableModelListener,KeyListener
+{
+	JButton btn;
+	JTextField jtf;
+	public Hendler(JButton btn) {
+		this.btn = btn;
+	}
+	
+	public Hendler(JTextField jtf) {		
+		this.jtf = jtf;
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+		if(jtf.getName() == "스낵Index" )
+		{
+			System.out.println("여기왔음");
+			char c = e.getKeyChar();
+			if(!Character.isDigit(c))
+			{
+				e.consume();
+				return;
+			}
 		}
 		
 		
+	}
 		
-		@Override
-		public void tableChanged(TableModelEvent e) {
-			SpaceController sc = Main.getSpaceController();
-			TableModel model = (TableModel) e.getSource();
-			String colName = null;
-			int column = 0;
-			int row = 0;
-			int columnCode = 0;
+		
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		SpaceController sc = Main.getSpaceController();
+		TableModel model = (TableModel) e.getSource();
+		String colName = null;
+		int column = 0;
+		int row = 0;
+		int columnCode = 0;
+		
+		
+		System.out.println("로우 카운트 : " +  model.getRowCount());
+		System.out.println("칼럼 갯수 : "  + model.getColumnCount());
+		
+		if(model.getColumnCount() == 8) // 학생 컬럼 카운트
+		{
+			
+			row = e.getFirstRow();
+			column = e.getColumn();
+			columnCode = 0;
+			System.out.println(column);
 			
 			
-			System.out.println("로우 카운트 : " +  model.getRowCount());
-			System.out.println("칼럼 갯수 : "  + model.getColumnCount());
-			
-			if(model.getColumnCount() == 8) // 학생 컬럼 카운트
-			{
-				
-				row = e.getFirstRow();
-				column = e.getColumn();
-				columnCode = 0;
-				System.out.println(column);
-				
-				
-				if (column > 0) // 이름
-				{ 	
-					//System.out.println("여기");
-					//System.out.println(column);
-					//System.out.println(model.toString());
-					//userCode = (String)model.getValueAt(row , columnCode);
-					// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
-					colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
-					String userCode = (String)model.getValueAt(row , columnCode); // 코드
-					String userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
-					System.out.println(userCode+ "  " + userValue);
-					if(btn.getName() != "삭제")
-					{
-						sc.adminModifyMember(Integer.parseInt(userCode),userValue); 					
-					}
-				}			
-			}
-			
-			else if( model.getColumnCount() == 4)
-			{
-				return;
+			if (column > 0) // 이름
+			{ 	
+				//System.out.println("여기");
+				//System.out.println(column);
+				//System.out.println(model.toString());
+				//userCode = (String)model.getValueAt(row , columnCode);
+				// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
+				colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
+				String userCode = (String)model.getValueAt(row , columnCode); // 코드
+				String userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
+				System.out.println(userCode+ "  " + userValue);
+				if(btn.getName() != "삭제")
+				{
+					sc.adminModifyMember(Integer.parseInt(userCode),userValue); 					
+				}
+			}			
+		}
+		
+		else if( model.getColumnCount() == 4)
+		{
+			return;
 //				row = e.getFirstRow();
 //				column = e.getColumn();	
-			}
-			
-			//colName = null;
-			//userCode = null;
-			//userValue = null;
-			//column = 0;
 		}
+		
+		//colName = null;
+		//userCode = null;
+		//userValue = null;
+		//column = 0;
 	}
+}
 	
 	
 	

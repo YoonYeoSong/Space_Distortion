@@ -134,10 +134,15 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		else if(buttonIndex == 4)
 		{
 			jf.remove(jp);
-			sc.adminView();
+			//sc.adminView();
 			
 		}	
-		else
+		else if(buttonIndex == 9)
+		{
+			//관리자뷰로이동
+			jf.remove(jp);
+			sc.adminView();
+		}
 			System.out.println("err....");
 	}
 
