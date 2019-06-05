@@ -3,6 +3,7 @@ package com.space_distortion.view;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,7 +33,7 @@ import com.space_distortion.main.Main;
 import com.space_distortion.model.vo.Admin;
 import com.space_distortion.model.vo.SnackBar;
 
-public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellRenderer, TableModelListener {
+public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellRenderer, TableModelListener ,ActionListener {
 	
 	
 	SpaceController spaceController; 
@@ -55,6 +57,10 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 	private JButton btn7Search;
 	
 	private JTextField nameField;
+	private JTextField numberField;
+	
+	JLabel nameLabel;
+	JLabel indexLabel;
 	
 	Admin admin = new Admin();
 	
@@ -116,17 +122,32 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 	
 		defaultModel = new DefaultTableModel(0,0);
 		table = new JTable(defaultModel);
-		
-		
-		table.getModel().addTableModelListener(this);
+			
 		
 		subMenuJp = new JPanel();
 		subMenuJp.setBounds(24, 498, 976, 90);
 		subMenuJp.setLayout(null);
 		
-		nameField = new JTextField(5);
+		// 멤버 이름 찾기 또는 과자이름
+		nameField = new JTextField(); 
 		nameField.setBounds(570, 28, 149, 48);
 		subMenuJp.add(nameField);
+		
+		numberField = new JTextField(1);
+		numberField.setBounds(413, 28, 149, 48);
+		subMenuJp.add(numberField);
+		
+		nameField.setEnabled(false);
+		numberField.setEnabled(false);
+		
+		nameLabel = new JLabel("명칭(이름");
+		nameLabel.setBounds(570, 10, 58, 15);
+		subMenuJp.add(nameLabel);
+		
+		indexLabel = new JLabel("스낵Index");
+		indexLabel.setBounds(413, 10, 58, 15);
+		subMenuJp.add(indexLabel);
+				
 		
 		btn6Delete = new JButton("삭제");
 		btn6Delete.setBounds(846, 27, 117, 48);
@@ -144,11 +165,14 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("하이");
 				
+				if(defaultModel != null || table != null)
+				{
+					defaultModel = null;
+					table = null;					
+				}
 				
-				defaultModel = (DefaultTableModel)table.getModel();
-				defaultModel.setNumRows(0);
+				 // TableJP  ->ScollPane -> Table -> DefaultTable
 				TableJp.remove(scrollPane);
-				
 				
 				String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
 				defaultModel = new DefaultTableModel(spaceController.adminSearchAllMember(modelName),modelName) {
@@ -166,6 +190,22 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
 				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기
 							
+				table.getModel().addTableModelListener(new Hendler(btn1Member));
+				
+				
+				nameField.setName("회원");
+				numberField.setName(null);
+				
+				
+				nameField.setVisible(true);
+				nameField.setEnabled(true);
+				
+				numberField.setVisible(false);
+				
+				nameLabel.setVisible(true);
+				indexLabel.setVisible(false);
+				
+				
 				TableJp.add(scrollPane,null);
 				
 				TableJp.revalidate();
@@ -174,14 +214,20 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			}
 		});
 		
+			
 		// 스낵 버튼
 		btn3Snack.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("스낵");
-				defaultModel = (DefaultTableModel)table.getModel();
-				defaultModel.setNumRows(0);
 				
+				
+				
+				if(defaultModel != null || table != null)
+				{
+					defaultModel = null;
+					table = null;					
+				}
 				
 				TableJp.remove(scrollPane);
 				
@@ -200,12 +246,30 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				scrollPane.setLocation(12, 0);
 				scrollPane.setSize(976, 378);
 				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
-				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기
+				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기			
 				
 				
+				table.getModel().addTableModelListener(new Hendler(btn6Delete));
 				
+				
+				System.out.println(table.getModel().getColumnCount());
 				
 				TableJp.add(scrollPane,null);
+				
+				
+				
+				nameField.setName("스낵");
+				numberField.setName("스낵번호");
+				
+				nameField.setVisible(true);
+				nameField.setEnabled(true);
+				
+				numberField.setVisible(true);
+				numberField.setEnabled(true);
+				
+				nameLabel.setVisible(true);
+				indexLabel.setVisible(true);
+				
 				
 				TableJp.revalidate();
 				TableJp.repaint();
@@ -215,12 +279,69 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		});
 		
 		
-		// 줄 삭제 기능
-		btn6Delete.addActionListener(new ActionListener() {
-			
+		// 매출 총액	
+		btn5TotalPay.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				if(defaultModel != null || table != null)
+				{
+					defaultModel = null;
+					table = null;					
+				}
+								
+				TableJp.remove(scrollPane);
+				
+				String[] modelName = {"매출"};
+				defaultModel = new DefaultTableModel(spaceController.adminSearchTotalPay(modelName),modelName){
+					 @Override
+					    public boolean isCellEditable(int row, int column) {
+						 
+					        return false;
+					    }
+					};
+							
+				table = new JTable(defaultModel);
+				scrollPane = new JScrollPane(table);
+				scrollPane.setLocation(12, 0);
+				scrollPane.setSize(976, 378);
+				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기			
+				
+				
+				table.getModel().addTableModelListener(new Hendler(btn6Delete));
+				
+				
+				System.out.println(table.getModel().getColumnCount());
+				
+				TableJp.add(scrollPane,null);
+				
+				
+				
+				
+				nameField.setVisible(false);
+				nameField.setEnabled(false);
+				
+				numberField.setVisible(false);
+				numberField.setEnabled(false);
+				
+				nameLabel.setVisible(false);
+				indexLabel.setVisible(false);
+				
+				
+				
+				TableJp.revalidate();
+				TableJp.repaint();
+				
+			}
+		});
+		
+		
+		// 줄 삭제 기능
+		btn6Delete.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+						
 				if(table.getSelectedRow() == -1)
 				{
 					return;
@@ -241,42 +362,89 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 						spaceController.adminDelMember(Integer.parseInt(selectName));
 						defaultModel.removeRow(table.getSelectedRow());
 					}
-				}
-				
+				}				
 			}
 		});
-		
-		
+			
 		//이름 검색	
 		btn7Search.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 							 
-				
-				
-				defaultModel = (DefaultTableModel)table.getModel();
-				defaultModel.setNumRows(0);
+				if(defaultModel != null || table != null)
+				{
+					defaultModel = null;
+					table = null;					
+				}
 				
 				
 				TableJp.remove(scrollPane);
 					
+				if(nameField.getName() == "회원")
+				{				
+					String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
+					defaultModel = new DefaultTableModel(spaceController.adminSearchMember(modelName,nameField.getText()),modelName) {
+						@Override
+						public boolean isCellEditable(int row, int column) {
+							
+							return column != 0;
+						}
+					};
 					
-				String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
-				defaultModel = new DefaultTableModel(spaceController.adminSearchMember(modelName,nameField.getText()),modelName) {
-					 @Override
-				    public boolean isCellEditable(int row, int column) {
-					 
-				        return column != 0;
-				    }
-				};
-				
-				table = new JTable(defaultModel);
-				scrollPane = new JScrollPane(table);
-				scrollPane.setLocation(12, 0);
-				scrollPane.setSize(976, 378);
-				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
-				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기
+					table = new JTable(defaultModel);
+					scrollPane = new JScrollPane(table);
+					scrollPane.setLocation(12, 0);
+					scrollPane.setSize(976, 378);
+					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+					table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기									
+	
+				}
+				else if(nameField.getName() == "스낵" && numberField.getName() == "스낵번호")
+				{
+					
+					
+					TableJp.remove(scrollPane);
+					System.out.println("여기 이름 텍스트 " + nameField.getText());
+					System.out.println("여기는 넘버 텍스트 : " + numberField.getText());
+					String[] modelName = {"스낵인덱스","스낵이름","수량","코멘트"};		
+					
+					int index = 0;
+					String name = null;
+					
+					if(nameField.getText().equals(""))
+						name = null;
+					else
+						name = nameField.getText();
+					
+					if(numberField.getText().equals(""))
+						index = 0;
+					else
+						index = Integer.parseInt( numberField.getText());
+					
+					
+					defaultModel = new DefaultTableModel(spaceController.adminSearchSnack( index, name ,modelName),modelName){
+						@Override
+						public boolean isCellEditable(int row, int column) {
+							
+							return false;
+						}
+					};
+					
+								
+					table = new JTable(defaultModel);
+					scrollPane = new JScrollPane(table);
+					scrollPane.setLocation(12, 0);
+					scrollPane.setSize(976, 378);
+					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+					table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기	
+					
+		
+		
+			
+					
+				}
+					
 				
 				
 				TableJp.add(scrollPane,null);
@@ -290,14 +458,24 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		
 		
 		
+//		numberField.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				if( numberField.getText().charAt(0) > 0 || numberField.getText().charAt(0) < 3)
+//				{
+//					
+//				}else
+//				{
+//					return;
+//				}
+//				
+//			}
+//		});
 		
 		
-		table.getModel().addTableModelListener(this);
-	
-		
-		
-		
-		
+		//table.getModel().addTableModelListener(this);
 		
 		
 		jp.add(menuJp);
@@ -305,30 +483,39 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		jp.add(subMenuJp);
 		jp.setVisible(true);
 		
-		mainJframe.add(jp);
+		mainJframe.getContentPane().add(jp);
 		jp.revalidate();
 		jp.repaint();
 		
 		
+		
+		
+		
 	}
 	
-	
-	class EventHandler implements TableModelListener
+	class Hendler implements TableModelListener
 	{
+		JButton btn;
+		public Hendler(JButton btn) {
+			// TODO Auto-generated constructor stub
+			this.btn = btn;
+		}
+		
+		
 		
 		@Override
 		public void tableChanged(TableModelEvent e) {
-			
+			SpaceController sc = Main.getSpaceController();
 			TableModel model = (TableModel) e.getSource();
 			String colName = null;
-			String userValue = null;
-			String userCode = null;
 			int column = 0;
 			int row = 0;
 			int columnCode = 0;
 			
 			
-				
+			System.out.println("로우 카운트 : " +  model.getRowCount());
+			System.out.println("칼럼 갯수 : "  + model.getColumnCount());
+			
 			if(model.getColumnCount() == 8) // 학생 컬럼 카운트
 			{
 				
@@ -340,25 +527,55 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				
 				if (column > 0) // 이름
 				{ 	
-					userCode = (String)model.getValueAt(row , columnCode);
+					//System.out.println("여기");
+					//System.out.println(column);
+					//System.out.println(model.toString());
+					//userCode = (String)model.getValueAt(row , columnCode);
 					// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
 					colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
-					userCode = (String)model.getValueAt(row , columnCode); // 코드
-					userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
+					String userCode = (String)model.getValueAt(row , columnCode); // 코드
+					String userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
+					System.out.println(userCode+ "  " + userValue);
+					if(btn.getName() != "삭제")
+					{
+						sc.adminModifyMember(Integer.parseInt(userCode),userValue); 					
+					}
 				}			
-				
-				spaceController.adminModifyMember(Integer.parseInt(userCode),userValue); 
-			}			
+			}
 			
-			colName = null;
-			userCode = null;
-			userValue = null;
-			column = 0;
+			else if( model.getColumnCount() == 4)
+			{
+				return;
+//				row = e.getFirstRow();
+//				column = e.getColumn();	
+			}
+			
+			//colName = null;
+			//userCode = null;
+			//userValue = null;
+			//column = 0;
 		}
-			
-		
-			
 	}
+	
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if(e.getSource() == btn1Member)
+		{
+			System.out.println("ddddddddddddddddddddddddddddddddddddddd");
+		}
+		
+	}
+	
+	
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		
+	}
+	
+	
 	
 
 	
@@ -516,7 +733,6 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		int number = sc.nextInt();
 		return number;
 	}
-
 
 
 	@Override

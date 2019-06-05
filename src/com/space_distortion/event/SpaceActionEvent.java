@@ -41,7 +41,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		this.sc = sc;
 		this.jf = jf;
 		this.jp = jp;
-		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
+		//System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
 	}
 	
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JPanel jp ,JPanel jp1, JFrame jf) {
@@ -52,7 +52,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		this.jp = jp;
 		this.jp1 = jp1;
 		this.jf = jf;
-		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
+		//System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
 	}
 	
 	
@@ -66,7 +66,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		this.jt = jt;
 		this.dt = dt;
 		this.jtf = jtf;
-		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
+		//System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
 	}
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf ,JPanel jp, JTable jt, DefaultTableModel dt) {
 		super();
@@ -78,7 +78,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		this.jt = jt;
 		this.dt = dt;
 
-		System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
+		//System.out.println("생성자 : " + this.buttonIndex + " / " + buttonIndex);
 	}
 	
 	
@@ -86,7 +86,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public SpaceActionEvent() {
-		System.out.println("기본 생성자 :" + buttonIndex);
+		//System.out.println("기본 생성자 :" + buttonIndex);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -371,57 +371,68 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	
 	
 	
+//	@Override
+//	public void tableChanged(TableModelEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//		SpaceController sc = Main.getSpaceController();
+//		TableModel model = (TableModel) e.getSource();
+//		String colName = null;
+//		String userValue = null;
+//		String userCode = null;
+//		int column = 0;
+//		int row = 0;
+//		int columnCode = 0;
+//		
+//		
+//		System.out.println("로우 카운트 : " +  model.getRowCount());
+//		System.out.println("칼럼 갯수 : "  + model.getColumnCount());
+//		
+//		if(model.getColumnCount() == 8) // 학생 컬럼 카운트
+//		{
+//			
+//			row = e.getFirstRow();
+//			column = e.getColumn();
+//			columnCode = 0;
+//			System.out.println(column);
+//			
+//			
+//			if (column > 0) // 이름
+//			{ 	
+//				//System.out.println("여기");
+//				//System.out.println(column);
+//				//System.out.println(model.toString());
+//				//userCode = (String)model.getValueAt(row , columnCode);
+//				// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
+//				colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
+//				userCode = (String)model.getValueAt(row , columnCode); // 코드
+//				userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
+//				System.out.println(userCode+ "  " + userValue);
+//			}			
+//			//if(e.getSource() == )
+//			sc.adminModifyMember(Integer.parseInt(userCode),userValue); 
+//		}
+//		
+//		else if( model.getColumnCount() == 4)
+//		{
+//			return;
+////			row = e.getFirstRow();
+////			column = e.getColumn();	
+//		}
+//		
+//		//colName = null;
+//		//userCode = null;
+//		//userValue = null;
+//		//column = 0;
+//	}
+//	
+	
+
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
 		
-		SpaceController sc = Main.getSpaceController();
-		TableModel model = (TableModel) e.getSource();
-		String colName = null;
-		String userValue = null;
-		String userCode = null;
-		int column = 0;
-		int row = 0;
-		int columnCode = 0;
-		
-		
-		
-		if(model.getColumnCount() == 8) // 학생 컬럼 카운트
-		{
-			
-			row = e.getFirstRow();
-			column = e.getColumn();
-			columnCode = 0;
-			System.out.println(column);
-			
-			userCode = (String)model.getValueAt(row , columnCode);
-			
-			if (column > 0) // 이름
-			{ 	
-				// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
-				colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
-				userCode = (String)model.getValueAt(row , columnCode); // 코드
-				userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
-			}			
-			
-			sc.adminModifyMember(Integer.parseInt(userCode),userValue); 
-		}
-		else if( model.getColumnCount() == 4)
-		{
-			
-			row = e.getFirstRow();
-			column = e.getColumn();	
-		}
-		
-		colName = null;
-		userCode = null;
-		userValue = null;
-		column = 0;
 	}
-	
-	
-
-	
 
 	
 	@Override

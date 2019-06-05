@@ -12,7 +12,6 @@ public class RoomInfo {
 	private int LightProjecter;  // ÷צ 1ÀÌ¸י true 0ÀÌ¸י false
 	
 	
-	
 	public RoomInfo() {
 		
 	}

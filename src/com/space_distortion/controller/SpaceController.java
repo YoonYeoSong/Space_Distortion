@@ -99,6 +99,7 @@ public class SpaceController {
 		mMap.put(mKeyNumber++,new Member("김여송1", "12714110", "duthd123@naver.com", "서울", "01054035883", "1990/04/27", 0));
 		mMap.put(mKeyNumber++,new Member("차여송2", "12341020", "yeosong92@gmail.com", "부산", "01011135883", "1981/04/27", 0));
 		mMap.put(mKeyNumber++,new Member("다여송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
+		mMap.put(mKeyNumber++,new Member("챙송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
 		
 		//임시 스낵 생성
 		snackBarList.add(new SnackBar(1, "치토스", 30, "물량부족"));
@@ -107,6 +108,37 @@ public class SpaceController {
 		snackBarList.add(new SnackBar(2, "콜라", 10, "물량부족"));
 		snackBarList.add(new SnackBar(2, "마운틴듀", 33, "물량부족"));
 		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, "물량부족"));
+		
+		
 		
 		
 		//임시 방 생성
@@ -150,7 +182,7 @@ public class SpaceController {
 	public void mainConsolView()
 	{
 		adminView = new AdminView();
-		adminView.SpaceMainMenu();
+		//adminView.SpaceMainMenu();
 	}
 	
 	
@@ -430,50 +462,141 @@ public class SpaceController {
 	
 	
 	// 음료인지 과자인지 판별
-	public void adminSearchSnack()
+	public String[][] adminSearchSnack(int index, String name, String[] modelName)
 	{
+		
+		//String[][] snackContents;
 		//스낵에 대한 인덱스를 가져와
-		int num = adminView.searchSnackIndex();
+		
+		
+		int snackIndex = 0;
+		String snackName = null;
+		List<SnackBar> tempList = new ArrayList<SnackBar>();
+		
+		
+		
+		// 인덱스가 0 인지  스낵 이름이 Null이 아닌지 판단
+		if(index != 0)
+			snackIndex = index;
+		else 
+			snackIndex = 0;
+		
+		if(name != null)
+			snackName = name;
+		else
+			snackName = null;
+		
+		
 		Collections.sort(admin.getAdminSnackBarList(),new AscMember());
 		
 		
-		if(num == 1 || num == 2)
+		/// 1 ~ 2 인경우 이름이 있는경우
+		// 1~2가 인경우 이름이없는경우
+		// 1~2가 아니고 이름이 있는경우
+		// 1~2가 아니고 이름이 없는경우
+		
+		if(snackIndex != 0 && snackName != null)
 		{
-			if(num == 1)
+			//스낵번호가 1인경우
+			if(snackIndex == 1)
 			{
 				for(int i = 0; i < admin.getAdminSnackBarList().size(); i++)
 				{
-					if(((SnackBar)admin.getAdminSnackBarList().get(i)).getSnackBarIndex() == num)
-					{
-						System.out.println(admin.getAdminSnackBarList().get(i));
-						
+					if(  (admin.getAdminSnackBarList().get(i).getSnackBarIndex() == snackIndex) 
+							&& (admin.getAdminSnackBarList().get(i).getSnack().equals(snackName)) )
+					{				
+						tempList.add(admin.getAdminSnackBarList().get(i));
 					}
+				}
+				
+			}
+			//스낵번호가 2인경우
+			else if(snackIndex == 2)
+			{				
+				for(int i = 0; i < admin.getAdminSnackBarList().size(); i++)
+				{
+					if(  (admin.getAdminSnackBarList().get(i).getSnackBarIndex() == snackIndex) 
+							&& (admin.getAdminSnackBarList().get(i).getSnack().equals(snackName)) )
+					{				
+						tempList.add(admin.getAdminSnackBarList().get(i));
+					}
+				}
+				
+			}	
+		}
+		else if( snackIndex != 0 && snackName == null)
+		{
+			//스낵번호가 1인경우
+			if(snackIndex == 1)
+			{
+				for(int i = 0; i < admin.getAdminSnackBarList().size(); i++)
+				{
+					if( admin.getAdminSnackBarList().get(i).getSnackBarIndex() == snackIndex )
+					{				
+						tempList.add(admin.getAdminSnackBarList().get(i));
+					}
+				}						
+			}
+			//스낵번호가 2인경우
+			else if(snackIndex == 2)
+			{
+				for(int i = 0; i < admin.getAdminSnackBarList().size(); i++)
+				{
+					if( admin.getAdminSnackBarList().get(i).getSnackBarIndex() == snackIndex )
+					{				
+						tempList.add(admin.getAdminSnackBarList().get(i));
+					}
+				}	
+			}
+		}	
+		else if(snackIndex == 0 && snackName != null)
+		{
+			for(int i = 0; i < admin.getAdminSnackBarList().size(); i++)
+			{
+				if( admin.getAdminSnackBarList().get(i).getSnack().equals(snackName) )
+				{				
+					tempList.add(admin.getAdminSnackBarList().get(i));
 				}
 			}
-			else
-			{
-				
-				for(int i = 0; i < admin.getAdminSnackBarList().size(); i++)
-				{
-					if(((SnackBar)admin.getAdminSnackBarList().get(i)).getSnackBarIndex() == num)
-					{
-						System.out.println(admin.getAdminSnackBarList().get(i));						
-					}
-				}
-			
-			}	
-		}	
-		else
-		{
-			System.out.println("오류");
 		}
+		
+		String[][] snackContents = new String[tempList.size()][modelName.length];
+		
+		int i = 0;
+		for(Iterator<SnackBar> it = tempList.iterator(); it.hasNext();)
+		{
+			SnackBar sb = it.next();
+			
+			for(int j = 0; j < snackContents[i].length; j++)
+			{
+				if(j == 0)
+				{
+					snackContents[i][j] = String.valueOf(sb.getSnackBarIndex());
+				}
+				else if(j == 1) 
+				{
+					snackContents[i][j] = sb.getSnack();
+				}
+				else if(j == 2)
+				{
+					snackContents[i][j] = String.valueOf(sb.getSnackQuantity());
+				}
+				else if(j == 3)
+				{
+					snackContents[i][j] = sb.getSnackComment();
+				}				
+			}
+			i++;
+		}
+		
+		return snackContents;
 	}
 	
 	
 	// 수량 수정
 	public void adminModifySnack()
 	{
-		String snackName = adminView.searchSnackName();
+		String snackName = "콜라";
 		int indexNum = 0;
 		for(int i = 0 ; i < admin.getAdminSnackBarList().size(); i++)
 		{
@@ -488,7 +611,7 @@ public class SpaceController {
 		System.out.println(((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity());
 		
 		((SnackBar)admin.getAdminSnackBarList().get(indexNum)).
-		setSnackQuantity( ((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity()+adminView.searchSnackQuntity());
+		setSnackQuantity( ((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity()+10);
 		
 		
 	}
@@ -554,7 +677,7 @@ public class SpaceController {
 	// 방 번호로 찾기
 	public void adminSearchRoomInfo()
 	{
-		int roomNum = adminView.searchRoomNum();
+		int roomNum = 1;
 		int number = 0;
 		for(Iterator<RoomInfo> it = admin.getAdminRoomInfoList().iterator(); it.hasNext();)
 		{
@@ -569,14 +692,14 @@ public class SpaceController {
 	// 룸 수정 노트북 갯수
 	public void adminModifyRoom()
 	{
-		int roomNum = adminView.searchRoomNum();
+		int roomNum = 1;
 		int number = 0;
 		for(Iterator<RoomInfo> it = admin.getAdminRoomInfoList().iterator(); it.hasNext();)
 		{
 			RoomInfo r = it.next();
 			if( r.getRoomNumber() == roomNum )
 			{
-				r.setNoteBook(r.getNoteBook() + adminView.searchRoomNum() );
+				r.setNoteBook(r.getNoteBook() + 1 );
 				System.out.println(r);
 			}
 		}		
@@ -585,17 +708,31 @@ public class SpaceController {
 /////////////////////////////////////////////관리자 Payment///////////////////////////////////////
 	
 	//매출 검색
-	public int adminSearchTotalPay()
+	public String[][] adminSearchTotalPay(String[] modelName)
 	{
+		String[][] paymentContents = new String[admin.getAdminPaymentList().size()+1][modelName.length];
 		int num = 0;
+		int i = 0;
 		for(Iterator<Payment> it = admin.getAdminPaymentList().iterator(); it.hasNext();)
-		{
+		{			
 			Payment p = it.next();
-			num += p.getFinalCost();
-		}
-		System.out.println(num);
+			
+			for(int j = 0; j < paymentContents[i].length; j++)
+			{
+				if(i == admin.getAdminPaymentList().size() )
+					break;
+				if(j == 0)
+				{
+					paymentContents[i][j] = String.valueOf(p.getFinalCost());
+					num += p.getFinalCost();				
+				}
+			}
+			i++;
 		
-		return num;	
+		}
+		paymentContents[admin.getAdminPaymentList().size()][modelName.length] = "총합 :  "+String.valueOf(num)+"원";
+		
+		return paymentContents;	
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////	
