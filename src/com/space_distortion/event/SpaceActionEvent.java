@@ -60,9 +60,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		this.sc = sc;
 	}
 	
-	
-	
-	
+
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JPanel jp ,JPanel jp1, JFrame jf) {
 		super();
 		this.viewIndex = viewIndex;
@@ -102,7 +100,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	
 	
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public SpaceActionEvent() {
 		//System.out.println("기본 생성자 :" + buttonIndex);
@@ -159,11 +157,8 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		System.out.println(buttonIndex);
 		if(buttonIndex == 2) {
 			System.out.println("비 회원 선택");
-//			System.out.println(this.buttonIndex);
 			jf.remove(jp);
-			//jp.revalidate();
-			//jp.repaint();
-			sc.paymentView();
+			sc.nAccountView();
 			
 		}else if(buttonIndex == 3) {
 			System.out.println("예약 선택");
@@ -242,6 +237,16 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			sc.loginView();
 		}
 		
+	}
+	
+	// 비회원 이벤트
+	public void nAccountViewSelected()
+	{
+		if(buttonIndex == 1)
+		{
+			jf.remove(jp);
+			sc.paymentView();
+		}
 	}
 	
 	// 추가시간 이벤트
@@ -431,6 +436,9 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			break;
 		case SNACK_BAR_VIEW_NUM:
 			this.snackViewSelected();
+			break;
+		case NACCOUNT_VIEW:
+			this.nAccountViewSelected();
 			break;
 
 		default:

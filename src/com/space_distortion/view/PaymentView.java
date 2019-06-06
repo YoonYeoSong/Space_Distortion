@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -57,7 +58,13 @@ public PaymentView() {
 
 	
 	public void initialize(SpaceController controller, JFrame mainJframe){
+		
+		
 		sc=controller;
+		
+		JPanel jp = new JPanel();
+		jp.setBounds(10, 10, 1024, 768);
+		jp.setLayout(null);
 		
 //		========= 왼쪽 패널 생성==================================================
 		panelLeft = new JPanel();
@@ -234,7 +241,6 @@ public PaymentView() {
 		displayLaptopRentalCost.setVisible(true);
 		panelRight.add(displayLaptopRentalCost);
 		
-		
 		// Total 레이블
 		totalLabelr = new JLabel("Total");
 		totalLabelr.setForeground(Color.GRAY);
@@ -278,9 +284,14 @@ public PaymentView() {
 		proceedButton = new JButton("Proceed");
 		proceedButton.setBounds(180, 650, 150, 60);
 		panelRight.add(proceedButton);
+				
+		jp.add(panelLeft);
+		jp.add(panelRight);
+		mainJframe.getContentPane().add(jp);
 		
-		mainJframe.getContentPane().add(panelRight);
-		mainJframe.setVisible(true);
+		jp.revalidate();
+		jp.repaint();
+		//mainJframe.setVisible(true);
 		
 		
 	}
@@ -289,9 +300,13 @@ public PaymentView() {
 		
 //		System.out.println(p);
 		
+		
+		
 		if(e.getSource() == timeComboBox) {
 			System.out.println(timeComboBox.getSelectedItem());
 		sc.pm.setHour((int)timeComboBox.getSelectedItem());
+		
+		
 		
 		int choice = (int) timeComboBox.getSelectedItem();
 		switch(choice) {

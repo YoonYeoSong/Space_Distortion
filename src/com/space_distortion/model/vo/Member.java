@@ -17,7 +17,7 @@ public class Member extends User {
 	}
 	
 	public Member(String memberName, String phoneNumber) {
-		super(mCodeNumber++);	
+		super(mCodeNumber++);
 		this.memberName = memberName;
 		this.phoneNumber = phoneNumber;
 	}

@@ -10,6 +10,8 @@ public interface ViewIndex {
 	static final int ACCOUNT_SUB_LOGIN_VIEW = 31;
 	static final int ADD_TIME_ROOM_VIEW_NUM = 40;
 	
+	static final int NACCOUNT_VIEW = 90; // 비회원
+	
 	///////////////////////////////////////ADMIN////////////////////////////////
 	static final int ADMIN_VIEW_NUM = 50;
 	static final int ADMIN_VIEW_BUTTON1 = 51; //버튼1

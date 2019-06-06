@@ -26,6 +26,7 @@ import com.space_distortion.view.AdminView;
 import com.space_distortion.view.FinalPaymentView;
 import com.space_distortion.view.LoginView;
 import com.space_distortion.view.MainRoomView;
+import com.space_distortion.view.NaccountView;
 import com.space_distortion.view.PaymentView;
 import com.space_distortion.view.SnackBarView;
 import com.space_distortion.view.SubRoomView;
@@ -37,10 +38,10 @@ public class SpaceController {
 	static int mKeyNumber = 0;
 	static int nKeyNumber = 0;
 	
-	
-	
 	/////////////////////////////// Model.vo 객체 리스트///////////
 	private List<Member> mList = new ArrayList<Member>();
+	private List<NonMember> nList = new ArrayList<NonMember>();
+	
 	private Map<Integer,Member> mMap = new HashMap<Integer, Member>(); // 회원 맵
 	private Map<Integer,NonMember> nMap = new HashMap<Integer, NonMember>(); // 비회원 맵
 	private List<RoomInfo> roomInfoList = new ArrayList<RoomInfo>(); // 룸에 대한 리스트
@@ -53,13 +54,14 @@ public class SpaceController {
 	
 	///////////////////////Model.vo 뷰/////////////////////////////////////////
 	
-	private MainRoomView mv = new MainRoomView(); // 메인 뷰
+	private static MainRoomView mv = new MainRoomView(); // 메인 뷰
 	private SpaceActionEvent sAe = new SpaceActionEvent();
 	private MainRoomView mRv = new MainRoomView();                  //메인 뷰 생성
 	private SubRoomView subRoomV = new SubRoomView();       // 서브룸
-	private LoginView lv = new LoginView();                         //로그인뷰
+	private LoginView lv = new LoginView();                  //로그인뷰
 	private AccountView accountV = new AccountView();		//회원 가입 뷰 생성
 	private AccountView2 subAccountV = new AccountView2();	//회원 가입 뷰 생성
+	private NaccountView nAccountV = new NaccountView();    // 비회원 뷰
 	private AddTimeRoomView addTimeV = new AddTimeRoomView();	//추가시간 뷰 생성
 	private AdminView adminV1 = new AdminView();				//관리자 뷰 생성
 	private PaymentView payV = new PaymentView();			//결재 뷰 생성
@@ -71,38 +73,47 @@ public class SpaceController {
 	/* 메인 컨트롤러 생성자 */
 	public SpaceController() {
 		this.init();
-		
-		
+			
 		
 		initConsol();  // 관리자 테스트 생성자
 		//this.snackViewDidload();
 	}
 	
 	// 메인 프레임 생성
-		public void init()
-		{
-			
-			// 방정보 불러오기
-			// 방이름 방번호 수용인원 빔프로젝트 사용여부
-			roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
-			roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
-			
-			
-			mainJframe = new JFrame("Space Distorition");
-			mainJframe.setBounds(0, 0, 1024, 768);
+	public void init()
+	{
+		
+		// 방정보 불러오기
+		// 방이름 방번호 수용인원 빔프로젝트 사용여부
+		// 방이름 방번호 수용인원 빔프로젝트 사용여부
+        roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(0).setRemTime(2);
+        roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(1).setRemTime(5400);
+        roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(2).setRemTime(7200);
+        roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(3).setRemTime(8200);
+        roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(4).setRemTime(9200);
+        roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(5).setRemTime(10200);
+        roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(6).setRemTime(11200);
+        roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(7).setRemTime(12200);
+        roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(8).setRemTime(13200);
+		
+		
+		mainJframe = new JFrame("Space Distorition");
+		mainJframe.setBounds(0, 0, 1024, 768);
 //			mainJframe.setLayout(new FlowLayout());
-			mainJframe.setDefaultCloseOperation(3);
-			mainJframe.setVisible(true);	
-		}
+		mainJframe.setDefaultCloseOperation(3);
+		mainJframe.setVisible(true);	
+	}
 	
-		AdminView adminView;
+	AdminView adminView;
 	
 	
 ///////////////////////////////////////////////////////////////////////////consol ///////////////////////////////////////////////////////////////////////	
@@ -133,6 +144,16 @@ public class SpaceController {
 	
 		}
 		
+	}
+	
+	
+	public void initNonMember(String name, String phone)
+	{
+		nList.add(new NonMember());
+		nList.get(nList.size()-1).setnMemberName(name);
+		nList.get(nList.size()-1).setPhoneNumber(phone);
+		
+		nMap.put(nKeyNumber++, nList.get(nList.size()-1));
 	}
 	
 	
@@ -1012,6 +1033,11 @@ public class SpaceController {
 		subAccountV.initialize(this, mainJframe);
 	}
 	
+	public void nAccountView()
+	{
+		nAccountV.initialize(this, mainJframe);
+	}
+	
 	// 추가시간 뷰
 	public void addTiemView() {
 		
@@ -1024,7 +1050,13 @@ public class SpaceController {
 
 	/////////////////////////////////////////////////////////////////////
 
-	
+	//생성메소드
+//	public void modifyPay(int n,int c,)
+//	{
+//		paymentList.get(paymentList.size()-1).setHour(n);
+//		paymentList.get(paymentList.size()-1).setPpl(c);
+//		
+//	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////	
 	
@@ -1032,8 +1064,11 @@ public class SpaceController {
 	// 결재정보 뷰
 	public void paymentView() {
 		pm = new Payment();
+		
 		payV.initialize(this, mainJframe);
+		
 	}
+	
 	
 	// 간식 뷰
 	public void snackView() {
