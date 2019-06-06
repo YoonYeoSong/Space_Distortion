@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -36,77 +38,72 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 	public void initialize(SpaceController sc, JFrame mainJframe)
 	{
 		JPanel jp = new JPanel();
-		jp.setBounds(10, 10, 700, 700);
+		jp.setBounds(0, 0, 1008, 729);
 		jp.setLayout(null);
 		 
-		JLabel lbl_Space = new JLabel("space");
-		lbl_Space.setForeground(new Color(0, 0, 0));
-		//lbl_Space.setFont(new Font("Raavi", Font.PLAIN, 90));
-		lbl_Space.setBounds(383, 175, 240, 125);
+		JLabel titleLb1 = new JLabel("SPACE");
+		titleLb1.setFont(new Font("±¼¸²", Font.BOLD, 40));
+		titleLb1.setBounds(419, 136, 169, 46);
+				
+		JLabel titleLb2 = new JLabel("DISTORITIONS");
+		titleLb2.setFont(new Font("±¼¸²", Font.PLAIN, 35));
+		titleLb2.setBounds(378, 209, 247, 46);
 		
-		JLabel lbl_Distortions = new JLabel("DISTORTIONS");
-		lbl_Distortions.setForeground(new Color(0, 0, 0));
-		//lbl_Distortions.setFont(new Font("Ravie", Font.BOLD, 40));
-		lbl_Distortions.setBounds(123, 111, 373, 54);
+		JLabel titleLb3 = new JLabel("Login your account");
+		titleLb3.setFont(new Font("±¼¸²", Font.BOLD, 31));
+		titleLb3.setBounds(280, 298, 319, 46);
 		
-		JLabel lbl_LoginYourAccount = new JLabel("Login your account");
-		lbl_LoginYourAccount.setForeground(Color.BLACK);
-		//lbl_LoginYourAccount.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 30));
-		lbl_LoginYourAccount.setBounds(76, 175, 256, 35);
-		
-		JLabel lbl_Email = new JLabel("E-Mail");
-		//lbl_Email.setFont(new Font("Ravie", Font.PLAIN, 20));
-		lbl_Email.setForeground(Color.WHITE);
-		lbl_Email.setBounds(156, 416, 88, 28);
+		JLabel idLb = new JLabel("E-Mail");
+		idLb.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		idLb.setBounds(280, 354, 62, 36);
 		
 		
-		JLabel lbl_Password = new JLabel("Password");
-		lbl_Password.setForeground(Color.WHITE);
-		//lbl_Password.setFont(new Font("Ravie", Font.PLAIN, 20));
-		lbl_Password.setBounds(138, 473, 131, 28);
+		JLabel pwLb = new JLabel("Password");
+		pwLb.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		pwLb.setBounds(280, 439, 92, 36);
 		
-		JTextField textField_ID = new JTextField();
-		textField_ID.setBounds(14, 380, 288, 35);
+		final JTextField textField_ID = new JTextField();
+		textField_ID.setBounds(280, 389, 436, 36);
 		textField_ID.setColumns(10);
 		
-		JTextField textFieldPW = new JTextField();
-		textFieldPW.setBounds(50, 50, 100, 100);
-		JPasswordField textField_PW = new JPasswordField();
-		textField_PW.setBounds(14, 457, 288, 35);
-		textField_PW.setColumns(10);
+		 JPasswordField textField_PW = new JPasswordField();
+	     textField_PW.setEchoChar('¡Ú');
+	     textField_PW.setBounds(280, 475, 436, 36);
+	     textField_PW.setColumns(10);
 		
-		JButton btn_Register = new JButton("Register");
-		//btn_Register.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 15));
-		btn_Register.setForeground(new Color(0, 0, 0));
-		btn_Register.setBounds(279, 535, 144, 54);
-		
+
 		JButton loginBtn1 = new JButton("Login");
-		loginBtn1.setForeground(Color.BLACK);
-		//loginBtn1.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		loginBtn1.setBounds(229, 28, 144, 54);
+		loginBtn1.setFont(new Font("±¼¸²", Font.PLAIN, 20));	
+		loginBtn1.setBounds(526, 590, 190, 51);
+		
+		JButton btn_Register = new JButton("Register");		
+		btn_Register.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		btn_Register.setBounds(280, 590, 190, 51);
+		
 		
 		JButton button_Skip = new JButton("Skip Registration");
-		button_Skip.setForeground(Color.BLACK);
-		//button_Skip.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 15));
-		button_Skip.setBounds(20, 30, 193, 40);
+		button_Skip.setFont(new Font("±¼¸²", Font.PLAIN, 20));
+		button_Skip.setBounds(349, 668, 290, 51);
 
 		
-		loginBtn1.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 3, sc, mainJframe ,jp));
-		button_Skip.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 2, sc, mainJframe ,jp));
 		btn_Register.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 1, sc, mainJframe ,jp));
+		button_Skip.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 2, sc, mainJframe ,jp));
+		//loginBtn1.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 3, sc, mainJframe ,jp));
 		
 		
-		jp.add(lbl_Space);
-		jp.add(btn_Register);
-		jp.add(textFieldPW);
-		jp.add(textField_ID);
-		jp.add(button_Skip);
-		jp.add(loginBtn1);
+		jp.add(titleLb1);
+		jp.add(titleLb2);
+		jp.add(titleLb3);
+		jp.add(idLb);
+		jp.add(pwLb);
 		jp.add(textField_PW);
-		jp.add(lbl_Password);
-		jp.add(lbl_Email);
-		jp.add(lbl_LoginYourAccount);
-		jp.add(lbl_Distortions);
+		jp.add(textField_ID);
+		
+		
+		
+		jp.add(loginBtn1);
+		jp.add(btn_Register);
+		jp.add(button_Skip);
 		
 		
 		mainJframe.getContentPane().add(jp);
@@ -114,19 +111,54 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 		jp.repaint();
 		jp.setVisible(true);
 
-		
-		
-		loginBtn1.addActionListener(new ActionListener() {
+		loginBtn1.addMouseListener(new MouseListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				String inputid=textField_ID.getText();
-				char[] inputpw=textField_PW.getPassword();
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
 				
-				sc.logincheck(inputid, inputpw);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				String inputid = textField_ID.getText();
+				String inputpw = textField_PW.getText();
+				System.out.println(inputid+ " : " + inputpw);
+				if(sc.logincheck(inputid, inputpw))
+				{
+					System.out.println(inputid + " : "  +inputpw);				
+					loginBtn1.addMouseListener(new SpaceActionEvent(LOGIN_VIEW, 3, sc, mainJframe ,jp));
+				}else
+				{
+					JOptionPane.showMessageDialog(null, "¾ÆÀÌµð ¶Ç´Â ÆÐ½º¿öµå°¡ Æ²·È½À´Ï´Ù."); 
+				}
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
 				
 			}
 		});
 		
+		
 	}
+	
+	
+	
+	
+	
 }

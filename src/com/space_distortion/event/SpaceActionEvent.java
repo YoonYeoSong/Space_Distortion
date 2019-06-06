@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -196,6 +197,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			
 			//로그인
 			// 로그인 성공시 페이먼트 뷰로 이동
+			JOptionPane.showMessageDialog(null, "로그인 완료!");
 			jf.remove(jp);
 			sc.paymentView();
 			// 찾기 페이지로 이동

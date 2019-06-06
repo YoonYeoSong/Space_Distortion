@@ -105,6 +105,14 @@ public class Member extends User {
 			{
 				return true;
 			}
+			else if(emailId.equals(member.getEmailId()))
+			{
+				return true;
+			}
+			else if(memberPw.equals(member.getMemberPw()))
+			{
+				return true;
+			}
 			else
 			{
 				return false;

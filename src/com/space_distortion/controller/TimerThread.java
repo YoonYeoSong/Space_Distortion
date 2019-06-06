@@ -47,7 +47,7 @@ public class TimerThread extends Thread{
 		 */
 		
         lbl.setText((timeNumer/3600)+":"+(timeNumer % 3600)/60+":"+((timeNumer % 3600)%60));
-        System.out.println(timeNumer);
+        //System.out.println(timeNumer);
         //lbl.setText(i+"√ ");
 		//lbl.setText((i/3600)+":"+(i % 3600)/60+":"+((i % 3600)%60));
 		

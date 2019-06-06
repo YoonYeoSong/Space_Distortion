@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.space_distorition.comparator.AscMember;
 import com.space_distortion.event.SpaceActionEvent;
@@ -75,7 +76,7 @@ public class SpaceController {
 		this.init();
 			
 		
-		initConsol();  // 관리자 테스트 생성자
+		this.initConsol();  // 관리자 테스트 생성자
 		//this.snackViewDidload();
 	}
 	
@@ -125,28 +126,7 @@ public class SpaceController {
 	
 ///////////////////로그인 기능 모든것///////////////////////////////////////////
 	
-	// LoginView 로그인확인
-	public void logincheck(String inputid, char[] inputpw) {
-	
-		for(int i=0;i<mMap.size();i++) {
-			if(((Member)mMap.get(i)).getEmailId().equals(inputid)) {
-				if(((Member)mMap.get(i)).getMemberPw().equals(inputpw)) {
-					System.out.println("로그인 확인");
-					//JOptionPane.showMessageDialog(null, "로그인 확인");
-					//로그인확인, 룸 리스트 출력
-					
-				} else { 
-					//JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
-					System.out.println("패스워드 오류"); }
-			} else { 
-				//JOptionPane.showMessageDialog(null, "아이디가 틀렸습니다."); 
-				System.out.println("아이디 오류");	}
-	
-		}
-		
-	}
-	
-	
+	// 비회원
 	public void initNonMember(String name, String phone)
 	{
 		nList.add(new NonMember());
@@ -156,6 +136,44 @@ public class SpaceController {
 		nMap.put(nKeyNumber++, nList.get(nList.size()-1));
 	}
 	
+	
+	// LoginView 로그인확인
+	public boolean logincheck(String inputid, String inputpw) 
+	{	
+		System.out.println(inputid);
+		System.out.println(inputpw);
+		
+		boolean check = false;
+		System.out.println("맵 사이즈 : " + mMap.size()); //맴버 사이즈 확인
+		
+		
+//		Set<Entry<Integer, Member>> set = mMap.entrySet();	
+//		Iterator<Map.Entry<Integer,Member>> it = set.iterator();
+//		
+//		while(it.hasNext())
+//		{
+//			Entry<Integer, Member> obj = it.next();
+//			
+//			if( (obj.getValue().getEmailId().equals(inputid)) && (obj.getValue().getMemberPw().equals(inputpw)) )
+//			{
+//				check = true;
+//			}
+//		}
+		
+		for(int i=0;i<mMap.size();i++) {
+			System.out.println(((Member)mMap.get(i)).getEmailId().equals(inputid));//아이디가 일치하는지, 일치하면true출력
+			System.out.println(((Member)mMap.get(i)).getMemberPw().equals(inputpw));//패스워드가 일치하는지, 일치하면 true출력
+			if(((Member)mMap.get(i)).getEmailId().equals(inputid) && ((Member)mMap.get(i)).getMemberPw().equals(inputpw)) {
+					//System.out.println("로그인 확인");
+				System.out.println("로그인"+  ((Member)mMap.get(i)).getEmailId().equals(inputid));//아이디가 일치하는지, 일치하면true출력
+				System.out.println("로그인"+((Member)mMap.get(i)).getMemberPw().equals(inputpw));//패스워드가 일치하는지, 일치하면 true출력
+				check = true;		
+			}
+			
+		}
+		return check;
+	}
+		
 	
 	//AcountView(회원가입 1번 창)
 	public void initMember(String name, String phone)
@@ -177,18 +195,23 @@ public class SpaceController {
 	//Email Check(이메일 중복 체크)
 	public void emailCheck(String email)
 	{
+
 		for(int i = 0; i < mList.size(); i++)
 		{
 			if( !(mList.get(i).getEmailId().equals(email)))
 		    {                
+
 		    System.out.println("사용가능한 아이디 입니다");
-		     //JOptionPane.showMessageDialog(null, "사용가능합니다");
+		    JOptionPane.showMessageDialog(null, "사용가능합니다");
+
 		    } else {
 		     // 불가능
-		    //JOptionPane.showMessageDialog(null, "사용불가능합니다");
+		    JOptionPane.showMessageDialog(null, "사용불가능합니다");
 		    System.out.println("중복된 아이디 입니다.");
+
 		    }
 		}
+
 	}
 	
 	
@@ -374,6 +397,13 @@ public class SpaceController {
 		mMap.put(mKeyNumber++,new Member("차여송2", "12341020", "yeosong92@gmail.com", "부산", "01011135883", "1981/04/27", 0));
 		mMap.put(mKeyNumber++,new Member("다여송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
 		mMap.put(mKeyNumber++,new Member("챙송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
+		mMap.put(mKeyNumber++,new Member("123", "123", "123", "경기도 부천", "01054035883", "1992/04/27", 1));
+		
+		
+		for(int i = 0; i < mMap.size(); i++)
+		{
+			System.out.println( "key : " + mMap.get(i));
+		}
 		
 		//임시 스낵 생성
 		snackBarList.add(new SnackBar(1, "치토스", 30, 1000,"물량부족"));
