@@ -36,7 +36,7 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 	 * @wbp.parser.entryPoint
 	 */
 	public void initialize(SpaceController sc, JFrame mainJframe)
-	{
+	{ 
 		JPanel jp = new JPanel();
 		jp.setBounds(0, 0, 1008, 729);
 		jp.setLayout(null);
@@ -44,7 +44,7 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 		JLabel titleLb1 = new JLabel("SPACE");
 		titleLb1.setFont(new Font("±¼¸²", Font.BOLD, 40));
 		titleLb1.setBounds(419, 136, 169, 46);
-				
+
 		JLabel titleLb2 = new JLabel("DISTORITIONS");
 		titleLb2.setFont(new Font("±¼¸²", Font.PLAIN, 35));
 		titleLb2.setBounds(378, 209, 247, 46);

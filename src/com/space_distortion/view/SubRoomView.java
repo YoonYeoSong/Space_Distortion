@@ -1,5 +1,6 @@
 package com.space_distortion.view;
 
+import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -33,6 +34,8 @@ public class SubRoomView extends SpaceActionEvent implements ViewIndex {
 
 	public void initialize(SpaceController sc, JFrame mainJframe, List roomInfoList, int roomNumber) {
 
+		Color color = new Color(41, 177, 204);
+		
 		JPanel jp = new JPanel();
 		jp.setBounds(10, 10, 600, 600);
 		jp.setLayout(null);
@@ -55,10 +58,12 @@ public class SubRoomView extends SpaceActionEvent implements ViewIndex {
 
 		btnBack = new JButton("처음 화면으로");
 		btnBack.setBounds(840, 23, 138, 27);
+		btnBack.setForeground(color);
 		jp.add(btnBack);
 
 		btnMember = new JButton("회원");
 		btnMember.setBounds(99, 585, 121, 58);
+		btnMember.setBackground(color);
 		jp.add(btnMember);
 
 		btnNoMember = new JButton("비회원");

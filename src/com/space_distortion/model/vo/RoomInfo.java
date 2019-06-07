@@ -10,9 +10,6 @@ public class RoomInfo {
     private int maxPpl;  // 최대 수용인원 인원 1부터 시작
     private String lightProjecter;  // 빔 1이면 true 0이면 false
     
-    
-    
-    
     private int noteBook;  //랜덤으로 방마다 장비를 뿌린다
     private int remTime = 0;  // 남은시간
     private int curPpl;  // 현재 인원
@@ -20,7 +17,7 @@ public class RoomInfo {
     public RoomInfo() {
         
     }
-    
+     
     public RoomInfo(String roomName, int roomNumber, int maxPpl, String lightProjecter) {
         super();
         this.roomName = roomName;
@@ -28,8 +25,6 @@ public class RoomInfo {
         this.maxPpl = maxPpl;
         this.lightProjecter = lightProjecter;
     }
-    
-    
     
 
     public RoomInfo(int roomNumber, String roomName,int maxPpl, int curPpl, int remTime, int noteBook, String lightProjecter) {

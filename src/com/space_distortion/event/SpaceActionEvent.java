@@ -123,7 +123,8 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			// 서브 로그인 뷰
 		} 
 		else if(buttonIndex == 2) {
-			System.out.println("2번방 선택");
+			System.out.println("2번방 선택"); 
+			
 		}
 		else if(buttonIndex == 3) {
 			System.out.println("종료 합니다.");

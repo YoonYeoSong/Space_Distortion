@@ -121,7 +121,7 @@ public class MainRoomView extends SpaceActionEvent implements ViewIndex {
 		mainJframe.add(jp);
 		jp.revalidate();
 		jp.repaint();
-
+ 
 		// jp.setVisible(true);
 		// mainJframe.setVisible(true);
 	}

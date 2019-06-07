@@ -254,6 +254,62 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			}
 		});
 		
+		
+		btn2RoomInfo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(defaultModel != null || table != null)
+				{
+					defaultModel = null;
+					table = null;					
+				}
+				
+				 // TableJP  ->ScollPane -> Table -> DefaultTable
+				TableJp.remove(scrollPane);
+				
+				String[] modelName = {"룸 번호","룸 이름","최대 인원(명)","노트북(수량)"};
+				defaultModel = new DefaultTableModel(spaceController.adminSearchAllRoomInfo(modelName),modelName) {
+					 @Override
+				    public boolean isCellEditable(int row, int column) {
+					 
+				        return false;
+				    }
+				};
+				
+				table = new JTable(defaultModel);
+				scrollPane = new JScrollPane(table);
+				scrollPane.setLocation(12, 0);
+				scrollPane.setSize(976, 378);
+				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기
+							
+				//table.getModel().addTableModelListener(new Hendler(btn1Member));
+				
+				
+				nameField.setName("회원");
+				numberField.setName(null);
+				
+				
+				nameField.setVisible(false);
+				nameField.setEnabled(false);
+				
+				numberField.setVisible(false);
+				numberField.setVisible(false);
+				
+				nameLabel.setVisible(false);
+				indexLabel.setVisible(false);
+				
+				
+				TableJp.add(scrollPane,null);
+				
+				TableJp.revalidate();
+				TableJp.repaint();
+				
+			}
+		});
+		
 			
 		// 스낵 버튼
 		btn3Snack.addActionListener(new ActionListener() {		
@@ -271,7 +327,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				
 				TableJp.remove(scrollPane);
 				
-				String[] modelName = {"스낵인덱스","스낵이름","수량","코멘트"};
+				String[] modelName = {"스낵인덱스","스낵이름","수량","가격","코멘트"};
 				defaultModel = new DefaultTableModel(spaceController.adminSearchAllSnack(modelName),modelName){
 					 @Override
 					    public boolean isCellEditable(int row, int column) {
@@ -294,7 +350,6 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				
 				System.out.println(table.getModel().getColumnCount());
 				
-				TableJp.add(scrollPane,null);
 				
 				
 				
@@ -310,6 +365,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				nameLabel.setVisible(true);
 				indexLabel.setVisible(true);
 				
+				TableJp.add(scrollPane,null);
 				
 				TableJp.revalidate();
 				TableJp.repaint();
@@ -354,7 +410,6 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				
 				System.out.println(table.getModel().getColumnCount());
 				
-				TableJp.add(scrollPane,null);
 				
 				
 				
@@ -368,6 +423,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				nameLabel.setVisible(false);
 				indexLabel.setVisible(false);
 				
+				TableJp.add(scrollPane,null);
 				
 				
 				TableJp.revalidate();
@@ -649,166 +705,6 @@ class Hendler implements TableModelListener,KeyListener
 		
 	}
 	
-	
-	
-
-	
-	////////////////////////////////////////////////////////////////////////////////consol//////////////////////////////////////////////////////////////////
-	public void SpaceMainMenu()
-	{
-		while(true)
-		{
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Space_Distorition");
-			System.out.println("1. 일반 회원조회");
-			System.out.println("2. 방에 대한 정보");
-			System.out.println("3. 예약 정보");
-			System.out.println("4. Inventory");
-			System.out.println("5. 일매출");
-			System.out.println("6. 음료");
-			System.out.println("7. 회원 이름 조회");
-			System.out.println("8. 생성");	
-			System.out.println("9. 관리자 회원 전부 출력");	
-			System.out.println("10. 관리자 회원 이름으로 찾기");	
-			System.out.println("11. 관리자 회원코드로 회원 삭제");	
-			System.out.println("12. 관리자 회원 전부 출력");	
-			System.out.println("13. 음료/과자 모두 검색");
-			System.out.println("14. 음료 과자 판별");
-			System.out.println("15. 음료나 과자 수량 수정");
-			System.out.println("16. 음료나 과자 삭제");
-
-			System.out.print("번호 입력 : ");
-			int num = sc.nextInt();
-			
-			switch (num) {
-			case 1:	//spaceController.seachMem();
-				break;
-			case 2:	paymentAndRoomInfo();
-				break;
-			case 3:		//spaceController.search();
-				break;
-			case 4: 
-				break;
-			case 5:
-				break;
-			case 6:		
-			case 7:	//spaceController.adminSearchMemberName();
-				break;
-			case 8:	//spaceController.initConsol();
-				break;
-			case 9: //spaceController.adminSearchAllMember();
-				break;
-			case 10: //spaceController.adminSearchMemberName();
-			break;
-			case 11:// spaceController.adminDelMember();
-			break;
-			case 12: //spaceController.adminDelMember();
-			break;
-			case 13: //spaceController.adminSearchAllSnack();
-			break;
-			case 14: ///spaceController.adminSearchSnack();
-			break;
-			case 15: //spaceController.adminModifySnack();
-			break;
-			case 16: //spaceController.adminDelSnack();
-			break;
-			case 17: //spaceController.SnackSeach();
-			break;
-//			case 18: spaceController.adminDelMember();
-//			break;
-			
-			default:
-				break;
-			}
-		}
-	}
-	
-	
-	
-	
-	
-	public void paymentAndRoomInfo()
-	{
-		while(true)
-		{
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Space_Distorition");
-			System.out.println("1. 모든방 검색 ");
-			System.out.println("2. 방번호로 찾기");
-			System.out.println("3. 룸 수정 노트북 갯수");
-			System.out.println("4. 모든 매출" );		
-			System.out.println("5. back");
-			System.out.print("번호 입력 : ");
-			int num = sc.nextInt();
-			
-			switch (num) {
-			case 1:	//spaceController.adminSearchAllRoomInfo();
-				break;
-			case 2:	//spaceController.adminSearchRoomInfo();
-				break;
-			case 3:	//spaceController.adminModifyRoom();
-				break;
-			case 4: //spaceController.adminSearchTotalPay();
-				break;
-			case 5: 
-				break;	
-			default:
-				break;
-			}
-		}
-	}
-	
-	
-	
-	public String searchMemberName()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.print("이름 입력 : ");
-		String memberName = sc.next();
-		return memberName;
-	}
-	public int searchMemberKey()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.print("회원코드 입력 : ");
-		int memberCode = sc.nextInt();
-		return memberCode;
-	}
-	
-	public int searchSnackIndex()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.print("과자 :1 / 음료 2  입력 : ");
-		int snackIndex = sc.nextInt();
-		return snackIndex;
-	}
-	
-	public int searchSnackQuntity()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.print("수량 입력 : ");
-		int snackQuntity = sc.nextInt();
-		return snackQuntity;
-	}
-	
-
-	public String searchSnackName()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.print("스낵 이름 입력 : ");
-		String snackName = sc.next();
-		return snackName;
-	}
-	
-	public int searchRoomNum()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.print("룸 번호 입력 : ");
-		int number = sc.nextInt();
-		return number;
-	}
-
-
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

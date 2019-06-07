@@ -79,6 +79,8 @@ public class SpaceController {
 		this.snackViewDidload();
 	}
 	
+	
+	
 	// 메인 프레임 생성
 	public void init()
 	{
@@ -86,41 +88,41 @@ public class SpaceController {
 		// 방정보 불러오기
 		// 방이름 방번호 수용인원 빔프로젝트 사용여부
 		// 방이름 방번호 수용인원 빔프로젝트 사용여부
-        roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(0).setRemTime(2);
-        roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(1).setRemTime(5400);
-        roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(2).setRemTime(7200);
-        roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(3).setRemTime(8200);
-        roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(4).setRemTime(9200);
-        roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(5).setRemTime(10200);
-        roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(6).setRemTime(11200);
-        roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(7).setRemTime(12200);
-        roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(8).setRemTime(13200);
-		
-        
-        
-        snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족"));
-		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족"));
-		snackBarList.add(new SnackBar(2, "포카리", 15, 600, "물량부족"));
-		snackBarList.add(new SnackBar(2, "콜라", 10, 700, "물량부족"));
-		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 4000, "물량부족"));
+//        roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(0).setRemTime(2);
+//        roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(1).setRemTime(5400);
+//        roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(2).setRemTime(7200);
+//        roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(3).setRemTime(8200);
+//        roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(4).setRemTime(9200);
+//        roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(5).setRemTime(10200);
+//        roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(6).setRemTime(11200);
+//        roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(7).setRemTime(12200);
+//        roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(8).setRemTime(13200);
+//		
+//        
+//        
+//      snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "포카리", 15, 600, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "콜라", 10, 700, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 4000, "물량부족"));
 //		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 1111, "물량부족"));
 //		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2222, "물량부족"));
 //		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 3333, "물량부족"));
 //		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 4444, "물량부족"));
 //		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 5555, "물량부족"));
-		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
-		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
         
 		
 		mainJframe = new JFrame("Space Distorition");
@@ -136,16 +138,10 @@ public class SpaceController {
 	}
 
 	AdminView adminView;
-	
-	
-///////////////////////////////////////////////////////////////////////////consol ///////////////////////////////////////////////////////////////////////	
-	
-	
-	
 		
 		
 	
-///////////////////로그인 기능 모든것///////////////////////////////////////////
+/////////////////////////////////////(동규)로그인 기능 시작///////////////////////////////////////////
 	
 	// 비회원
 	public void initNonMember(String name, String phone)
@@ -214,40 +210,37 @@ public class SpaceController {
 	}
 	  
 	//Email Check(이메일 중복 체크)
-	public void emailCheck(String email)
+	public boolean emailCheck(String email)
 	{
+		System.out.println("여기 들어왔음 : " + email);
 
-		for(int i = 0; i < mList.size(); i++)
+		boolean check = false;
+		Set<Entry<Integer, Member>> set;
+		set = mMap.entrySet();
+		
+		Iterator<Entry<Integer, Member>> it = set.iterator();
+			
+		while(it.hasNext())
 		{
-			if( !(mList.get(i).getEmailId().equals(email)))
-		    {                
-
-		    System.out.println("사용가능한 아이디 입니다");
-		    JOptionPane.showMessageDialog(null, "사용가능합니다");
-
-		    } else {
-		     // 불가능
-		    JOptionPane.showMessageDialog(null, "사용불가능합니다");
-		    System.out.println("중복된 아이디 입니다.");
-
-		    }
+			Entry<Integer, Member> obj = it.next();
+			if(obj.getValue().getEmailId().equals(email))  // 중복된 아이디가 있음
+			{
+				check = true;
+			}
 		}
+		return check;
+		
 
 	}
-	
-	
-	
+			
 		
-		
-		
-		
-/////////////////////////////////로그인기능////////////////////////////
+/////////////////////////////////(동규)로그인기능 끝///////////////////////////////////////////
 	
 	
 	
 	
 	
-////////////////////////////////////// 스낵 관련 기능/////////////////	
+////////////////////////////////////// (헌수)스낵 관련 기능 시작//////////////////////////	
 	
 	
 	/*
@@ -395,7 +388,7 @@ public class SpaceController {
 	
 	
 	
-//////////////////////////////////////스낵관련기능/////////////////////
+//////////////////////////////////////(헌수)스낵 기능 끝/////////////////////
 	
 	
 	
@@ -403,7 +396,7 @@ public class SpaceController {
 	
 	
 	
-/////////////////////////////////////Payment//////////////////////////////
+/////////////////////////////////////(무관)Payment 기능 시작 //////////////////////////////
 	// 모든 가격을 계산하고 프린트함
 	public void totalCostCalculator(List<Payment> list) {
 			
@@ -467,7 +460,7 @@ public class SpaceController {
 	}
 		
 	
-/////////////////////////////////////Payment//////////////////////////////
+/////////////////////////////////////(무관)Payment 기능 끝//////////////////////////////
 	
 	
 	
@@ -486,11 +479,6 @@ public class SpaceController {
 		mMap.put(mKeyNumber++,new Member("123", "123", "123", "경기도 부천", "01054035883", "1992/04/27", 1));
 		
 		
-		for(int i = 0; i < mMap.size(); i++)
-		{
-			System.out.println( "key : " + mMap.get(i));
-		}
-		
 		//임시 스낵 생성
 		snackBarList.add(new SnackBar(1, "치토스", 30, 1000,"물량부족"));
 		snackBarList.add(new SnackBar(1, "포카칩", 20,1000, "물량부족"));
@@ -500,63 +488,57 @@ public class SpaceController {
 		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
 		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
 		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
-		
-		
-		
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));		
+		snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족"));
+		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족"));
+		snackBarList.add(new SnackBar(2, "포카리", 15, 600, "물량부족"));
+		snackBarList.add(new SnackBar(2, "콜라", 10, 700, "물량부족"));
+		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 4000, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 1111, "물량부족"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2222, "물량부족"));
+		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 3333, "물량부족"));
+		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 4444, "물량부족"));
+		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 5555, "물량부족"));
+		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
+		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
+		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
 		
 		
 		// 방이름 방번호 수용인원 빔프로젝트 사용여부
 		roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
-		roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(0).setRemTime(20);
+        roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(1).setRemTime(5);
+        roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(2).setRemTime(7200);
+        roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(3).setRemTime(8200);
+        roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(4).setRemTime(9200);
+        roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(5).setRemTime(10200);
+        roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(6).setRemTime(11200);
+        roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
+        roomInfoList.get(7).setRemTime(12200);
 		
-		
-		
-		
-		
-		//임시 방 생성
-//		roomInfoList.add(new RoomInfo(1, "A", 4, 4, 0, 4, 1) );
-//		roomInfoList.add(new RoomInfo(2, "B", 6, 5, 0, 6, 0) );
-//		roomInfoList.add(new RoomInfo(3, "C", 6, 4, 0, 6, 1) );
-//		roomInfoList.add(new RoomInfo(4, "D", 4, 2, 0, 4, 1) );
-//		roomInfoList.add(new RoomInfo(5, "E", 8, 8, 0, 8, 1) );
-//		roomInfoList.add(new RoomInfo(6, "F", 8, 5, 0, 8, 0) );
-//		roomInfoList.add(new RoomInfo(7, "G", 8, 6, 0, 8, 0) );
-//		roomInfoList.add(new RoomInfo(8, "H", 16, 14, 0, 12, 0) );
-		
-		//임시 페이먼트 생성
-		//paymentList.add(new Payment(roomNumberInUse, user, hourlyCost, hour, ppl, discountRate, whiteBoard, beamProjector, whiteBoardCost, beamProjectorCost, laptopCost, laptop, totalHourlyCost, totalLaptopCost, totalCost, finalCost))
-		
+        
+        paymentList.add((new Payment(20) ));
+        paymentList.add((new Payment(30) ));
+        paymentList.add((new Payment(30) ));
+        paymentList.add((new Payment(20) ));
+        paymentList.add((new Payment(40) ));
+        paymentList.add((new Payment(30) ));
+        paymentList.add((new Payment(50) ));
+      
+        
+        
 		
 		//관리자 리스트에 추가
 		admin.setAdminMemberMap(mMap);
 		admin.setAdminSnackBarList(snackBarList);
 		admin.setAdminRoomInfoList(roomInfoList);
-		
-//		mSet = mMap.entrySet();
-//		Iterator itEntrySet = mSet.iterator();
-//		List<Member> tempList = new ArrayList<Member>();
-//			
-//		while(itEntrySet.hasNext())
-//		{
-//			Map.Entry obj = (Map.Entry)itEntrySet.next();
-//			tempList.add( ((Member)obj.getValue()) );
-//		}
-//		
-//		mSet = mMap.keySet();
-//		Iterator itkeySet = mSet.iterator();
-//		
-//		while(it.hasNext())
-//			System.out.println(it.next());
-	
-		
 	}
 	
 	// 콘솔 메인
@@ -567,7 +549,7 @@ public class SpaceController {
 	}
 	
 	
-	/////////////////////////////////////////////////// 관리자 멤버 관리 기능 ///////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////(여송) 관리자 관리 기능 ///////////////////////////////////////////////////////////////
 	// 컨트롤러 셋
 	public void seachMem()
 	{
@@ -728,12 +710,6 @@ public class SpaceController {
 	}
 
 
-	
-	
-	
-	
-	
-
 	// 회원코드로 찾기
 	public void adminModifyMember(int userCode , String userValue)
 	{	
@@ -785,9 +761,6 @@ public class SpaceController {
 		mMap = admin.getAdminMemberMap();	
 	}
 	
-	
-	
-////////////////////////////////////////////////////SnackBar///////////////////////////////////////////////////////////
 
 //	// 관리자 모든 드링크 검색
 //	public void adminSearchAllSnack(String[] modelName)
@@ -831,6 +804,10 @@ public class SpaceController {
 					snackContetnts[i][j] = String.valueOf(sb.getSnackQuantity());
 				}
 				else if(j == 3)
+				{
+					snackContetnts[i][j] = String.valueOf(sb.getSnackPrice());
+				}
+				else if(j == 4)
 				{
 					snackContetnts[i][j] = sb.getSnackComment();
 				}				
@@ -964,6 +941,10 @@ public class SpaceController {
 				}
 				else if(j == 3)
 				{
+					snackContents[i][j] = String.valueOf(sb.getSnackPrice());
+				}
+				else if(j == 4)
+				{
 					snackContents[i][j] = sb.getSnackComment();
 				}				
 			}
@@ -974,7 +955,7 @@ public class SpaceController {
 	}
 	
 	
-	// 수량 수정
+	// 스낵 수량 수정
 	public void adminModifySnack()
 	{
 		String snackName = "콜라";
@@ -1035,23 +1016,41 @@ public class SpaceController {
 			System.out.println(snackBarList.get(i));
 		}
 	}
+			
+	//관리자 방관리
+	//{"룸 번호","룸 이름","최대 인원","노트북"};
 	
-	
-	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	
-	
-//////////////////////////////////////////////////관리자 방 관리////////////////////////////////////////////////////////
 	// 모든 방검색
-	public void adminSearchAllRoomInfo()
+	public String[][] adminSearchAllRoomInfo(String[] modelName)
 	{
-		for(Iterator it = admin.getAdminRoomInfoList().iterator(); it.hasNext();)
+		String[][] roomInfoContents = new String[admin.getAdminRoomInfoList().size()][modelName.length];
+		int i = 0;
+		for(Iterator<RoomInfo> it = admin.getAdminRoomInfoList().iterator(); it.hasNext();)
 		{
-			System.out.println(it.next());
+			RoomInfo r = it.next();
+			for(int j = 0; j < admin.getAdminRoomInfoList().size(); j++)
+			{
+				if(j == 0)
+				{
+					roomInfoContents[i][j] =  String.valueOf(r.getRoomNumber());
+				}
+				else if(j == 1)
+				{
+					roomInfoContents[i][j] = r.getRoomName();
+				}
+				else if(j == 2)
+				{
+					roomInfoContents[i][j] = String.valueOf(r.getMaxPpl());
+				}
+				else if(j == 3)
+				{
+					roomInfoContents[i][j] = String.valueOf(r.getNoteBook());
+				}
+			}
+			i++;
 		}
+		
+		return roomInfoContents;
 	}
 	
 	
@@ -1069,7 +1068,7 @@ public class SpaceController {
 			}
 		}
 	}
-	
+	 
 	// 룸 수정 노트북 갯수
 	public void adminModifyRoom()
 	{
@@ -1086,8 +1085,9 @@ public class SpaceController {
 		}		
 	}
 	
-/////////////////////////////////////////////관리자 Payment///////////////////////////////////////
-	
+
+	///수정필요
+	//관리자 Payment
 	//매출 검색
 	public String[][] adminSearchTotalPay(String[] modelName)
 	{
@@ -1100,26 +1100,28 @@ public class SpaceController {
 			
 			for(int j = 0; j < paymentContents[i].length; j++)
 			{
-				if(i == admin.getAdminPaymentList().size() )
-					break;
-				if(j == 0)
+				if(i < admin.getAdminPaymentList().size()+1)
 				{
-					paymentContents[i][j] = String.valueOf(p.getFinalCost());
-					num += p.getFinalCost();				
+					if(i == admin.getAdminPaymentList().size() )
+						break;
+					if(j == 0)
+					{
+						paymentContents[i][j] = String.valueOf(p.getFinalCost());
+						num += p.getFinalCost();			
+					}					
+				}else if(i == admin.getAdminPaymentList().size()+1)
+				{
+					paymentContents[admin.getAdminPaymentList().size()+1][modelName.length] = "총합 :  "+String.valueOf(num)+"원";			
 				}
 			}
-			i++;
-		
+			i++;	
 		}
-		paymentContents[admin.getAdminPaymentList().size()][modelName.length] = "총합 :  "+String.valueOf(num)+"원";
 		
 		return paymentContents;	
 	}
 	
-//////////////////////////////////////////////////////////////////////////////////////////////////	
-	
-	
-/////////////////////////////////////////////////////////////////////////////////////Consol////////////////////////////////////////////////////////////////////		
+/////////////////////////////////////////////(여송)관리자 기능 끝////////////////////////////////////////////////////	
+		
 	
 	// 메인뷰
 	public void mainView()
@@ -1164,15 +1166,7 @@ public class SpaceController {
 		adminV1.initialize(this, mainJframe);
 	}
 
-	/////////////////////////////////////////////////////////////////////
-
-	//생성메소드
-//	public void modifyPay(int n,int c,)
-//	{
-//		paymentList.get(paymentList.size()-1).setHour(n);
-//		paymentList.get(paymentList.size()-1).setPpl(c);
-//		
-//	}
+	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////	
 	

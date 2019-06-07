@@ -27,7 +27,7 @@ import com.space_distortion.model.vo.Member;
 public class AccountView2 extends SpaceActionEvent implements ViewIndex {
 
 	private JFrame mainJframe;
-
+	
 	//회원가입
 		//회원정보 입력
 		//입력화면
@@ -37,9 +37,6 @@ public class AccountView2 extends SpaceActionEvent implements ViewIndex {
 			// TODO Auto-generated constructor stub
 		}
 		
-		
-		
-
 		/**
 		 * Initialize the contents of the frame.
 		 */
@@ -63,10 +60,7 @@ public class AccountView2 extends SpaceActionEvent implements ViewIndex {
 			button_EmailCheck.setForeground(Color.BLACK);
 			button_EmailCheck.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 10));
 			button_EmailCheck.setBounds(305, 205, 150, 31);
-
-			
-
-			
+	
 			JLabel lbl_PW = new JLabel("Password");
 			lbl_PW.setForeground(Color.WHITE);
 			lbl_PW.setFont(new Font("Ravie", Font.PLAIN, 25));
@@ -108,19 +102,28 @@ public class AccountView2 extends SpaceActionEvent implements ViewIndex {
 			button_Home.addMouseListener(new SpaceActionEvent(ACCOUNT_SUB_LOGIN_VIEW, 1, sc, mainJframe ,jp));
 			
 			//button_Next.addMouseListener(new SpaceActionEvent(ACCOUNT_SUB_LOGIN_VIEW, 2, sc, mainJframe ,jp));
-			String email=textField_Email.getText();
 			
-			button_EmailCheck.addActionListener(new ActionListener() {
-				
+			
+			
+			
+			button_EmailCheck.addMouseListener(new MouseAdapter() {
+	
 				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					sc.emailCheck(email);
+				public void mousePressed(MouseEvent e) {
+					String email = textField_Email.getText();
+					System.out.println("이게 이메일 : " + email);
 					
-				}
+					if( !(sc.emailCheck(email)))  // ! 있다 없다
+					{
+						JOptionPane.showMessageDialog(null, "사용가능");
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "사용불가");
+					}
+				}	
 			});
-			
-			
+					
 			button_Next.addMouseListener(new MouseListener() {
 				
 				@Override
@@ -135,27 +138,27 @@ public class AccountView2 extends SpaceActionEvent implements ViewIndex {
 					String pw2 = textField_Pw2.getText();
 					String a="";
 					
-					if(email.equals(a)) {
-						JOptionPane.showMessageDialog(null, "email을 입력해주세요.");
-					} else if(pw.equals(a)) {
-						JOptionPane.showMessageDialog(null, "pw을 입력해주세요.");
-					} else if(pw2.equals(a)) {
-						JOptionPane.showMessageDialog(null, "pw2을 입력해주세요.");
-					} else if(!(pw.equals(pw2))) {
-						JOptionPane.showMessageDialog(null, "pw와 pw2가 서로 다릅니다.");
-					} else {
-						
-						sc.initMember2(email, pw);
-						button_Next.addMouseListener(new SpaceActionEvent(ACCOUNT_SUB_LOGIN_VIEW, 2, sc, mainJframe ,jp));
-						
-					}
+//					if(email.equals(a)) {
+//						JOptionPane.showMessageDialog(null, "email을 입력해주세요.");
+//					} else if(pw.equals(a)) {
+//						JOptionPane.showMessageDialog(null, "pw을 입력해주세요.");
+//					} else if(pw2.equals(a)) {
+//						JOptionPane.showMessageDialog(null, "pw2을 입력해주세요.");
+//					} else if(!(pw.equals(pw2))) {
+//						JOptionPane.showMessageDialog(null, "pw와 pw2가 서로 다릅니다.");
+//					} else {
+//						
+//						sc.initMember2(email, pw);
+//						button_Next.addMouseListener(new SpaceActionEvent(ACCOUNT_SUB_LOGIN_VIEW, 2, sc, mainJframe ,jp));
+//						
+//					}
 					
 				}
 				
 				@Override
 				public void mouseExited(MouseEvent e) {
 					// TODO Auto-generated method stub
-					
+					 
 				}
 				
 				@Override

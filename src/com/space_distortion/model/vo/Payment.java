@@ -25,7 +25,7 @@ public class Payment {
 	// 유저가 노트북을 얼마나 렌트할지 알려주는 변수
 	private int laptop = 0;
 	// 최종 시간과 시간 가격을 곱한 값
-	private int totalHourlyCost;
+	private int totalHourlyCost; 
 	// 최종 노트북 가격
 	private int totalLaptopCost = laptop*laptopCost;
 	// 총 금액
@@ -41,6 +41,11 @@ public class Payment {
 	
 	public Payment() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Payment(int finalCost)
+	{
+		this.finalCost = finalCost;
 	}
 
 	public Payment(int room, String user, int hourlyCost, int hour, int ppl, double discountRate, int whiteBoardCost,
