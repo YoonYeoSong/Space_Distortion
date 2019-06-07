@@ -192,14 +192,14 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			// 비회원로그인 바로 페이먼트로 이동
 			
 			jf.remove(jp);
-			sc.paymentView();
+			sc.snackView();
 		}else if(buttonIndex == 3) {
 			
 			//로그인
 			// 로그인 성공시 페이먼트 뷰로 이동
 			JOptionPane.showMessageDialog(null, "로그인 완료!");
 			jf.remove(jp);
-			sc.paymentView();
+			sc.snackView();
 			// 찾기 페이지로 이동
 		}else
 			//생성 해야되는 부분
@@ -349,7 +349,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			System.out.println("지불 하기");
 			// 결재 지불
 			jf.remove(jp);
-			sc.paymentView();
+			sc.finalPaymentView();
 			
 		}else if(buttonIndex == 3) {
 			System.out.println("홈으로");
@@ -358,6 +358,12 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		}else
 			System.out.println("err....");
 		
+	}
+	
+	public void finalpaymentViewSelected()
+	{
+		jf.remove(jp);
+		sc.mainView();
 	}
 	
 	// 간식 뷰 이벤트
@@ -369,18 +375,19 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		 */
 		switch (buttonIndex) {
 			case SNACK_BAR_VIEW_NEXT:
+				//jf.dispose();
 				jf.remove(jp);
-				System.out.println("프레임 지우기성공");
 				sc.paymentView();
 				break;
 			case SNACK_BAR_VIEW_CANSLE:
-//				System.out.println("버튼 인덱스 2 :" + buttonIndex);
+				//jf.dispose();
 				jf.remove(jp);
-				System.out.println("프레임 지우기성공2");
-				sc.subRoomView(buttonIndex);
+				sc.dataInit();
+				sc.mainView();
 				break;
 			default:
-				sc.snackSelList(buttonIndex);
+				sc.snackSelList(buttonIndex);	// 선택된 간식을 데이터로 저장
+				sc.snackTableRe();
 				break;
 		}
 		
@@ -441,6 +448,9 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			break;
 		case NACCOUNT_VIEW:
 			this.nAccountViewSelected();
+			break;
+		case PAYMENTFINAL_VIEW_NUM:
+			this.finalpaymentViewSelected();
 			break;
 
 		default:

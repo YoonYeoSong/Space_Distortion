@@ -1,11 +1,13 @@
 package com.space_distortion.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -25,8 +27,11 @@ import com.space_distortion.model.vo.Payment;
 public class PaymentView extends SpaceActionEvent implements ViewIndex, ItemListener {
 
 Color color = new Color(93, 188, 210); 
- SpaceController sc;
-	
+ private SpaceController sc;
+ 
+// 여기서  컬렉션의 '그릇'을 만들어준다
+ List<Payment> list = new ArrayList<Payment> ();
+ 
 /**
  * @wbp.parser.entryPoint
  */
@@ -48,7 +53,7 @@ public PaymentView() {
 	 private JComboBox<Integer> laptopComboBox;
 	 private JCheckBox whiteBoardCheckBox;
 	 private JCheckBox beamProjectorCheckBox;
-	 private JPanel panelLeft, panelRight;
+	 private JPanel panelLeft, panelRight, jp;
 	 private JButton registerButton, proceedButton;
 	
 //	오른쪽 패널에 있는 모든 변수들
@@ -58,20 +63,32 @@ public PaymentView() {
 
 	
 	public void initialize(SpaceController controller, JFrame mainJframe){
-		
-		
 		sc=controller;
 		
-		JPanel jp = new JPanel();
-		jp.setBounds(10, 10, 1024, 768);
-		jp.setLayout(null);
+//		리스트 인덱스 0번부터 여기서 추가해준다
+		list.add(new Payment());
 		
+		jp = new JPanel();
+		jp.setBounds(0, 0, 1024, 768);
+		jp.setLayout(null);
+		jp.setVisible(true);
+
+		
+		// 리스트 안에 페이먼틀 리스트가 들어갔어요  근데 주소는 아니에요 값이 들어갔아요 
+
 //		========= 왼쪽 패널 생성==================================================
 		panelLeft = new JPanel();
 		panelLeft.setBounds(0,0,512,768);
 		panelLeft.setBackground(Color.WHITE);
 		panelLeft.setVisible(true);
 		panelLeft.setLayout(null);
+
+		
+//Method 1:		USe the contructor to set the hour(ex)
+//		list.add(new Payment());
+//		list.get(list.size()-1).setHour(100);
+		
+		
 		
 //		========왼쪽 패널에 있는 레이블=========
 		
@@ -137,7 +154,8 @@ public PaymentView() {
 		panelLeft.add(whiteBoardCheckBox);
 		whiteBoardCheckBox.addItemListener(this);
 		
-		mainJframe.getContentPane().add(panelLeft);
+		
+//		mainJframe.getContentPane().add(panelLeft);
 		
 //		========= 오른쪽 패널 생성==================================================
 		
@@ -153,8 +171,8 @@ public PaymentView() {
 		panelRight.setBounds(512,0,512,768);
 		panelRight.setVisible(true);
 		panelRight.setLayout(null);
-	
 		
+	
 		
 		// 시간 레이블
 		timeLabelr = new JLabel("시간 ");
@@ -167,7 +185,7 @@ public PaymentView() {
 
 //		System.out.println(controller.getPm()); // 이걸 출력하게되면 toString 출력
 		
-		displayHourlyCost = new JLabel(""+sc.pm.getHourlyCost());
+		displayHourlyCost = new JLabel(""+list.get(list.size()-1).getHourlyCost());
 		displayHourlyCost.setForeground(Color.DARK_GRAY);
 		displayHourlyCost.setBounds(385, 97, 50, 30);
 		displayHourlyCost.setVisible(true);
@@ -235,11 +253,12 @@ public PaymentView() {
 		panelRight.add(displaySelectedLaptop);
 		
 		// 노트북 개당 얼마인지 보여주는 레이블
-		displayLaptopRentalCost = new JLabel(""+sc.pm.getLaptopCost());
+		displayLaptopRentalCost = new JLabel(""+list.get(list.size()-1).getLaptopCost());
 		displayLaptopRentalCost.setForeground(Color.DARK_GRAY);
 		displayLaptopRentalCost.setBounds(385, 336, 50, 30);
 		displayLaptopRentalCost.setVisible(true);
 		panelRight.add(displayLaptopRentalCost);
+		
 		
 		// Total 레이블
 		totalLabelr = new JLabel("Total");
@@ -254,14 +273,14 @@ public PaymentView() {
 		panelRight.add(memberDiscountLabelr);
 		
 		// 디스카운트 적 가격을 보여주는 레이블
-		setDisplayTotalCost(new JLabel(""+sc.pm.getTotalCost()));
+		setDisplayTotalCost(new JLabel(""+list.get(list.size()-1).getTotalCost()));
 		getDisplayTotalCost().setForeground(Color.DARK_GRAY);
 		getDisplayTotalCost().setBounds(405, 400, 50, 30);
 		getDisplayTotalCost().setVisible(true);
 		panelRight.add(getDisplayTotalCost());
 		
 		// 최종 가격을 보여주는 레이블
-		setDisplayPriceAfterDiscount(new JLabel(""+sc.pm.getFinalCost()));
+		setDisplayPriceAfterDiscount(new JLabel(""+list.get(list.size()-1).getFinalCost()));
 		getDisplayPriceAfterDiscount().setForeground(Color.DARK_GRAY);
 		getDisplayPriceAfterDiscount().setBounds(405, 500, 50, 30);
 		getDisplayPriceAfterDiscount().setVisible(true);
@@ -282,109 +301,201 @@ public PaymentView() {
 		
 		
 		proceedButton = new JButton("Proceed");
+		proceedButton.addMouseListener(new SpaceActionEvent(PAYMENT_VIEW_NUM,2,sc,mainJframe,jp ));		
+		registerButton.addMouseListener(new SpaceActionEvent(PAYMENT_VIEW_NUM,1,sc,mainJframe,jp ));
 		proceedButton.setBounds(180, 650, 150, 60);
 		panelRight.add(proceedButton);
-				
+		
 		jp.add(panelLeft);
 		jp.add(panelRight);
-		mainJframe.getContentPane().add(jp);
+		
+		mainJframe.add(jp);
 		
 		jp.revalidate();
 		jp.repaint();
-		//mainJframe.setVisible(true);
 		
+//		mainJframe.getContentPane().add(panelRight);
+		mainJframe.setVisible(true);
 		
+		 
 	}
-	
+	  
+//	마우스를 클릭했을때 이벤트를 처리하는 메소드.5개의 클릭할수 있는 카테고리가 있으며 if문으로 처리함
 	public void itemStateChanged(ItemEvent e) {
 		
+//		쎄터를 써더 이닛페이 컬렉션에 넣어주는 작업 - 문제는 이건 쎄터밖에 못씀
+//		sc.initPay((int) timeComboBox.getSelectedItem(), (int) pplComboBox.getSelectedItem(), (int)laptopComboBox.getSelectedItem()
+//				(int)setWhiteBoardUsage(e), (int)setBeamProjectorUsage(e.getStateChange())
+//				);
+		
 //		System.out.println(p);
-		
-		
-		
 		if(e.getSource() == timeComboBox) {
-			System.out.println(timeComboBox.getSelectedItem());
-		sc.pm.setHour((int)timeComboBox.getSelectedItem());
+			System.out.println("TimeComboBox selected: "+timeComboBox.getSelectedItem());
+//		sc.pm.setHourlyCost((int)timeComboBox.getSelectedItem());
 		
-		
-		
+//		얼마나 시간을 사용할건지 보여주는 메소드
+		list.get(list.size()-1).setHour((int) timeComboBox.getSelectedItem());
+//		System.out.println("hourly selected: "+ list.get(list.size()-1).getHourlyCost());
 		int choice = (int) timeComboBox.getSelectedItem();
 		switch(choice) {
-		case 1 : displaySelectedHour.setText("1"); break;
-		case 2 : displaySelectedHour.setText("2"); break;
-		case 3 : displaySelectedHour.setText("3"); break;
-		case 4 : displaySelectedHour.setText("4"); break;
-		case 5 : displaySelectedHour.setText("5"); break;
-		case 6 : displaySelectedHour.setText("6"); break;
-		case 7 : displaySelectedHour.setText("7"); break;
-		case 8 : displaySelectedHour.setText("8"); break;
-		case 9 : displaySelectedHour.setText("9"); break;
-		case 10 : displaySelectedHour.setText("10"); break;
+		case 1 : 
+			displaySelectedHour.setText("1");
+			break;
+		case 2 :
+			displaySelectedHour.setText("2");
+			break;
+		case 3 :
+			displaySelectedHour.setText("3");
+			break;
+		case 4 :
+			displaySelectedHour.setText("4"); 
+			break;
+		case 5 :
+			displaySelectedHour.setText("5");
+			break;
+		case 6 : 
+			displaySelectedHour.setText("6");
+			break;
+		case 7 :
+			displaySelectedHour.setText("7");
+			break;
+		case 8 :
+			displaySelectedHour.setText("8");
+			break;
+		case 9 :
+			displaySelectedHour.setText("9");
+			break;
+		case 10 :
+			displaySelectedHour.setText("10"); 
+			break;
 		
-		default : displaySelectedHour.setText("wrong"); break;
+		default : 
+			displaySelectedHour.setText("wrong");
+			break;
 		}
-		
+//		인원이 몇명이 이용할건지 처리하는 메소드
 		} else if(e.getSource() == pplComboBox) {
-		sc.pm.setPpl((int) pplComboBox.getSelectedItem());
+		list.get(list.size()-1).setPpl((int) pplComboBox.getSelectedItem());
 		int choice = (int) pplComboBox.getSelectedItem();
 		switch(choice) {
-		case 1 : displaySelectedPpl.setText("1"); break;
-		case 2 : displaySelectedPpl.setText("2"); break;
-		case 3 : displaySelectedPpl.setText("3"); break;
-		case 4 : displaySelectedPpl.setText("4"); break;
-		case 5 : displaySelectedPpl.setText("5"); break;
-		case 6 : displaySelectedPpl.setText("6"); break;
-		case 7 : displaySelectedPpl.setText("7"); break;
-		case 8 : displaySelectedPpl.setText("8"); break;
-		case 9 : displaySelectedPpl.setText("9"); break;
-		case 10 : displaySelectedPpl.setText("10"); break;
+		case 1 : 
+			displaySelectedPpl.setText("1");
+			break;
+		case 2 :
+			displaySelectedPpl.setText("2");
+			break;
+		case 3 : 
+			displaySelectedPpl.setText("3");
+			break;
+		case 4 :
+			displaySelectedPpl.setText("4"); 
+			break;
+		case 5 :
+			displaySelectedPpl.setText("5");
+			break;
+		case 6 : 
+			displaySelectedPpl.setText("6");
+			break;
+		case 7 : 
+			displaySelectedPpl.setText("7");
+			break;
+		case 8 :
+			displaySelectedPpl.setText("8");
+			break;
+		case 9 :
+			displaySelectedPpl.setText("9");
+			break;
+		case 10 :
+			displaySelectedPpl.setText("10");
+			break;
 		
-		default : displaySelectedPpl.setText("wrong"); break;
+		default :
+			displaySelectedPpl.setText("wrong");
+			break;
 		}
-		
+//		노트북을 몇개 사용할지 처리하는 메소드
 		} else if (e.getSource() == laptopComboBox) {
-		sc.pm.setLaptop((int) laptopComboBox.getSelectedItem());
+		list.get(list.size()-1).setLaptop((int) laptopComboBox.getSelectedItem());
 		int choice = (int) laptopComboBox.getSelectedItem();
 		switch(choice){
-		case 0 : displaySelectedLaptop.setText("(X)"); break;
-		case 1 : displaySelectedLaptop.setText("1"); break;
-		case 2 : displaySelectedLaptop.setText("2"); break;
-		case 3 : displaySelectedLaptop.setText("3"); break;
-		case 4 : displaySelectedLaptop.setText("4"); break;
-		case 5 : displaySelectedLaptop.setText("5"); break;
-		case 6 : displaySelectedLaptop.setText("6"); break;
-		case 7 : displaySelectedLaptop.setText("7"); break;
-		case 8 : displaySelectedLaptop.setText("8"); break;
-		case 9 : displaySelectedLaptop.setText("9"); break;
-		case 10 : displaySelectedLaptop.setText("10"); break;
+		case 0 :
+			displaySelectedLaptop.setText("(X)");
+			break;
+		case 1 : 
+			displaySelectedLaptop.setText("1");
+			break;
+		case 2 : 
+			displaySelectedLaptop.setText("2");
+			break;
+		case 3 : 
+			displaySelectedLaptop.setText("3");
+			break;
+		case 4 :
+			displaySelectedLaptop.setText("4");
+			break;
+		case 5 :
+			displaySelectedLaptop.setText("5");
+			break;
+		case 6 :
+			displaySelectedLaptop.setText("6");
+			break;
+		case 7 : 
+			displaySelectedLaptop.setText("7");
+			break;
+		case 8 : 
+			displaySelectedLaptop.setText("8");
+			break;
+		case 9 : 
+			displaySelectedLaptop.setText("9");
+			break;
+		case 10 : 
+			displaySelectedLaptop.setText("10");
+			break;
 		
-		default : displaySelectedLaptop.setText("wrong"); break;
+		default :
+			displaySelectedLaptop.setText("wrong");
+			break;
 		
 		} 
+//		빔프로젝터에 대한 사용유무를 알려주는 이벤트
 		}else if(e.getSource()==beamProjectorCheckBox) {
-			sc.pm.setWhiteBoardUsage(e.getStateChange());
+			list.get(list.size()-1).setWhiteBoardUsage(e.getStateChange());
 			int choice  = e.getStateChange();
 			switch (choice) {
-			case 1 : displayBeamProjectorUsage.setText("사용"); break;
-			case 2 : displayBeamProjectorUsage.setText("사용 안함"); break;
-			default : displayBeamProjectorUsage.setText("wrong"); break;
+			case 1 :
+				displayBeamProjectorUsage.setText("사용");
+				break;
+			case 2 :
+				displayBeamProjectorUsage.setText("사용 안함");
+				break;
+			default :
+				displayBeamProjectorUsage.setText("wrong");
+				break;
 			}
+			
+//		화이트보드에 대한 사용유무를 알려주는 이벤트	
 		}else if(e.getSource() == whiteBoardCheckBox) {
-			sc.pm.setBeamProjectorUsage(e.getStateChange());
+			list.get(list.size()-1).setBeamProjectorUsage(e.getStateChange());
 			int choice = e.getStateChange();
 			switch(choice) {
 			case 1 : 
 				displayWhiteboardUsage.setText("사용");
 				break;
-			case 2 : displayWhiteboardUsage.setText("사용 안함"); break;
+			case 2 :
+				displayWhiteboardUsage.setText("사용 안함"); 
+				break;
 			
-			default : displayWhiteboardUsage.setText("wrong"); break;
+			default :
+				displayWhiteboardUsage.setText("wrong");
+				break;
 			}
 		} 
-		
-		sc.totalCostCalculator();
+// 값을 다 계산해주는 메소드
+		sc.totalCostCalculator(list);
 
 	}
+
+
 
 	public JLabel getDisplayPriceAfterDiscount() {
 		return displayPriceAfterDiscount;
@@ -401,5 +512,5 @@ public PaymentView() {
 	public void setDisplayTotalCost(JLabel displayTotalCost) {
 		this.displayTotalCost = displayTotalCost;
 	}
-	
+
 }

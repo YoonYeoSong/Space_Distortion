@@ -2,7 +2,6 @@ package com.space_distortion.model.vo;
 
 import java.awt.event.MouseListener;
 
-//룸에 대한 가격정보 
 public class Payment {
 	
 	// 임시 방번호
@@ -30,13 +29,15 @@ public class Payment {
 	// 최종 노트북 가격
 	private int totalLaptopCost = laptop*laptopCost;
 	// 총 금액
-	private int totalCost = 0;
+	private int totalCost = 3000;
 	// 디스카운트 이후 파이널 금액
 	private int finalCost = 0;
 	// white board usage (2는 사용하지 않는다, 1은 사용한다 라는 뜻)
 	private int whiteBoardUsage=2;
 	// Beam projector Usage (2는 사용하지 않는다, 1은 사용한다 라는 뜻)
 	private int beamProjectorUsage = 2;
+	// 유저가 만나서 
+	private int inputtedCash = 0;
 	
 	public Payment() {
 		// TODO Auto-generated constructor stub
@@ -190,7 +191,14 @@ public class Payment {
 	public void setBeamProjectorUsage(int beamProjectorUsage) {
 		this.beamProjectorUsage = beamProjectorUsage;
 	}
-	
+
+	public int getInputtedCash() {
+		return inputtedCash;
+	}
+
+	public void setInputtedCash(int inputtedCash) {
+		this.inputtedCash = inputtedCash;
+	}
 
 	@Override
 	public String toString() {

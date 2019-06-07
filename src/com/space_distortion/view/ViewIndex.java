@@ -26,6 +26,7 @@ public interface ViewIndex {
 	
 	
 	static final int PAYMENT_VIEW_NUM = 60;
+	static final int PAYMENTFINAL_VIEW_NUM = 80;
 	
 	
 	
@@ -35,4 +36,6 @@ public interface ViewIndex {
 	//static final int SNACK_BAR_SNACK_LEFT = 72;		//과자 선택 //내부 이벤트 처리
 	static final int SNACK_BAR_VIEW_CANSLE = 73;
 	static final int SNACK_BAR_VIEW_NEXT = 74;
+	
+	
 }

@@ -23,6 +23,14 @@ public class SnackBar {
 		this.snackComment = snackComment;
 		this.snackPrice = snackPrice;
 	}
+	
+	public SnackBar(int snackBarIndex, String snack, int snackQuantity, int snackPrice) {
+		super();
+		this.snackBarIndex = snackBarIndex;
+		this.snack = snack;
+		this.snackQuantity = snackQuantity;
+		this.snackPrice = snackPrice;
+	}
 
 	public int getSnackBarIndex() {
 		return snackBarIndex;
@@ -92,7 +100,4 @@ public class SnackBar {
 				+ ", snackPrice=" + snackPrice + ", snackComment=" + snackComment + "]";
 	}
 
-	
-
-	
 }
