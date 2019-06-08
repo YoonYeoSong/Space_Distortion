@@ -38,19 +38,23 @@ public class Payment {
 	private int beamProjectorUsage = 2;
 	// 유저가 만나서 
 	private int inputtedCash = 0;
+	//날짜
+	private String date;
 	
 	public Payment() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Payment(int finalCost)
+	public Payment(String userCode ,int finalCost,String date)
 	{
+		this.user = userCode;
 		this.finalCost = finalCost;
+		this.date = date;
 	}
 
 	public Payment(int room, String user, int hourlyCost, int hour, int ppl, double discountRate, int whiteBoardCost,
 			int beamProjectorCost, int laptopCost, int laptop, int totalHourlyCost, int totalLaptopCost, int totalCost,
-			int finalCost, int whiteBoardUsage, int beamProjectorUsage) {
+			int finalCost, int whiteBoardUsage, int beamProjectorUsage,String date) {
 		this.room = room;
 		this.user = user;
 		this.hourlyCost = hourlyCost;
@@ -67,6 +71,17 @@ public class Payment {
 		this.finalCost = finalCost;
 		this.whiteBoardUsage = whiteBoardUsage;
 		this.beamProjectorUsage = beamProjectorUsage;
+		this.date = date;
+	}
+	
+	
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public int getRoom() {

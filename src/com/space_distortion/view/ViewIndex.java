@@ -2,6 +2,7 @@ package com.space_distortion.view;
 
 public interface ViewIndex {
 	
+	static final int WINDOWEIXT = 1000;
 	static final int MAIN_ROOM_VIEW_NUM = 1;
 	static final int SUB_ROOM_VIEW_NUM = 2;
 	static final int LOGIN_VIEW = 20;
@@ -21,6 +22,7 @@ public interface ViewIndex {
 	static final int ADMIN_VIEW_BUTTON5 = 55; //버튼5
 	static final int ADMIN_VIEW_BUTTON6 = 56; //버튼6
 	static final int ADMIN_VIEW_BUTTON7 = 57; //버튼7
+	static final int ADMIN_VIEW_BUTTON8 = 58; // 버튼 8
 	////////////////////////////////////ADMIN///////////////////////////////////
 	
 	

@@ -2,6 +2,8 @@ package com.space_distortion.event;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,7 +23,7 @@ import com.space_distortion.controller.SpaceController;
 import com.space_distortion.main.Main;
 import com.space_distortion.view.ViewIndex;
 
-public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelListener {
+public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelListener ,WindowListener {
 
 	
 	private SpaceController spaceController = Main.getSpaceController();
@@ -34,6 +36,11 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	private JTable jt;
 	private JTextField jtf;
 	private DefaultTableModel dt;
+	
+	
+	
+	
+	
 	
 	public SpaceActionEvent(int viewIndex, int buttonIndex, SpaceController sc, JFrame jf ,JPanel jp) {
 		super();
@@ -336,6 +343,11 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			String jtfText = jtf.getText();
 			//sc.adminMemberTable(jtfText);
 		}
+		else if(buttonIndex == 8)
+		{
+			jf.remove(jp);
+			sc.mainView();
+		}
 	}
 	
 	// 결재정보 이벤트
@@ -546,6 +558,58 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		jf.dispose();
+		System.out.println("windowClosing");
+		
+		
+	}
+
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

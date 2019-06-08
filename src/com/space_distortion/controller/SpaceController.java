@@ -1,16 +1,19 @@
 package com.space_distortion.controller;
 
+import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 
+import javax.net.ssl.SSLSession;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import com.space_distorition.comparator.AscMember;
 import com.space_distortion.event.SpaceActionEvent;
@@ -31,9 +34,10 @@ import com.space_distortion.view.NaccountView;
 import com.space_distortion.view.PaymentView;
 import com.space_distortion.view.SnackBarView;
 import com.space_distortion.view.SubRoomView;
+import com.space_distortion.view.ViewIndex;
 
 // 기능구현 클래스
-public class SpaceController {
+public class SpaceController implements ViewIndex{
 	
 	//잠시 관리자에 에 쓰이는 변수
 	static int mKeyNumber = 0;
@@ -127,9 +131,12 @@ public class SpaceController {
 		
 		mainJframe = new JFrame("Space Distorition");
 		mainJframe.setBounds(0, 0, 1024, 768);
-//			mainJframe.setLayout(new FlowLayout());
+		mainJframe.setLayout(null);
 		mainJframe.setDefaultCloseOperation(3);
+		
 		mainJframe.setVisible(true);	
+		
+		mainJframe.addWindowListener(new SpaceActionEvent(ViewIndex.WINDOWEIXT,1,this,this.mainJframe));
 	}
 	
 	
@@ -524,13 +531,13 @@ public class SpaceController {
         roomInfoList.get(7).setRemTime(12200);
 		
         
-        paymentList.add((new Payment(20) ));
-        paymentList.add((new Payment(30) ));
-        paymentList.add((new Payment(30) ));
-        paymentList.add((new Payment(20) ));
-        paymentList.add((new Payment(40) ));
-        paymentList.add((new Payment(30) ));
-        paymentList.add((new Payment(50) ));
+        paymentList.add((new Payment("1",20,"2019/4/27")));
+        paymentList.add((new Payment("2",15,"2020/4/27")));
+        paymentList.add((new Payment("3",30,"2030/4/27")));
+        paymentList.add((new Payment("4",100,"2040/4/27")));
+        paymentList.add((new Payment("5",30,"2050/4/27")));
+        paymentList.add((new Payment("6",50,"2070/4/27")));
+        
       
         
         
@@ -539,6 +546,7 @@ public class SpaceController {
 		admin.setAdminMemberMap(mMap);
 		admin.setAdminSnackBarList(snackBarList);
 		admin.setAdminRoomInfoList(roomInfoList);
+		admin.setAdminPaymentList(paymentList);
 	}
 	
 	// 콘솔 메인
@@ -550,6 +558,11 @@ public class SpaceController {
 	
 	
 	///////////////////////////////////////////////////(여송) 관리자 관리 기능 ///////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
 	// 컨트롤러 셋
 	public void seachMem()
 	{
@@ -1095,26 +1108,39 @@ public class SpaceController {
 		int num = 0;
 		int i = 0;
 		for(Iterator<Payment> it = admin.getAdminPaymentList().iterator(); it.hasNext();)
-		{			
+		{					
 			Payment p = it.next();
 			
 			for(int j = 0; j < paymentContents[i].length; j++)
-			{
-				if(i < admin.getAdminPaymentList().size()+1)
+			{			
+				if(i < admin.getAdminPaymentList().size())
 				{
-					if(i == admin.getAdminPaymentList().size() )
-						break;
 					if(j == 0)
 					{
+						paymentContents[i][j] = p.getUser();
+					}	
+					else if(j == 1)
+					{				
 						paymentContents[i][j] = String.valueOf(p.getFinalCost());
 						num += p.getFinalCost();			
-					}					
-				}else if(i == admin.getAdminPaymentList().size()+1)
-				{
-					paymentContents[admin.getAdminPaymentList().size()+1][modelName.length] = "총합 :  "+String.valueOf(num)+"원";			
+					}
+					else if(j == 2)
+					{
+						paymentContents[i][j] = p.getDate();
+					}
 				}
 			}
 			i++;	
+		}
+		System.out.println(i);
+		System.out.println(admin.getAdminPaymentList().size());
+		
+		if(i == admin.getAdminPaymentList().size())
+		{
+			System.out.println("여기옴");
+			paymentContents[admin.getAdminPaymentList().size()][0] = "일 매출";
+			paymentContents[admin.getAdminPaymentList().size()][1] = "총합 :  "+ String.valueOf(num)+"원";
+			paymentContents[admin.getAdminPaymentList().size()][2] = "오늘 다녀간 인원 :" + admin.getAdminPaymentList().size()+"명" ;
 		}
 		
 		return paymentContents;	
