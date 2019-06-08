@@ -644,10 +644,12 @@ public class SpaceController implements ViewIndex{
 
 			String couponNumber = stringBuf.toString();
 			System.out.println("발행번호 : " + couponNumber);
+			//셋으로 중복 체크 하기 위해서 사용
 			couponSet.add(new Coupon(null, couponNumber));
 			index++;
 		}
 		
+		//이터레이터로 출력
 		Iterator<Coupon> it = couponSet.iterator();
 		
 		while(it.hasNext())
@@ -655,7 +657,7 @@ public class SpaceController implements ViewIndex{
 			Coupon c = it.next();
 			couponList.add(c);
 		}
-		
+		// 리스트 정렬
 		Collections.sort(couponList,new AscMember());
 		
 		admin.setAdminCouponList(couponList);
@@ -752,11 +754,15 @@ public class SpaceController implements ViewIndex{
 	//관리자용 모든 멤버 검색(오름차순)
 	public String[][] adminSearchAllMember(String[] modelName)
 	{
+		//테이블에 대한 2차원 배열
 		String[][] membrContents = new String[admin.getAdminMemberMap().size()][modelName.length];
 		
 		
-		
+		// 회원은 맵을 사용
 		Set mSet;
+		//entrySet과 keySet을 사용하여 key와 value가 필요할때
+		//골라서 사용 할 수 있다.
+		//맵은 Iter를 사용할수 없기 때문에 set으로 객체를 반환후 Iter사용
 		mSet = admin.getAdminMemberMap().entrySet();
 		Iterator it = mSet.iterator();
 		List list = new ArrayList();
@@ -766,12 +772,13 @@ public class SpaceController implements ViewIndex{
 			Map.Entry obj = (Map.Entry)it.next();
 			list.add(((Member)obj.getValue()));
 		}
+		//오름차순 정렬
 		Collections.sort(list,new AscMember());
 		
 		
 		
-		// {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"}
-		
+		// {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1","쿠폰"}
+		// 리스트를 이용하여 이터레이터를 돌려서 각 테이블에 값을 전달
 		int i = 0;
 		for(Iterator<Member> itList = list.iterator(); itList.hasNext();)
 		{
@@ -827,21 +834,24 @@ public class SpaceController implements ViewIndex{
 	//관리자용 이름으로 찾기
 	public String[][] adminSearchMember(String[] modelName, String jtfName)
 	{
-		
+		// 이름을 전달받는다
 		String searchName = jtfName;
 		
-		
+		// 맵은 iter를 돌릴수 없기때문에 Set으로 반환 후 이터로 돌림 
 		Set mSet;
 		mSet = admin.getAdminMemberMap().entrySet();
 		Iterator it = mSet.iterator();
+		// 지역 리스트를 만듬
 		List list = new ArrayList();
 		
 		while(it.hasNext())
 		{
+			//key와 Value를 가지고 값을 찾기 
 			Map.Entry obj = (Map.Entry)it.next();
 			if( ((Member)obj.getValue()).getMemberName().equals(searchName) )
 				list.add(((Member)obj.getValue()));
 		}
+		// 오름차순 정렬
 		Collections.sort(list,new AscMember());
 		
 		
@@ -897,7 +907,7 @@ public class SpaceController implements ViewIndex{
 	}
 
 
-	// 회원코드로 찾기
+	// 회원코드로 키값 찾아 비밀번호 변경
 	public void adminModifyMember(int userCode , String userValue)
 	{	
 		
@@ -909,17 +919,21 @@ public class SpaceController implements ViewIndex{
 		Iterator<Map.Entry<Integer,Member>> it = mSet.iterator();
 		int deleteIndex = 0;
 		
+		// for each // Iterator iter사용
 		while(it.hasNext())
 		{
 			
 			Map.Entry<Integer,Member> obj = (Entry<Integer, Member>) it.next();
 			if( ((Member)obj.getValue()).getUserCode() == memberCode )
 			{		
+				// 유저코드가 같다면
+				// 그에 해당하는 키값을 받아
 				deleteIndex = obj.getKey();
 				
 			}
 		}
 		
+		// 그키에 해당하는 비밀번호 변경
 		((Member)admin.getAdminMemberMap() .get(deleteIndex)).setMemberPw(memberPw);
 		mMap = admin.getAdminMemberMap();	
 	}
@@ -931,19 +945,25 @@ public class SpaceController implements ViewIndex{
 	{
 		int userCodeNum = userCode;
 		
-		// 맵에 엔트리셋을 이용하여 iter로 출력
+		// 맵은 key value를 한세트로 저장하기 때문에 iter를 직접 호출 할수는 없고
+		// 엔트리셋과 키셋을 이용하여 iter로 호출
+		// Map.Entry는 Map 내부 인터페이스 이다.
 		Set<Map.Entry<Integer, Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
 		int memberCode = userCode;
 		Iterator<Map.Entry<Integer, Member>> it = mSet.iterator();
 		int Index = 0;
 
 		while (it.hasNext()) {
+			
+			// hash맵에 저장된 value가 저장된 set으로 반환
+			// 테이블에 선택된 유저 코드를 비교
 			Map.Entry<Integer, Member> obj = (Entry<Integer, Member>) it.next();
 			if (((Member) obj.getValue()).getUserCode() == memberCode) {
 				Index = obj.getKey();
 			}
 		}
-		System.out.println(    ((Member)admin.getAdminMemberMap().get(Index) ).getCoupon());
+		
+		// 키값을 받아와 쿠폰이 있는지 없는지 비교 하고 리스트에 저장된 0번 째 인덱스부터 뿌리고 카운트 증가
 		if(   ( (Member)admin.getAdminMemberMap().get(Index) ).getCoupon().equals("없음")    )
 		{
 			((Member)admin.getAdminMemberMap().get(Index)).setCoupon(admin.getAdminCouponList().get(couponCount).getCoupontNumber());
@@ -954,17 +974,20 @@ public class SpaceController implements ViewIndex{
 	
 
 	
-	// 관리자용 회원 코드로 삭제
+	// 관리자용 회원 코드를 이용해 회원 삭제
 	public void adminDelMember(int userCode)
 	{	
-		//맵에 엔트리셋을 이용하여 iter로 출력
+		//Iter를 사용하기 위해 set을 값을 반환하고 iter를 이용
+		// 엔트리셋은 key값과 value를 둘다 받아 올수있다.
 		Set<Map.Entry<Integer,Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
 		int memberCode = userCode;
 		Iterator<Map.Entry<Integer,Member>> it = mSet.iterator();
 		int deleteIndex = 0;
 		
+		
 		while(it.hasNext())
 		{
+			// 유저 코드를 비교해 키값을 얻는다
 			Map.Entry<Integer,Member> obj = (Entry<Integer, Member>) it.next();
 			if( ((Member)obj.getValue()).getUserCode() == memberCode )
 			{		
@@ -972,6 +995,7 @@ public class SpaceController implements ViewIndex{
 			}
 		}
 		
+		// 키값을 얻어 회원삭제
 		admin.getAdminMemberMap() .remove(deleteIndex);
 		mMap = admin.getAdminMemberMap();	
 	}
@@ -992,14 +1016,16 @@ public class SpaceController implements ViewIndex{
 //
 //	}
 	
+	// 관리자 모든 스낵 검색
 	public String[][] adminSearchAllSnack(String[] modelName)
 	{
-		
+		// modelName을 받아 열을 나타내고, 스낵에 대한 리스트를 받아 행을 만든다.
 		String[][] snackContetnts = new String[admin.getAdminSnackBarList().size()][modelName.length];
-		
+		// 오름 차순 정렬
 		Collections.sort(admin.getAdminSnackBarList(),new AscMember());
 			
 		int i = 0;
+		// Iter를 이용해 리스트를 순차적으로 돌려 테이블에 대한 값을 적용
 		for(Iterator<SnackBar> it = admin.getAdminSnackBarList().iterator(); it.hasNext();)
 		{
 			SnackBar sb = it.next();
@@ -1030,20 +1056,24 @@ public class SpaceController implements ViewIndex{
 			i++;
 		}
 		
+		//마지막에 2차원 배열 반환
 		return snackContetnts;
 	}
 	
 	
-	// 음료인지 과자인지 판별
+	// 관리자용 음료인지 과자인지 판별
 	public String[][] adminSearchSnack(int index, String name, String[] modelName)
-	{
-		
+	{	
 		//String[][] snackContents;
 		//스낵에 대한 인덱스를 가져와
 		
 		
+		
+		// 스낵에 대한 인댁스 0
 		int snackIndex = 0;
-		String snackName = null;
+		// 스낵 이름 Null
+		String snackName = null;	
+		// 빈 리스트를 생성
 		List<SnackBar> tempList = new ArrayList<SnackBar>();
 		
 		
@@ -1059,7 +1089,7 @@ public class SpaceController implements ViewIndex{
 		else
 			snackName = null;
 		
-		
+		// 오름차순 정렬
 		Collections.sort(admin.getAdminSnackBarList(),new AscMember());
 		
 		
@@ -1133,6 +1163,7 @@ public class SpaceController implements ViewIndex{
 			}
 		}
 		
+		//스낵에 대해 리스트로 테이블 작성
 		String[][] snackContents = new String[tempList.size()][modelName.length];
 		
 		int i = 0;
@@ -1170,7 +1201,8 @@ public class SpaceController implements ViewIndex{
 	}
 	
 	
-	// 스낵 수량 수정
+	// 관리자 스낵 수량 수정
+	// (콘솔용)
 	public void adminModifySnack()
 	{
 		String snackName = "콜라";
@@ -1182,18 +1214,15 @@ public class SpaceController implements ViewIndex{
 				indexNum = i;
 			}
 		}
-		
-		
 		//출력
 		System.out.println(((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity());
 		
 		((SnackBar)admin.getAdminSnackBarList().get(indexNum)).
-		setSnackQuantity( ((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity()+10);
-		
-		
+		setSnackQuantity( ((SnackBar)admin.getAdminSnackBarList().get(indexNum)).getSnackQuantity()+10);		
 	}
 	 
-	// 스낵 이름으로 삭제
+	// 관리자 스낵 이름으로 삭제
+	//(콘솔용)
 	public void adminDelSnack(String name)
 	{
 //		String snackName = adminView.searchSnackName();
@@ -1224,6 +1253,7 @@ public class SpaceController implements ViewIndex{
 				
 	}
 	
+	// 관지라 스낵 서치
 	public void SnackSeach()
 	{	
 		for(int i = 0 ; i < snackBarList.size(); i++)
@@ -1270,6 +1300,7 @@ public class SpaceController implements ViewIndex{
 	
 	
 	// 방 번호로 찾기
+	// (콘솔용)
 	public void adminSearchRoomInfo()
 	{
 		int roomNum = 1;
@@ -1301,11 +1332,11 @@ public class SpaceController implements ViewIndex{
 	}
 	
 
-	///수정필요
 	//관리자 Payment
 	//매출 검색
 	public String[][] adminSearchTotalPay(String[] modelName)
 	{
+		//원래 테이블 보다 Row 행 을 하나 더 생성
 		String[][] paymentContents = new String[admin.getAdminPaymentList().size()+1][modelName.length];
 		int num = 0;
 		int i = 0;
@@ -1313,6 +1344,7 @@ public class SpaceController implements ViewIndex{
 		{					
 			Payment p = it.next();
 			
+			// 테이블에 대한 값을 넣어주기
 			for(int j = 0; j < paymentContents[i].length; j++)
 			{			
 				if(i < admin.getAdminPaymentList().size())
@@ -1337,6 +1369,7 @@ public class SpaceController implements ViewIndex{
 		System.out.println(i);
 		System.out.println(admin.getAdminPaymentList().size());
 		
+		// 마지막줄에 일매출과 다녀간 인원 String으로 테이블 작성 
 		if(i == admin.getAdminPaymentList().size())
 		{
 			System.out.println("여기옴");
@@ -1422,11 +1455,7 @@ public class SpaceController implements ViewIndex{
 	public void snackView() {
 		snackV.initialize(this, mainJframe, snackTmpList);
 	}
-	
-	
-	
-	
-	
+
 }
 	
 
