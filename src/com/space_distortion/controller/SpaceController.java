@@ -584,9 +584,14 @@ public class SpaceController implements ViewIndex{
 	
 	
 	public void couponCreat() {
+		
+		//쿠폰 사이즈
 		int couponSize = 500;
+		//중복 체크 하려고 셋을 이용
 		Set<Coupon> couponSet = new HashSet<Coupon>();
+		// char형 배열 62개를 생성
 		char[] coupon = new char[62];
+		// char = 48 = 아스키 코드상 숫자 0
 		char ascCode = 48;
 		for (int i = 0; i < 62; i++) {
 			if (i < 10) {
@@ -611,16 +616,29 @@ public class SpaceController implements ViewIndex{
 			ascCode++;
 		}
 
+		// 쿠폰 카운트 쿠폰 길이만큼
 		int couponCount = coupon.length;
 
+		// 랜덤 발생
 		Random randomNumber = new Random();
 		int index = 0;
 		int i = 0;
+		
+		// 인덱스가 쿠폰의 사이즈 보다 작을때
 		while (index < couponSize) {
+			//StringBuffer 사용
 			StringBuffer stringBuf = new StringBuffer(16);
-			// i는 8자리의 랜덤값을 의미
+			// 16자리
 			for (i = 16; i > 0; i--) {
 				// 문자 배열 데이터를 현재 문자열 끝에 추가한다.
+				// 문자열을 조작 하기 위해서는 캐릭터형 배열로 되어있는 StringBuffer이용하는것이 메모리적으로도 좋다.
+				// StringBuffer는 내부적으로 String 객체가 아닌 Char[]을 사용하기 때문.
+				// String으로 문자열을 계속적으로 + 할경우 객체를 생성하게 되고, 그 과정이 가벼운 작업이 아니므로
+				// 퍼포먼스 또한 나빠지게 됩니다 메모리적으로도 좋지 않다.
+				// 예) String str = "a";    str +=b str+=c    str = new StringBuffer(str).append("b").toString();
+				// 예) StringBuffer buf = new StringBuffer("a")  buf.append("b") 객체를 생성하지 않음
+				
+				// 0 ~ coponCount = 62까지
 				stringBuf.append(coupon[randomNumber.nextInt(couponCount)]);
 			}
 
