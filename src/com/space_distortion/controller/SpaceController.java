@@ -1,23 +1,31 @@
 package com.space_distortion.controller;
 
-import java.net.Authenticator;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 
-import javax.net.ssl.SSLSession;
 import javax.swing.JFrame;
 
 import com.space_distorition.comparator.AscMember;
 import com.space_distortion.event.SpaceActionEvent;
 import com.space_distortion.model.vo.Admin;
+import com.space_distortion.model.vo.Coupon;
 import com.space_distortion.model.vo.Member;
 import com.space_distortion.model.vo.NonMember;
 import com.space_distortion.model.vo.Payment;
@@ -42,11 +50,12 @@ public class SpaceController implements ViewIndex{
 	//잠시 관리자에 에 쓰이는 변수
 	static int mKeyNumber = 0;
 	static int nKeyNumber = 0;
+	static int couponCount = 0;
 	
 	/////////////////////////////// Model.vo 객체 리스트///////////
 	private List<Member> mList = new ArrayList<Member>();
 	private List<NonMember> nList = new ArrayList<NonMember>();
-	
+	private List<Coupon> couponList = new ArrayList<Coupon>();
 	private Map<Integer,Member> mMap = new HashMap<Integer, Member>(); // 회원 맵
 	private Map<Integer,NonMember> nMap = new HashMap<Integer, NonMember>(); // 비회원 맵
 	private List<RoomInfo> roomInfoList = new ArrayList<RoomInfo>(); // 룸에 대한 리스트
@@ -475,8 +484,6 @@ public class SpaceController implements ViewIndex{
 	public void initConsol()
 	{
 	
-		
-		
 		//임시 회원 생성
 		mMap.put(mKeyNumber++,new Member("윤여송", "1234", "dbsduthd123@naver.com", "경기도 부천", "01054035883", "1992/04/27", 1));
 		mMap.put(mKeyNumber++,new Member("김여송1", "12714110", "duthd123@naver.com", "서울", "01054035883", "1990/04/27", 0));
@@ -540,6 +547,15 @@ public class SpaceController implements ViewIndex{
         
       
         
+		Set<Entry<Integer, Member>> set = mMap.entrySet();	
+		Iterator<Map.Entry<Integer,Member>> it = set.iterator();
+		
+		while(it.hasNext())
+		{
+			Entry<Integer, Member> obj = it.next();
+			mList.add(obj.getValue());
+			
+		}
         
 		
 		//관리자 리스트에 추가
@@ -547,6 +563,9 @@ public class SpaceController implements ViewIndex{
 		admin.setAdminSnackBarList(snackBarList);
 		admin.setAdminRoomInfoList(roomInfoList);
 		admin.setAdminPaymentList(paymentList);
+		inputList();
+		readList();
+		couponCreat();
 	}
 	
 	// 콘솔 메인
@@ -559,6 +578,140 @@ public class SpaceController implements ViewIndex{
 	
 	///////////////////////////////////////////////////(여송) 관리자 관리 기능 ///////////////////////////////////////////////////////////////
 	
+	
+	
+	
+	
+	
+	public void couponCreat() {
+		int couponSize = 500;
+		Set<Coupon> couponSet = new HashSet<Coupon>();
+		char[] coupon = new char[62];
+		char ascCode = 48;
+		for (int i = 0; i < 62; i++) {
+			if (i < 10) {
+				coupon[i] = ascCode; // 0 1 2 3 4 5 6 7 8 9
+			} // 0 1 2 3 4 5 6 7 8 9
+			else if (i == 10) {
+				ascCode = 65; // 10 A
+				coupon[i] = ascCode;
+
+			} else if (i > 10 && i < 36) // 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+			{ // B C D E F G H I J K L N M O P Q R S T U V W X Y Z
+				coupon[i] = ascCode;
+
+			} else if (i == 36) {
+				ascCode = 97; // 36 a
+				coupon[i] = ascCode;
+			} else if (i > 36 && i < 62) // 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61
+			{ // b c d e f g h i j k l n m o p q r s t u v w x y z
+				coupon[i] = ascCode;
+
+			}
+			ascCode++;
+		}
+
+		int couponCount = coupon.length;
+
+		Random randomNumber = new Random();
+		int index = 0;
+		int i = 0;
+		while (index < couponSize) {
+			StringBuffer stringBuf = new StringBuffer(16);
+			// i는 8자리의 랜덤값을 의미
+			for (i = 16; i > 0; i--) {
+				// 문자 배열 데이터를 현재 문자열 끝에 추가한다.
+				stringBuf.append(coupon[randomNumber.nextInt(couponCount)]);
+			}
+
+			String couponNumber = stringBuf.toString();
+			System.out.println("발행번호 : " + couponNumber);
+			couponSet.add(new Coupon(null, couponNumber));
+			index++;
+		}
+		
+		Iterator<Coupon> it = couponSet.iterator();
+		
+		while(it.hasNext())
+		{
+			Coupon c = it.next();
+			couponList.add(c);
+		}
+		
+		Collections.sort(couponList,new AscMember());
+		
+		admin.setAdminCouponList(couponList);
+	}
+	
+	
+	
+	
+
+	// 저장하기
+	public void inputList()
+	{
+		OutputStream out = null;
+		BufferedOutputStream bout = null;
+		ObjectOutputStream oout = null;
+		
+		try
+		{
+			out = new FileOutputStream("Member.txt");
+			bout = new BufferedOutputStream(out);
+			oout = new ObjectOutputStream(bout);
+			
+			List<Member> memberList = mList;
+			
+			oout.writeObject(memberList);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try
+			{
+				oout.close();
+			}catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	// 읽어오기
+	public void readList()
+	{
+		InputStream in = null;
+		BufferedInputStream bin = null;
+		ObjectInputStream oin = null;
+	
+		try
+		{
+			in = new FileInputStream("Member.txt");
+			bin = new BufferedInputStream(in);
+			oin = new ObjectInputStream(bin);
+			
+			List<Member> tempList = (List<Member>)oin.readObject();
+			for(Member s : tempList)
+				s.printMember();
+				
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			try
+			{
+				oin.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+	}
 	
 	
 	
@@ -639,7 +792,10 @@ public class SpaceController implements ViewIndex{
 				else if(j == 7)
 				{
 					membrContents[i][j] = String.valueOf(m.getStudentIsTrue());
-				}				
+				}else if(j == 8)
+				{
+					membrContents[i][j] = m.getCoupon();
+				}
 			}
 			i++;
 		}
@@ -748,6 +904,34 @@ public class SpaceController implements ViewIndex{
 		
 		((Member)admin.getAdminMemberMap() .get(deleteIndex)).setMemberPw(memberPw);
 		mMap = admin.getAdminMemberMap();	
+	}
+	
+	
+	
+	//관리자 쿠폰 발행
+	public void adminCouponSend(int userCode)
+	{
+		int userCodeNum = userCode;
+		
+		// 맵에 엔트리셋을 이용하여 iter로 출력
+		Set<Map.Entry<Integer, Member>> mSet = admin.getAdminMemberMap().entrySet(); // entrySet
+		int memberCode = userCode;
+		Iterator<Map.Entry<Integer, Member>> it = mSet.iterator();
+		int Index = 0;
+
+		while (it.hasNext()) {
+			Map.Entry<Integer, Member> obj = (Entry<Integer, Member>) it.next();
+			if (((Member) obj.getValue()).getUserCode() == memberCode) {
+				Index = obj.getKey();
+			}
+		}
+		System.out.println(    ((Member)admin.getAdminMemberMap().get(Index) ).getCoupon());
+		if(   ( (Member)admin.getAdminMemberMap().get(Index) ).getCoupon().equals("없음")    )
+		{
+			((Member)admin.getAdminMemberMap().get(Index)).setCoupon(admin.getAdminCouponList().get(couponCount).getCoupontNumber());
+			admin.getAdminCouponList().get(couponCount).setUserCode(  String.valueOf(  ((Member)admin.getAdminMemberMap().get(Index)).getUserCode()) );
+			couponCount++;
+		}	
 	}
 	
 

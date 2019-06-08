@@ -57,6 +57,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 	private JButton btn6Delete; // 
 	private JButton btn7Search;
 	private JButton btn8Back;
+	private JButton btnCoupon; // 쿠폰 발행
 	
 	private JTextField nameField;
 	private JTextField numberField;
@@ -177,7 +178,6 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		
 		menuBackLabel.add(btn5TotalPay);
 		
-		
 		//메뉴 글씨
 		menuLabel = new JLabel("Admin Management");
 		menuLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -195,6 +195,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		btn8Back.setContentAreaFilled(false);
 		btn8Back.setFocusPainted(false);
 		btn8Back.setOpaque(false);
+		
 		
 		
 		
@@ -405,6 +406,21 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		btn7Search.setOpaque(false);
 		
 		
+		btnCoupon = new JButton();
+		btnCoupon.setText("Coupon");
+		//URL couponPath = this.getClass().getResource("Coupon1.png");		
+		//btnCoupon.setIcon(new ImageIcon(couponPath));
+		btnCoupon.setBounds(10, 74, 117, 48);
+		
+		btnCoupon.setBorderPainted(false);
+		btnCoupon.setContentAreaFilled(false);
+		btnCoupon.setFocusPainted(false);
+		btnCoupon.setOpaque(false);
+		
+		
+		
+		subBackLabel.add(btnCoupon);
+		
 		btn6Delete.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -496,12 +512,28 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				//TableJp.remove(scrollPane);
 				tableBackLabel.remove(scrollPane);
 				
-				String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
+				String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1","쿠폰"};
 				defaultModel = new DefaultTableModel(spaceController.adminSearchAllMember(modelName),modelName) {
 					 @Override
 				    public boolean isCellEditable(int row, int column) {
 					 
-				        return column != 0;
+						 if(0 <= column && column < 3)
+						 {
+							 return false;
+						 }
+						 else if(column == 3)
+						 {
+							 return true;
+						 }
+						 else if(column > 3 && column < 9)
+						 {
+							 return false;
+						 }
+						 else
+						 {
+							 return false;
+						 }
+						 
 				    }
 				};
 				
@@ -816,7 +848,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 							spaceController.adminDelSnack(selectName);
 							defaultModel.removeRow(table.getSelectedRow());
 						}
-						else if(table.getColumnCount() == 8) // 칼럼수 회원 8
+						else if(table.getColumnCount() == 9) // 칼럼수 회원 8
 						{
 							int row = table.getSelectedRow(); // 선택된 줄
 							String selectName = table.getValueAt(row, 0).toString(); // 선택줄에 0번째 칼럼
@@ -951,6 +983,125 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				tableBackLabel.revalidate();
 				tableBackLabel.repaint();
 				 
+				
+			}
+		});
+		
+		
+		btnCoupon.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				if(table.getSelectedRow() == -1)
+				{
+					return;
+				}
+				else
+				{
+					int ans = JOptionPane.showConfirmDialog(null, "쿠폰을 발행 하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+					
+					if(ans == 0)
+					{					
+						if(table.getColumnCount() == 5) //  컬럼수 스낵일때 4
+						{
+							JOptionPane.showMessageDialog(null, "잘못 접근 했어!", "경고", JOptionPane.WARNING_MESSAGE);
+							return;
+						}
+						else if(table.getColumnCount() == 9) // 칼럼수 회원 8
+						{
+							int row = table.getSelectedRow(); // 선택된 줄
+							String selectCode = table.getValueAt(row, 0).toString(); // 선택줄에 0번째 칼럼
+							spaceController.adminCouponSend(Integer.parseInt(selectCode));
+							
+
+							if(defaultModel != null || table != null)
+							{
+								defaultModel = null;
+								table = null;					
+							}
+							
+							 // TableJP  ->ScollPane -> Table -> DefaultTable
+							//TableJp.remove(scrollPane);
+							tableBackLabel.remove(scrollPane);
+							
+							String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1","쿠폰"};
+							defaultModel = new DefaultTableModel(spaceController.adminSearchAllMember(modelName),modelName) {
+								 @Override
+							    public boolean isCellEditable(int row, int column) {
+								 
+									 if(0 <= column && column < 3)
+									 {
+										 return false;
+									 }
+									 else if(column == 3)
+									 {
+										 return true;
+									 }
+									 else if(column > 3 && column < 9)
+									 {
+										 return false;
+									 }
+									 else
+									 {
+										 return false;
+									 }
+									 
+							    }
+							};
+							
+							table = new JTable(defaultModel);
+							scrollPane = new JScrollPane(table);
+							scrollPane.setLocation(12, 10);
+							scrollPane.setSize(960, 340);
+							table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+							table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기
+										
+							table.getModel().addTableModelListener(new Hendler(btn1Member,table));
+							
+							
+							nameField.setName("회원");
+							numberField.setName(null);
+							
+							
+							nameField.setVisible(true);
+							nameField.setEnabled(true);
+							
+							numberField.setVisible(false);
+							
+							nameLabel.setVisible(true);
+							indexLabel.setVisible(false);
+							
+							btn6Delete.setVisible(true);
+							btn7Search.setVisible(true);
+							
+							tableBackLabel.add(scrollPane,null);
+							//TableJp.add(scrollPane,null);
+							
+							tableBackLabel.revalidate();
+							tableBackLabel.repaint();
+							
+
+							
+						}
+						else if(table.getColumnCount() == 4)
+						{
+							JOptionPane.showMessageDialog(null, "잘못 접근 했어!", "경고", JOptionPane.WARNING_MESSAGE);
+							return;
+						}
+						else if(table.getColumnCount() == 3)
+						{
+							JOptionPane.showMessageDialog(null, "잘못 접근 했어!", "경고", JOptionPane.WARNING_MESSAGE);
+							return;
+						}
+						
+					}else
+					{
+						return;
+					}
+					
+				}
 				
 			}
 		});
@@ -1126,12 +1277,28 @@ class Hendler implements TableModelListener,KeyListener,MouseListener
 				//TableJp.remove(scrollPane);
 				tableBackLabel.remove(scrollPane);
 				
-				String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1"};
+				String[] modelName = {"회원코드","이름","이메일","비밀번호","주소","핸드폰 번호","생년월일","학생이면 1","쿠폰"};
 				defaultModel = new DefaultTableModel(spaceController.adminSearchAllMember(modelName),modelName) {
 					 @Override
 				    public boolean isCellEditable(int row, int column) {
 					 
-				        return column != 0;
+						 if(0 <= column && column < 3)
+						 {
+							 return false;
+						 }
+						 else if(column == 3)
+						 {
+							 return true;
+						 }
+						 else if(column > 3 && column < 9)
+						 {
+							 return false;
+						 }
+						 else
+						 {
+							 return false;
+						 }
+						 
 				    }
 				};
 				
@@ -1156,6 +1323,9 @@ class Hendler implements TableModelListener,KeyListener,MouseListener
 				
 				nameLabel.setVisible(true);
 				indexLabel.setVisible(false);
+				
+				btn6Delete.setVisible(true);
+				btn7Search.setVisible(true);
 				
 				tableBackLabel.add(scrollPane,null);
 				//TableJp.add(scrollPane,null);

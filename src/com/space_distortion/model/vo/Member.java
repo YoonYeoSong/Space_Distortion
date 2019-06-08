@@ -1,7 +1,9 @@
 package com.space_distortion.model.vo;
 
+import java.io.Serializable;
+
 //회원 클래스
-public class Member extends User {
+public class Member extends User implements Serializable {
 
 	private String memberName; //회원 이름
 	private String memberPw; // 비밀번호
@@ -10,7 +12,7 @@ public class Member extends User {
 	private String phoneNumber; /// 핸드폰 번호
 	private String birthDay; // 생년월일
 	private int studentIsTrue;  // 0 false 1 true
-	
+	private String coupon = "없음";
 	
 	public Member() {
 		super();
@@ -32,6 +34,27 @@ public class Member extends User {
 		this.phoneNumber = phoneNumber;
 		this.birthDay = birthDay;
 		this.studentIsTrue = studentIsTrue;
+	}
+	
+	public Member(String memberName, String memberPw, String emailId, String address, String phoneNumber,
+			String birthDay, int studentIsTrue,String coupon) {
+		super(mCodeNumber++);	
+		this.memberName = memberName;
+		this.memberPw = memberPw;
+		this.emailId = emailId;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.birthDay = birthDay;
+		this.studentIsTrue = studentIsTrue;
+		this.coupon = coupon;
+	}
+	
+	public String getCoupon() {
+		return coupon;
+	}
+
+	public void setCoupon(String coupon) {
+		this.coupon = coupon;
 	}
 
 	public String getMemberName() {
@@ -113,6 +136,10 @@ public class Member extends User {
 			{
 				return true;
 			}
+			else if(coupon.equals(member.getCoupon()))
+			{
+				return true;
+			}
 			else
 			{
 				return false;
@@ -125,14 +152,22 @@ public class Member extends User {
 		
 	}
 
+	
+	
 	@Override
 	public String toString() {
-		return "Member [UserCode="+ super.getUserCode() + ", memberName=" + memberName + ", memberPw=" + memberPw + ", emailId=" + emailId + ", address="
+		return "Member [memberName=" + memberName + ", memberPw=" + memberPw + ", emailId=" + emailId + ", address="
 				+ address + ", phoneNumber=" + phoneNumber + ", birthDay=" + birthDay + ", studentIsTrue="
-				+ studentIsTrue + "]";
+				+ studentIsTrue + ", coupon=" + coupon + "]";
 	}
-	
-	
+
+	public void printMember()
+	{
+		String msg = "Member [memberName=" + memberName + ", memberPw=" + memberPw + ", emailId=" + emailId + ", address="
+				+ address + ", phoneNumber=" + phoneNumber + ", birthDay=" + birthDay + ", studentIsTrue="
+				+ studentIsTrue + ", coupon=" + coupon + "]";
+		System.out.println(msg);
+	}
 	
 	
 	

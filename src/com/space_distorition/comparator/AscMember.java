@@ -2,6 +2,7 @@ package com.space_distorition.comparator;
 
 import java.util.Comparator;
 
+import com.space_distortion.model.vo.Coupon;
 import com.space_distortion.model.vo.Member;
 import com.space_distortion.model.vo.SnackBar;
 
@@ -45,7 +46,25 @@ public class AscMember implements Comparator<Object> {
 				return 0;
 			}
 			
-		}else
+		}
+		else if(o1 instanceof Coupon)
+		{
+			String c1 = ((Coupon)o1).getCoupontNumber();
+			String c2 = ((Coupon)o2).getCoupontNumber();
+			if(c2.compareTo(c1) < 0)
+			{
+				return 1;
+			}
+			else if(c2.compareTo(c1) > -1)
+			{
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
 		{
 			return 0;
 		}

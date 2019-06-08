@@ -12,6 +12,7 @@ public class Admin {
 	private List adminPaymentList; //페이먼트 리스트	
 	private List adminRoomInfoList;   // 방정보
 	private List<SnackBar> adminSnackBarList; // 관리자용 스낵 리스트
+	private List<Coupon> adminCouponList; // 쿠폰 리스트
 	
 	// 비회원
 	
@@ -22,19 +23,30 @@ public class Admin {
 		adminRoomInfoList = new ArrayList();
 		adminSnackBarList = new ArrayList<SnackBar>();
 		adminMemberMap = new HashMap();
+		adminCouponList = new ArrayList<Coupon>();
 	}
 	
 	
 	
 
-	public Admin(Map adminMemberMap, List adminPaymentList, List adminRoomInfoList, List<SnackBar> adminSnackBarList) {
+	public Admin(Map adminMemberMap, List adminPaymentList, List adminRoomInfoList, List<SnackBar> adminSnackBarList,List<Coupon> adminCouponList) {
 		super();
 		this.adminMemberMap = adminMemberMap;
 		this.adminPaymentList = adminPaymentList;
 		this.adminRoomInfoList = adminRoomInfoList;
 		this.adminSnackBarList = adminSnackBarList;
+		this.adminCouponList = adminCouponList;
 	}
 
+
+
+	public List<Coupon> getAdminCouponList() {
+		return adminCouponList;
+	}
+
+	public void setAdminCouponList(List<Coupon> adminCouponList) {
+		this.adminCouponList = adminCouponList;
+	}
 
 
 	public Map getAdminMemberMap() {
