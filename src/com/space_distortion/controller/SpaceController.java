@@ -188,6 +188,7 @@ public class SpaceController implements ViewIndex{
 		boolean check = false;
 		System.out.println("맵 사이즈 : " + mMap.size()); // 맴버 사이즈 확인
 
+		
 		for (int i = 0; i < mMap.size(); i++) {
 			if (((Member) mMap.get(i)).getEmailId().equals(inputid)
 					&& ((Member) mMap.get(i)).getMemberPw().equals(inputpw)) {
@@ -566,6 +567,8 @@ public void roomNumber(int num)
 	
 	
 	
+		
+	
 	//  관리자 테스트 객체 생성자
 	public void initConsol()
 	{
@@ -576,7 +579,8 @@ public void roomNumber(int num)
 		mMap.put(mKeyNumber++,new Member("차여송2", "12341020", "yeosong92@gmail.com", "부산", "01011135883", "1981/04/27", 0));
 		mMap.put(mKeyNumber++,new Member("다여송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
 		mMap.put(mKeyNumber++,new Member("챙송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
-		mMap.put(mKeyNumber++,new Member("123", "123", "123", "경기도 부천", "01054035883", "1992/04/27", 1));
+		mMap.put(mKeyNumber++,new Member("123", "123", "123", "경기도", "01054035883", "1992/04/27", 1));
+		mMap.put(mKeyNumber++,new Member("admin", "1234", "admin", "경기도 부천", "01054035883", "1992/04/27", 1));
 		
 		
 		roomInfoList.add(new RoomInfo("HARVARD ROOM", 1, 4, ""));
@@ -695,6 +699,21 @@ public void roomNumber(int num)
 	///////////////////////////////////////////////////(여송) 관리자 관리 기능 ///////////////////////////////////////////////////////////////
 	
 	
+	
+	public void adminInit()
+	{
+//		adminPaymentList = new ArrayList();
+//		adminRoomInfoList = new ArrayList();
+//		adminSnackBarList = new ArrayList<SnackBar>();
+//		adminMemberMap = new HashMap();
+//		adminCouponList = new ArrayList<Coupon>();
+		
+		
+		admin.setAdminMemberMap(mMap);
+		admin.setAdminRoomInfoList(roomInfoList);
+		admin.setAdminPaymentList(paymentList);
+		admin.setAdminSnackBarList(snackBarList);
+	}
 	
 	public void couponCreat() {
 		

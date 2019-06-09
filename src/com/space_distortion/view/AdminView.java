@@ -174,20 +174,10 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		btn3Snack.setOpaque(false);		
 		menuBackLabel.add(btn3Snack);
 		
-		// 예약 버튼
-		btn4Reservation = new JButton();
-		btn4Reservation.setBounds(btn3Snack.getX()+200, btn1Member.getY(), btn1Member.getWidth(), btn1Member.getHeight());		
-		URL reservationpath = this.getClass().getResource("ReserVation1.png");	
-		btn4Reservation.setIcon(new ImageIcon(reservationpath));
-		btn4Reservation.setBorderPainted(false);
-		btn4Reservation.setContentAreaFilled(false);
-		btn4Reservation.setFocusPainted(false);
-		btn4Reservation.setOpaque(false);		
-		menuBackLabel.add(btn4Reservation);
 		
 		// 페이먼트 버튼
-		btn5TotalPay = new JButton();
-		btn5TotalPay.setBounds(btn4Reservation.getX()+200, btn1Member.getY(), btn1Member.getWidth(), btn1Member.getHeight());	
+		btn5TotalPay = new JButton(); //setBounds(btn3Snack.getX()+200, btn1Member.getY(), btn1Member.getWidth(), btn1Member.getHeight());
+		btn5TotalPay.setBounds(btn3Snack.getX()+200, btn1Member.getY(), btn1Member.getWidth(), btn1Member.getHeight());	
 		URL totalpaypath = this.getClass().getResource("TotalPay1.png");	
 		btn5TotalPay.setIcon(new ImageIcon(totalpaypath));
 		btn5TotalPay.setBorderPainted(false);
@@ -195,6 +185,17 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		btn5TotalPay.setFocusPainted(false);
 		btn5TotalPay.setOpaque(false);		
 		menuBackLabel.add(btn5TotalPay);
+		
+		// 예약 버튼
+		btn4Reservation = new JButton(); //setBounds(btn4Reservation.getX()+200, btn1Member.getY(), btn1Member.getWidth(), btn1Member.getHeight());
+		btn4Reservation.setBounds(btn5TotalPay.getX()+200, btn1Member.getY(), btn1Member.getWidth(), btn1Member.getHeight());
+		URL reservationpath = this.getClass().getResource("admin1.png");	
+		btn4Reservation.setIcon(new ImageIcon(reservationpath));
+		btn4Reservation.setBorderPainted(false);
+		btn4Reservation.setContentAreaFilled(false);
+		btn4Reservation.setFocusPainted(false);
+		btn4Reservation.setOpaque(false);		
+		menuBackLabel.add(btn4Reservation);
 		
 		//메뉴 글씨
 		menuLabel = new JLabel("Admin Management");
@@ -277,13 +278,13 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				URL reservationPressed = this.getClass().getResource("ReserVation2.png");
+				URL reservationPressed = this.getClass().getResource("admin2.png");
 				btn4Reservation.setIcon(new ImageIcon(reservationPressed));
 			}
 					
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				URL reservationReleased = this.getClass().getResource("ReserVation1.png");
+				URL reservationReleased = this.getClass().getResource("admin1.png");
 				btn4Reservation.setIcon(new ImageIcon(reservationReleased));
 			}
 			
@@ -680,9 +681,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("스낵");
-				
-				
-				
+							
 				if(defaultModel != null || table != null)
 				{
 					defaultModel = null;
@@ -751,56 +750,67 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(defaultModel != null || table != null)
+//				if(defaultModel != null || table != null)
+//				{
+//					defaultModel = null;
+//					table = null;					
+//				}
+//				
+//				tableBackLabel.remove(scrollPane);
+//				// 예약쪽은 미구현중 디폴트 값에 로우 하나만 들어가있다.
+//				String[] modelName = {"예약"};
+//				String[][] reservation = new String[1][1];
+//				reservation[0][0] = "아직 구현 중 (미 구 현)";
+//				defaultModel = new DefaultTableModel(reservation,modelName){
+//					 @Override
+//					    public boolean isCellEditable(int row, int column) {
+//						 
+//					        return false;
+//					    }
+//					};
+//							
+//				table = new JTable(defaultModel);
+//				scrollPane = new JScrollPane(table);
+//				scrollPane.setLocation(12, 10);
+//				scrollPane.setSize(960, 340);
+//				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
+//				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기			
+//				
+//				
+//				//table.getModel().addTableModelListener(new Hendler(btn6Delete,table));
+//				
+//		
+//				nameField.setVisible(false);
+//				nameField.setEnabled(false);
+//				
+//				numberField.setVisible(false);
+//				numberField.setEnabled(false);
+//				
+//				nameLabel.setVisible(false);
+//				indexLabel.setVisible(false);
+//				
+//				btn6Delete.setVisible(false);
+//				btn7Search.setVisible(false);
+//				
+//				
+//				//TableJp.add(scrollPane,null);	
+//				//TableJp.revalidate();
+//				//TableJp.repaint();
+//				
+//				tableBackLabel.add(scrollPane);
+//				tableBackLabel.revalidate();
+//				tableBackLabel.repaint();
+				int ans = JOptionPane.showConfirmDialog(null, "List들을 추가 하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+				
+				if(ans == 0)
 				{
-					defaultModel = null;
-					table = null;					
+					sc.adminInit();					
+				}
+				else
+				{
+					return;
 				}
 				
-				tableBackLabel.remove(scrollPane);
-				// 예약쪽은 미구현중 디폴트 값에 로우 하나만 들어가있다.
-				String[] modelName = {"예약"};
-				String[][] reservation = new String[1][1];
-				reservation[0][0] = "아직 구현 중 (미 구 현)";
-				defaultModel = new DefaultTableModel(reservation,modelName){
-					 @Override
-					    public boolean isCellEditable(int row, int column) {
-						 
-					        return false;
-					    }
-					};
-							
-				table = new JTable(defaultModel);
-				scrollPane = new JScrollPane(table);
-				scrollPane.setLocation(12, 10);
-				scrollPane.setSize(960, 340);
-				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 로우만 선택
-				table.getTableHeader().setReorderingAllowed(false); // 컬럼 못움직이게 하기			
-				
-				
-				//table.getModel().addTableModelListener(new Hendler(btn6Delete,table));
-				
-		
-				nameField.setVisible(false);
-				nameField.setEnabled(false);
-				
-				numberField.setVisible(false);
-				numberField.setEnabled(false);
-				
-				nameLabel.setVisible(false);
-				indexLabel.setVisible(false);
-				
-				btn6Delete.setVisible(false);
-				btn7Search.setVisible(false);
-				
-				
-				//TableJp.add(scrollPane,null);	
-				//TableJp.revalidate();
-				//TableJp.repaint();
-				
-				tableBackLabel.add(scrollPane);
-				tableBackLabel.revalidate();
-				tableBackLabel.repaint();
 				
 				
 			}
@@ -868,9 +878,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		btn6Delete.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-						
-				
-				
+
 				if(table.getSelectedRow() == -1)
 				{
 					return;
@@ -1268,15 +1276,11 @@ class Hendler implements TableModelListener,KeyListener, MouseListener
 						System.out.println(column);
 
 						if (column > 0) // 이름
-						{
-							// System.out.println("여기");
-							// System.out.println(column);
-							// System.out.println(model.toString());
-							// userCode = (String)model.getValueAt(row , columnCode);
+						{						
 							// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
 							colName = model.getColumnName(column); // 해당 인덱스의 컬럼이름을 받아온다.
 							String userCode = (String) model.getValueAt(row, columnCode); // 코드
-							String userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.
+							String userValue = (String) model.getValueAt(row, column);  //data는 object 타입이므로 형변환해야 한다.
 																						// //패스워드
 							System.out.println(userCode + "  " + userValue);
 							// 버튼에 대한 이름이 삭제가 아닐경우 발생

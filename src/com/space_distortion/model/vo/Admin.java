@@ -15,8 +15,6 @@ public class Admin {
 	private List<Coupon> adminCouponList; // 쿠폰 리스트
 	
 	// 비회원
-	
-	
 	public Admin() 
 	{
 		adminPaymentList = new ArrayList();
@@ -26,9 +24,6 @@ public class Admin {
 		adminCouponList = new ArrayList<Coupon>();
 	}
 	
-	
-	
-
 	public Admin(Map adminMemberMap, List adminPaymentList, List adminRoomInfoList, List<SnackBar> adminSnackBarList,List<Coupon> adminCouponList) {
 		super();
 		this.adminMemberMap = adminMemberMap;
@@ -39,7 +34,6 @@ public class Admin {
 	}
 
 
-
 	public List<Coupon> getAdminCouponList() {
 		return adminCouponList;
 	}
@@ -47,7 +41,6 @@ public class Admin {
 	public void setAdminCouponList(List<Coupon> adminCouponList) {
 		this.adminCouponList = adminCouponList;
 	}
-
 
 	public Map getAdminMemberMap() {
 		return adminMemberMap;

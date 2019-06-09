@@ -15,6 +15,8 @@ import com.space_distortion.controller.TimerThread;
 import com.space_distortion.event.SpaceActionEvent;
 import com.space_distortion.model.vo.RoomInfo;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
@@ -144,9 +146,35 @@ public class MainRoomView extends SpaceActionEvent implements ViewIndex {
 		jp.add(btnRoom7);
 		jp.add(btnRoom8);
 
-		JButton btnAdmin = new JButton("\uAD00\uB9AC\uC790");
+		URL memberpath = this.getClass().getResource("admin1.png");	
+		JButton btnAdmin = new JButton();
+		btnAdmin.setBounds(850, 12, 140, 55);
+		btnAdmin.setIcon(new ImageIcon(memberpath));
+		btnAdmin.setBorderPainted(false);
+		btnAdmin.setContentAreaFilled(false);
+		btnAdmin.setFocusPainted(false);
+		btnAdmin.setOpaque(false);
+		
+		// 버튼 이미지 이벤트
+		btnAdmin.addMouseListener(new MouseAdapter() {
+				
+		@Override
+		public void mousePressed(MouseEvent e) {
+			URL reservationPressed = this.getClass().getResource("admin2.png");
+			btnAdmin.setIcon(new ImageIcon(reservationPressed));
+		}
+				
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			URL reservationReleased = this.getClass().getResource("admin1.png");
+			btnAdmin.setIcon(new ImageIcon(reservationReleased));
+		}
+		
+	});
 
-		btnAdmin.setBounds(889, 12, 105, 27);
+		
+		// 멤버 버튼
+			
 		jp.add(btnAdmin); // 관리자버튼
 
 		btnRoom1.addMouseListener(new SpaceActionEvent(MAIN_ROOM_VIEW_NUM, 1, sc, mainJframe, jp));

@@ -211,7 +211,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			{
 				//관리자뷰로이동
 				jf.remove(jp);
-				sc.adminView();
+				sc.loginView();
 			}
 				System.out.println("err....");
 		}
@@ -271,7 +271,14 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 				jf.remove(jp);
 				sc.snackView();
 				// 찾기 페이지로 이동
-			}else
+			}else if(buttonIndex == 4)
+			{
+				JOptionPane.showMessageDialog(null, "로그인 완료!");
+				jf.remove(jp);
+				sc.adminView();
+			}
+			
+			else
 				//생성 해야되는 부분
 				//System.out.println("ID & PW 찾기");
 				
