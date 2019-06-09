@@ -357,8 +357,9 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	{
 		if(buttonIndex == 1)
 		{
+			sc.dataInputForPayment();
 			jf.remove(jp);
-			sc.paymentView();
+			sc.snackView();
 		}
 	}
 	
