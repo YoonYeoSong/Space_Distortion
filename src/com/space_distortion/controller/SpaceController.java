@@ -1,5 +1,7 @@
 package com.space_distortion.controller;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
@@ -20,7 +22,11 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.space_distorition.comparator.AscMember;
 import com.space_distortion.event.SpaceActionEvent;
@@ -82,6 +88,8 @@ public class SpaceController implements ViewIndex{
 	private SnackBarView snackV = new SnackBarView();		//간식 뷰 생성
 	private FinalPaymentView finalpv = new FinalPaymentView(); // 마지막 뷰 창
 	private JFrame mainJframe;			//메인 프레임 생성
+	private int finalTime; // 최종 시가을 보여주는 변수
+	
 	
 	/* 메인 컨트롤러 생성자 */
 	public SpaceController() {
@@ -98,28 +106,22 @@ public class SpaceController implements ViewIndex{
 	public void init()
 	{
 		
-		// 방정보 불러오기
-		// 방이름 방번호 수용인원 빔프로젝트 사용여부
-		// 방이름 방번호 수용인원 빔프로젝트 사용여부
-//        roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(0).setRemTime(2);
-//        roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(1).setRemTime(5400);
-//        roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(2).setRemTime(7200);
-//        roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(3).setRemTime(8200);
-//        roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(4).setRemTime(9200);
-//        roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(5).setRemTime(10200);
-//        roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(6).setRemTime(11200);
-//        roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(7).setRemTime(12200);
-//        roomInfoList.add(new RoomInfo("STANFORD", 8, 12, "※ 빔프로젝트사용가능 ※"));
-//        roomInfoList.get(8).setRemTime(13200);
-//		
+//		roomInfoList.add(new RoomInfo("HARVARD ROOM", 1, 4, ""));
+//        roomInfoList.get(0).setRemTime(5000);
+//        roomInfoList.add (new RoomInfo("USC ROOM", 2, 8, ""));
+//        roomInfoList.get(1).setRemTime(3);
+//        roomInfoList.add (new RoomInfo("CORNELL ROOM", 3, 8, ""));
+//        roomInfoList.get(2).setRemTime(14);
+//        roomInfoList.add (new RoomInfo("BROWN ROOM",4, 8, ""));
+//        roomInfoList.get(3).setRemTime(11);
+//        roomInfoList.add(new RoomInfo("YALE ROOM", 5, 8, ""));
+//        roomInfoList.get(4).setRemTime(10);
+//        roomInfoList.add (new RoomInfo("PRINCETON ROOM",6, 12, ""));
+//        roomInfoList.get(5).setRemTime(10);
+//        roomInfoList.add(new RoomInfo("COLUMBIA ROOM", 7, 12, ""));
+//        roomInfoList.get(6).setRemTime(8);
+//        roomInfoList.add(new RoomInfo("STANFORD ROOM", 8, 12, ""));
+//        roomInfoList.get(7).setRemTime(9);
 //        
 //        
 //      snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족"));
@@ -142,7 +144,7 @@ public class SpaceController implements ViewIndex{
 		mainJframe.setBounds(0, 0, 1024, 768);
 		mainJframe.setLayout(null);
 		mainJframe.setDefaultCloseOperation(3);
-		
+		mainJframe.setResizable(false);
 		mainJframe.setVisible(true);	
 		
 		mainJframe.addWindowListener(new SpaceActionEvent(ViewIndex.WINDOWEIXT,1,this,this.mainJframe));
@@ -462,7 +464,7 @@ public class SpaceController implements ViewIndex{
 		paymentList.add(list.get(list.size()-1)); //
 	}
 
-		
+//	최종 받아야할 금액을 계산해주는 메소드
 	public void hourlyCostCalculator(List<Payment> list) {
 		(list.get(list.size()-1)).setTotalHourlyCost(
 				((list.get(list.size()-1)).getHour()*
@@ -474,8 +476,86 @@ public class SpaceController implements ViewIndex{
 		System.out.println("getHourlyCost during hourlyCalc: "+ (list.get(list.size()-1)).getHourlyCost());
 		System.out.println("getPpl during hourlyCalc: "+ (list.get(list.size()-1)).getPpl());
 	}
-		
 	
+	
+	// 거스름돈이 얼마인지 계산해주는 메소드
+	// 달력도 보여줌
+	public int changeCalculator(JButton confirmButton, List<Payment> list, JTextField inputCash) {
+		String text = inputCash.getText();
+		list.get(list.size()-1).setInputtedCash(Integer.parseInt(text));
+		System.out.println(list.get(list.size()-1).getInputtedCash());
+		int changePrice = list.get(list.size()-1).getInputtedCash()-list.get(list.size()-1).getFinalCost();
+		
+		return changePrice;
+	}
+	
+	public void finalTime(int finalTime) {
+		this.finalTime = finalTime;
+	}
+		
+		
+		// 돈이 부족할때 나오는 팝업 프레임
+		public void popUp() {
+			JFrame popUpMessage = new JFrame();
+			popUpMessage.setBounds(300, 300, 200, 100);
+			
+			JPanel popUpPanel = new JPanel();
+			popUpPanel.setBounds(500, 500, 100, 100);
+			
+			JLabel inefficientFund = new JLabel("돈이 모자릅니다. 돈 더 넣으세요");
+			inefficientFund.setVisible(true);
+			popUpPanel.add(inefficientFund);
+			
+			JButton exitButton = new JButton("확인");
+			exitButton.setBounds(50, 50, 150, 150);
+			exitButton.addMouseListener(new MouseAdapter(){
+				@Override
+				public void mouseClicked(MouseEvent e) {
+				
+					popUpMessage.dispose();
+				}
+			});
+			inefficientFund.setVisible(true);
+			popUpPanel.add(exitButton);
+			
+			popUpPanel.setVisible(true);
+			popUpMessage.add(popUpPanel);
+			
+			popUpMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			popUpMessage.setVisible(true);
+		}
+		
+//		지불이 완료됬을때 팝업
+		public void paymentDonePopUp() {
+			JFrame popUpMessage = new JFrame();
+			popUpMessage.setBounds(300, 300, 200, 100);
+			
+			JPanel popUpPanel = new JPanel();
+			popUpPanel.setBounds(500, 500, 100, 100);
+			
+			JLabel inefficientFund = new JLabel("결제 완료");
+			inefficientFund.setVisible(true);
+			popUpPanel.add(inefficientFund);
+			
+			JButton exitButton = new JButton("확인");
+			exitButton.setBounds(50, 50, 150, 150);
+			exitButton.addMouseListener(new MouseAdapter(){
+				@Override
+				public void mouseClicked(MouseEvent e) {
+				
+					popUpMessage.dispose();
+				}
+			});
+			inefficientFund.setVisible(true);
+			popUpPanel.add(exitButton);
+			
+			popUpPanel.setVisible(true);
+			popUpMessage.add(popUpPanel);
+			
+			popUpMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			popUpMessage.setVisible(true);
+			
+		}
 /////////////////////////////////////(무관)Payment 기능 끝//////////////////////////////
 	
 	
@@ -492,6 +572,23 @@ public class SpaceController implements ViewIndex{
 		mMap.put(mKeyNumber++,new Member("챙송", "1234", "yeo90@gmail.com", "대전", "010378801", "1972/04/27", 1));
 		mMap.put(mKeyNumber++,new Member("123", "123", "123", "경기도 부천", "01054035883", "1992/04/27", 1));
 		
+		
+		roomInfoList.add(new RoomInfo("HARVARD ROOM", 1, 4, ""));
+        roomInfoList.get(0).setRemTime(5000);
+        roomInfoList.add (new RoomInfo("USC ROOM", 2, 8, ""));
+        roomInfoList.get(1).setRemTime(3);
+        roomInfoList.add (new RoomInfo("CORNELL ROOM", 3, 8, ""));
+        roomInfoList.get(2).setRemTime(14);
+        roomInfoList.add (new RoomInfo("BROWN ROOM",4, 8, ""));
+        roomInfoList.get(3).setRemTime(11);
+        roomInfoList.add(new RoomInfo("YALE ROOM", 5, 8, ""));
+        roomInfoList.get(4).setRemTime(10);
+        roomInfoList.add (new RoomInfo("PRINCETON ROOM",6, 12, ""));
+        roomInfoList.get(5).setRemTime(10);
+        roomInfoList.add(new RoomInfo("COLUMBIA ROOM", 7, 12, ""));
+        roomInfoList.get(6).setRemTime(8);
+        roomInfoList.add(new RoomInfo("STANFORD ROOM", 8, 12, ""));
+        roomInfoList.get(7).setRemTime(9);
 		
 		//임시 스낵 생성
 		snackBarList.add(new SnackBar(1, "치토스", 30, 1000,"물량부족"));
@@ -520,22 +617,22 @@ public class SpaceController implements ViewIndex{
 		
 		
 		// 방이름 방번호 수용인원 빔프로젝트 사용여부
-		roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(0).setRemTime(20);
-        roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(1).setRemTime(5);
-        roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(2).setRemTime(7200);
-        roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(3).setRemTime(8200);
-        roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(4).setRemTime(9200);
-        roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(5).setRemTime(10200);
-        roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(6).setRemTime(11200);
-        roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
-        roomInfoList.get(7).setRemTime(12200);
+//		roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(0).setRemTime(20);
+//        roomInfoList.add (new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(1).setRemTime(5);
+//        roomInfoList.add (new RoomInfo("USC", 2, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(2).setRemTime(7200);
+//        roomInfoList.add (new RoomInfo("CORNELL", 3, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(3).setRemTime(8200);
+//        roomInfoList.add (new RoomInfo("BROWN",4, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(4).setRemTime(9200);
+//        roomInfoList.add(new RoomInfo("YALE", 5, 8, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(5).setRemTime(10200);
+//        roomInfoList.add (new RoomInfo("PRINCETON",6, 12, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(6).setRemTime(11200);
+//        roomInfoList.add(new RoomInfo("COLUMBIA", 7, 12, "※ 빔프로젝트사용가능 ※"));
+//        roomInfoList.get(7).setRemTime(12200);
 		
         
         paymentList.add((new Payment("1",20,"2019/4/27")));
@@ -580,9 +677,6 @@ public class SpaceController implements ViewIndex{
 	
 	
 	
-	
-	
-	
 	public void couponCreat() {
 		
 		//쿠폰 사이즈
@@ -611,7 +705,6 @@ public class SpaceController implements ViewIndex{
 			} else if (i > 36 && i < 62) // 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61
 			{ // b c d e f g h i j k l n m o p q r s t u v w x y z
 				coupon[i] = ascCode;
-
 			}
 			ascCode++;
 		}
@@ -663,9 +756,6 @@ public class SpaceController implements ViewIndex{
 		admin.setAdminCouponList(couponList);
 	}
 	
-	
-	
-	
 
 	// 저장하기
 	public void inputList()
@@ -676,7 +766,7 @@ public class SpaceController implements ViewIndex{
 		
 		try
 		{
-			out = new FileOutputStream("Member.txt");
+			out = new FileOutputStream("adminMember.txt");
 			bout = new BufferedOutputStream(out);
 			oout = new ObjectOutputStream(bout);
 			
@@ -707,7 +797,7 @@ public class SpaceController implements ViewIndex{
 	
 		try
 		{
-			in = new FileInputStream("Member.txt");
+			in = new FileInputStream("adminMember.txt");
 			bin = new BufferedInputStream(in);
 			oin = new ObjectInputStream(bin);
 			
@@ -1442,7 +1532,7 @@ public class SpaceController implements ViewIndex{
 		
 	//			Method 1 (the create a new object)
 		//paymentList.add(new Payment());
-		payV.initialize(this, mainJframe);
+		payV.initialize(this, mainJframe, paymentList);
 	}
 	
 	// 마지막 결제뷰

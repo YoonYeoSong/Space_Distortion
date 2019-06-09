@@ -106,75 +106,60 @@ public class AccountView2 extends SpaceActionEvent implements ViewIndex {
 			
 			
 			
-			button_EmailCheck.addMouseListener(new MouseAdapter() {
-	
-				@Override
-				public void mousePressed(MouseEvent e) {
-					String email = textField_Email.getText();
-					System.out.println("이게 이메일 : " + email);
-					
-					if( !(sc.emailCheck(email)))  // ! 있다 없다
-					{
-						JOptionPane.showMessageDialog(null, "사용가능");
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "사용불가");
-					}
-				}	
-			});
-					
-			button_Next.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mousePressed(MouseEvent e) {
-					String pw = textField_Pw.getText();
-					String pw2 = textField_Pw2.getText();
-					String a="";
-					
-//					if(email.equals(a)) {
-//						JOptionPane.showMessageDialog(null, "email을 입력해주세요.");
-//					} else if(pw.equals(a)) {
-//						JOptionPane.showMessageDialog(null, "pw을 입력해주세요.");
-//					} else if(pw2.equals(a)) {
-//						JOptionPane.showMessageDialog(null, "pw2을 입력해주세요.");
-//					} else if(!(pw.equals(pw2))) {
-//						JOptionPane.showMessageDialog(null, "pw와 pw2가 서로 다릅니다.");
-//					} else {
-//						
-//						sc.initMember2(email, pw);
-//						button_Next.addMouseListener(new SpaceActionEvent(ACCOUNT_SUB_LOGIN_VIEW, 2, sc, mainJframe ,jp));
-//						
-//					}
-					
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-					 
-				}
-				
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
+		button_EmailCheck.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String email = textField_Email.getText();
+				System.out.println("사용자가 사용할 아이디 : " + email);
+
+				String regex = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
+
+//					if(!(email.contains("@"))) {
+//					JOptionPane.showMessageDialog(null, "올바른 이메일 형식이 아닙니다.");
+
+				String check = email;
+				boolean emailcheck = check.matches(regex);
+				if (emailcheck == false) {
+					JOptionPane.showMessageDialog(null, "올바른 이메일 형식이 아닙니다.");
+				} else if (!(sc.emailCheck(email))) {
+					JOptionPane.showMessageDialog(null, "사용 가능한 아이디 입니다.");
+				} else {
+					JOptionPane.showMessageDialog(null, "중복된 아이디 입니다.");
+				}
+
+			}
+		});
+		
+		button_Next.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				String pw = textField_Pw.getText();
+				String pw2 = textField_Pw2.getText();
+				String email=textField_Email.getText();
+				String a="";
+
+				
+				System.out.println("입력한 패스워드 길이 : "+pw.length());
+				
+				if(email.equals(a)) {
+					JOptionPane.showMessageDialog(null, "email을 입력해주세요.");
+				} else if(6>=pw.length()){
+					JOptionPane.showMessageDialog(null, "패스워드는 6글자이상으로 입력해주세요.");						
+				} else if(pw.equals(a)) {
+					JOptionPane.showMessageDialog(null, "pw을 입력해주세요.");
+				} else if(pw2.equals(a)) {
+					JOptionPane.showMessageDialog(null, "pw2을 입력해주세요.");
+				} else if(!(pw.equals(pw2))) {
+					JOptionPane.showMessageDialog(null, "pw와 pw2가 서로 다릅니다.");
+				} else {
+					
+					sc.initMember2(email, pw);
+					button_Next.addMouseListener(new SpaceActionEvent(ACCOUNT_SUB_LOGIN_VIEW, 2, sc, mainJframe ,jp));
+				}
+			}
+			
+		});
 			
 			jp.add(lblNewLabel);
 			jp.add(label_Create);

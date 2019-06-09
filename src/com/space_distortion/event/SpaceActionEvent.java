@@ -118,41 +118,95 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 /////////  뷰 이벤트 메소드  /////////////////////////////////////////////////////////////////
 	
 	// 메인뷰 버튼 이벤트
-	public void mainViewSelected() {
-		System.out.println("메인버튼 클릭 이벤트");
-		
-		if(buttonIndex == 1) {
-			System.out.println("1번방 선택");
-			jf.remove(jp);
-			//jp.revalidate();
-			//jp.repaint();
-			sc.subRoomView(buttonIndex);
-			// 서브 로그인 뷰
-		} 
-		else if(buttonIndex == 2) {
-			System.out.println("2번방 선택"); 
+		public void mainViewSelected() {
+			System.out.println("메인버튼 클릭 이벤트");
 			
+			if(buttonIndex == 1) {
+				System.out.println("1번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+			else if(buttonIndex == 2) {
+				System.out.println("2번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+			else if(buttonIndex == 3) {
+				System.out.println("3번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+			else if(buttonIndex == 4) {
+				System.out.println("4번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+			else if(buttonIndex == 5) {
+				System.out.println("5번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+			else if(buttonIndex == 6) {
+				System.out.println("6번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+			else if(buttonIndex == 7) {
+				System.out.println("7번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+			else if(buttonIndex == 8) {
+				System.out.println("8번방 선택");
+				jf.remove(jp);
+				//jp.revalidate();
+				//jp.repaint();
+				sc.subRoomView(buttonIndex);
+				// 서브 로그인 뷰
+			} 
+//			else if(buttonIndex == 2) {
+//				System.out.println("2번방 선택");
+//			}
+//			else if(buttonIndex == 3) {
+//				System.out.println("종료 합니다.");
+////				System.out.println(this.buttonIndex);
+//				System.exit(0);
+//			}	
+//			else if(buttonIndex == 4)
+//			{
+//				jf.remove(jp);
+//				//sc.adminView();
+//				
+//			}	
+			else if(buttonIndex == 9)
+			{
+				//관리자뷰로이동
+				jf.remove(jp);
+				sc.adminView();
+			}
+				System.out.println("err....");
 		}
-		else if(buttonIndex == 3) {
-			System.out.println("종료 합니다.");
-//			System.out.println(this.buttonIndex);
-			System.exit(0);
-		}	
-		else if(buttonIndex == 4)
-		{
-			jf.remove(jp);
-			//sc.adminView();
-			
-		}	
-		else if(buttonIndex == 9)
-		{
-			//관리자뷰로이동
-			jf.remove(jp);
-			sc.adminView();
-		}
-			System.out.println("err....");
-	}
-
 	// 메인뷰 서브 이벤트
 	public void subRoomViewSelected() {
 		System.out.println("메인 서브뷰 이벤트");

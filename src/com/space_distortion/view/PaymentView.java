@@ -7,6 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +29,10 @@ public class PaymentView extends SpaceActionEvent implements ViewIndex, ItemList
 
 Color color = new Color(93, 188, 210); 
  private SpaceController sc;
+ private List<Payment> list;
  
 // 여기서  컬렉션의 '그릇'을 만들어준다
- List<Payment> list = new ArrayList<Payment> ();
+// List<Payment> list = new ArrayList<Payment> ();
  
 /**
  * @wbp.parser.entryPoint
@@ -62,9 +64,9 @@ public PaymentView() {
 	, totalLabelr, memberDiscountLabelr, finalPrice;
 
 	
-	public void initialize(SpaceController controller, JFrame mainJframe){
+	public void initialize(SpaceController controller, JFrame mainJframe, List<Payment> list){
 		sc=controller;
-		
+		this.list = list;
 //		리스트 인덱스 0번부터 여기서 추가해준다
 		list.add(new Payment());
 		
@@ -158,6 +160,7 @@ public PaymentView() {
 //		mainJframe.getContentPane().add(panelLeft);
 		
 //		========= 오른쪽 패널 생성==================================================
+		
 		
 		img = new ImageIcon("ocean_background_halfsize.png").getImage();
 		panelRight = new JPanel() {
@@ -280,6 +283,7 @@ public PaymentView() {
 		panelRight.add(getDisplayTotalCost());
 		
 		// 최종 가격을 보여주는 레이블
+		System.out.println("::::::"+list.get(list.size()-1).getFinalCost());
 		setDisplayPriceAfterDiscount(new JLabel(""+list.get(list.size()-1).getFinalCost()));
 		getDisplayPriceAfterDiscount().setForeground(Color.DARK_GRAY);
 		getDisplayPriceAfterDiscount().setBounds(405, 500, 50, 30);
@@ -294,14 +298,14 @@ public PaymentView() {
 		
 		
 		//Register Button
-		registerButton = new JButton("Register");
+		registerButton = new JButton("Registezr");
 		registerButton.setBounds(180, 550, 150, 60);
 		registerButton.setBackground(color);
 		panelRight.add(registerButton);
 		
 		
 		proceedButton = new JButton("Proceed");
-		proceedButton.addMouseListener(new SpaceActionEvent(PAYMENT_VIEW_NUM,2,sc,mainJframe,jp ));		
+		proceedButton.addMouseListener(new SpaceActionEvent(PAYMENT_VIEW_NUM,2,sc,mainJframe,jp));		
 		registerButton.addMouseListener(new SpaceActionEvent(PAYMENT_VIEW_NUM,1,sc,mainJframe,jp ));
 		proceedButton.setBounds(180, 650, 150, 60);
 		panelRight.add(proceedButton);
@@ -319,7 +323,9 @@ public PaymentView() {
 		
 		 
 	}
-	  
+		
+		
+	
 //	마우스를 클릭했을때 이벤트를 처리하는 메소드.5개의 클릭할수 있는 카테고리가 있으며 if문으로 처리함
 	public void itemStateChanged(ItemEvent e) {
 		

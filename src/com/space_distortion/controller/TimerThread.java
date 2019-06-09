@@ -16,8 +16,7 @@ public class TimerThread extends Thread{
 	private int timeNumer;
 	private int index;
 	private List<RoomInfo> roomInfoList;
-	private JButton btn;
-	
+	private JButton btn;	
 
 	public TimerThread(JLabel lbl, int time,List<RoomInfo> list, int index, JButton btn) {
 		this.lbl=lbl;
@@ -35,27 +34,28 @@ public class TimerThread extends Thread{
 	
 	while(timeNumer>0)
 	{
-		timeNumer--;
 		roomInfoList.get(index).setRemTime(timeNumer);
+		timeNumer--;
+//		btn.setBackground(Color.red);
+		lbl.setText((timeNumer/3600)+":"+(timeNumer % 3600)/60+":"+((timeNumer % 3600)%60)+"  사용불가");
 		btn.setEnabled(false);
-		btn.setBackground(Color.red);
-		
+		btn.setVisible(false);
 		/*
 		 i / 3600 = 시간
 		 (i % 3600)/60 = 분
 		 ((i % 3600)%60) = 초
 		 */
 		
-        lbl.setText((timeNumer/3600)+":"+(timeNumer % 3600)/60+":"+((timeNumer % 3600)%60));
         //System.out.println(timeNumer);
         //lbl.setText(i+"초");
 		//lbl.setText((i/3600)+":"+(i % 3600)/60+":"+((i % 3600)%60));
 		
 		if(timeNumer==0)
 		{
-			
-			lbl.setText("");
+			lbl.setForeground(Color.BLACK);
+			lbl.setText("    사용가능");
 			btn.setEnabled(true);
+			btn.setVisible(true);
 			btn.setBackground(null);
 		}
 		
@@ -70,7 +70,7 @@ public class TimerThread extends Thread{
 	}
 	
 }
-	 
+	
 	
 	
 

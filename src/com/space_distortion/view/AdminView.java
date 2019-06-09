@@ -35,8 +35,7 @@ import com.space_distortion.main.Main;
 import com.space_distortion.model.vo.Admin;
 
 public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellRenderer, TableModelListener ,ActionListener {
-	
-	
+		
 	SpaceController spaceController; 
 	
 	private DefaultTableModel defaultModel;
@@ -44,7 +43,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 	private JScrollPane scrollPane;
 	
 	// 전체 패널
-	private JPanel jp; 
+	private JPanel jp;
 	// 멤버 방 스낵 예약 페이 버튼 담고있는 패널
 	private JPanel menuJp;
 	// 테이블을 담고 있는 패널
@@ -111,34 +110,34 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		
 		//메인JP
 		jp = new JPanel();
-		jp.setBounds(0, 0, 1008, 730);
+		jp.setBounds(0, 0, 1024, 768);
 		jp.setLayout(null);
 		
 		mainBackLabel = new JLabel();
 		URL mainBackpath = this.getClass().getResource("main.png");
 		mainBackLabel.setIcon(new ImageIcon(mainBackpath));
-		mainBackLabel.setBounds(0, 0, 1008, 730);
+		mainBackLabel.setBounds(0, 0, 1024, 768);
 				
 		//menuJP
 		menuJp = new JPanel();
-		menuJp.setBounds(12, 20, 985, 164);
+		menuJp.setBounds(12, 20, 990, 164);
 		menuJp.setLayout(null);
 		
 		menuBackLabel = new JLabel();
-		menuBackLabel.setBounds(0, 0, 1000, 164);
+		menuBackLabel.setBounds(0, 0, 1024, 164);
 		menuBackLabel.setLayout(null);
 		URL menuBackpath = this.getClass().getResource("sub.png");
 		menuBackLabel.setIcon(new ImageIcon(menuBackpath));
 		
 		// 테이블 JP
 		TableJp = new JPanel();
-		TableJp.setBounds(12, 194, 985, 365);
+		TableJp.setBounds(12, 194, 990, 365);
 		TableJp.setLayout(null);
 		
 		
 		tableBackLabel = new JLabel();
 		tableBackLabel.setIcon(new ImageIcon(AdminView.class.getResource("/com/space_distortion/view/sub.png")));
-		tableBackLabel.setBounds(0, 0, 985, 365);
+		tableBackLabel.setBounds(0, 0, 1024, 365);
 		
 		// 멤버 버튼
 		btn1Member = new JButton();
@@ -355,12 +354,12 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			
 		// 서브 메뉴 JP
 		subMenuJp = new JPanel();
-		subMenuJp.setBounds(12, 570, 985, 140);
+		subMenuJp.setBounds(12, 570, 990, 140);
 		subMenuJp.setLayout(null);
 		
 		// 흰색 바탕의 서브 메뉴라벨
 		subBackLabel = new JLabel();
-		subBackLabel.setBounds(0, 0, 985, 140);
+		subBackLabel.setBounds(0, 0, 990, 140);
 		subBackLabel.setLayout(null);
 		URL subBackpath = this.getClass().getResource("sub.png");
 		subBackLabel.setIcon(new ImageIcon(subBackpath));
@@ -414,9 +413,9 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		
 		// 쿠폰 발행 버튼
 		btnCoupon = new JButton();
-		btnCoupon.setText("Coupon");
-		//URL couponPath = this.getClass().getResource("Coupon1.png");		
-		//btnCoupon.setIcon(new ImageIcon(couponPath));
+		btnCoupon.setName("쿠폰");
+		URL couponPath = this.getClass().getResource("Coupon1.png");		
+		btnCoupon.setIcon(new ImageIcon(couponPath));
 		btnCoupon.setBounds(10, 74, 117, 48);	
 		btnCoupon.setBorderPainted(false);
 		btnCoupon.setContentAreaFilled(false);
@@ -460,6 +459,27 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 			
 		});
 		
+		
+		
+		
+		btnCoupon.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				URL couponPressed = this.getClass().getResource("Coupon2.png");
+				btnCoupon.setIcon(new ImageIcon(couponPressed));
+			}
+			
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				URL couponReleased = this.getClass().getResource("Coupon1.png");
+				btnCoupon.setIcon(new ImageIcon(couponReleased));
+			}
+			
+		});
+		
+		
 		subBackLabel.add(btn7Search);
 		
 		
@@ -478,7 +498,6 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 					nameField.setText(null);
 				else if(e.getKeyChar() > 122 && e.getKeyChar() < 127)
 					nameField.setText(null);
-			
 			}
 		});
 		
@@ -494,8 +513,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				
 				else if(e.getKeyChar() == '1' || e.getKeyChar() == '2')				
 					if(numberField.getText().length() > 1)
-						numberField.setText(null);				
-				
+						numberField.setText(null);								
 			}
 			
 		});
@@ -540,7 +558,6 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 						} else {
 							return false;
 						}
-
 					}
 				};
 				
@@ -684,10 +701,7 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 				
 				
 				System.out.println(table.getModel().getColumnCount());
-				
-				
-				
-				
+							
 				nameField.setName("스낵");
 				numberField.setName("스낵번호");
 				
@@ -944,7 +958,6 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 								return;
 							}
 						}
-
 					});
 
 					String[] modelName = { "스낵인덱스", "스낵이름", "수량", "코멘트" };
@@ -1201,12 +1214,8 @@ class Hendler implements TableModelListener,KeyListener, MouseListener
 //				e.consume();
 //				return;
 //			}
-//		}
-		
-		
-	}
-		
-		
+//		}	
+	}	
 		@Override
 		public void tableChanged(TableModelEvent e) {
 
@@ -1235,7 +1244,7 @@ class Hendler implements TableModelListener,KeyListener, MouseListener
 						JOptionPane.PLAIN_MESSAGE);
 				if (ans == 0) {
 
-					if (model.getColumnCount() == 8) // 학생 컬럼 카운트
+					if (model.getColumnCount() == 9) // 학생 컬럼 카운트
 					{
 
 						row = e.getFirstRow();

@@ -8,6 +8,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -32,6 +35,11 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 	private JLabel finalPrice, payInCash, change, displayChangeCost, displayTotalPrice, invalidField;
 	private JTextField inputCash;
 	private List<Payment> list;
+	
+
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public FinalPaymentView() {
 		
 	}
@@ -40,6 +48,7 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 	
 	public void initialize(SpaceController controller, JFrame mainJframe, List<Payment> paymentList){
 		
+		
 		jp = new JPanel();
 		jp.setBounds(0, 0, 1024, 768);
 		jp.setLayout(null);
@@ -47,8 +56,9 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 		
 		sc=controller;
 		list = paymentList;
+		
 //		========= 왼쪽 패널 생성==================================================
-		logo = new ImageIcon("logo.png").getImage();
+		logo = new ImageIcon("space_distortion_logo.png").getImage();
 				
 		panelLeft = new JPanel() {
 			@Override
@@ -91,7 +101,7 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 		
 //		Pay in cash TextField (숫자가 아닌 다른 문자가 들어가면 잘못됬다고 띄워)
 		inputCash = new JTextField();
-		inputCash.setBounds(221, 259, 100, 50);
+		inputCash.setBounds(300, 95, 100, 40);
 		inputCash.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -108,50 +118,77 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 		
 //		파이널 가격 제목
 		finalPrice = new JLabel("Total Price");
-		finalPrice.setBounds(99, 95, 150, 60);
+		finalPrice.setBounds(99, 163, 150, 60);
 		panelRight.add(finalPrice);
 		
 //		최종 받을가격 보여주기
-		//displayTotalPrice = new JLabel(""+list.get(list.size()-1).getFinalCost());
-		//displayTotalPrice.setBounds(337, 95, 150, 60);
-		//panelRight.add(displayTotalPrice);
+		
+		int finalCost = list.get(list.size()-1).getFinalCost();
+//		if (finalCost == (Integer) null) {
+//			finalCost = 2100;
+//		} 
+		System.out.println("getFinalCost: "+ finalCost);
+		displayTotalPrice = new JLabel(""+finalCost);
+		displayTotalPrice.setBounds(350, 163, 150, 60);
+		panelRight.add(displayTotalPrice);
 		
 		
 //		파이널 가격을 보여주는 레이블
 		payInCash = new JLabel("Pay in Cash");
-		payInCash.setBounds(188, 163, 150, 60);
+		payInCash.setBounds(99, 95, 150, 60);
 		panelRight.add(payInCash);
 		
 		
-//		파이널 가격을 보여주는 레이블
-		change = new JLabel("거스름돈");
-		change.setBounds(99, 446, 150, 60);
-		panelRight.add(change);
-		
-//		거스름돈 가격표 보여주기
-		displayChangeCost = new JLabel("$거스름돈");
-		displayChangeCost.setBounds(337, 446, 150, 60);
-		panelRight.add(displayChangeCost);
+////		파이널 가격을 보여주는 레이블
+//		change = new JLabel("거스름돈");
+//		change.setBounds(99, 446, 150, 60);
+//		panelRight.add(change);
+//		
+////		거스름돈 가격표 보여주기
+//		displayChangeCost = new JLabel("$거스름돈");
+//		displayChangeCost.setBounds(337, 446, 150, 60);
+//		panelRight.add(displayChangeCost);
 	
+		
 //		Confirm Button
-		confirmButton = new JButton("Proceed");
+		confirmButton = new JButton("Confirm");
 		confirmButton.setBounds(180, 650, 150, 60);
-//		confirmButton.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				String text = inputCash.getText();
-//				list.get(list.size()-1).setInputtedCash(Integer.parseInt(text));
-//				System.out.println(list.get(list.size()-1).getInputtedCash());
-//				int changePrice = list.get(list.size()-1).getInputtedCash()-list.get(list.size()-1).getFinalCost();
-//				if(changePrice>=0) {
-//					sc.mainView();
-//				}else if (changePrice<0) {
-//					popUp();
-//				}
-//				
-//			}
-//		});
-		confirmButton.addMouseListener(new SpaceActionEvent(PAYMENTFINAL_VIEW_NUM,1,sc,mainJframe,jp));
+		confirmButton.addMouseListener(this);
+		confirmButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			int changePrice = sc.changeCalculator(confirmButton, list, inputCash);
+			
+			
+//			시간은 여기서 display 해줌
+			if(changePrice>=0) {
+				
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date date = new Date();
+				String dateNow = (dateFormat.format(date));
+				System.out.println(dateNow); //2016/11/16 12:08:43
+				
+				sc.finalTime(list.get(list.size()-1).getHour());
+				confirmButton.addMouseListener(new MouseAdapter() {
+					
+					public void mousePressed(MouseEvent e) {
+						
+					}
+					
+				});
+				confirmButton.addMouseListener(new SpaceActionEvent(PAYMENTFINAL_VIEW_NUM,1,sc,mainJframe,jp));
+//				sc.paymentDonePopUp();
+				
+//			돈을 덜 입력했을때 보이는 메소드	
+				
+			}else if (changePrice<0) {
+				
+				sc.popUp();
+				
+				}
+			}
+		});
+		
 		panelRight.add(confirmButton);
 		
 		jp.add(panelLeft);
@@ -165,36 +202,7 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 		
 	}
 	
-	// 돈이 부족할때 나오는 팝업 프레임
-	public void popUp() {
-		JFrame popUpMessage = new JFrame();
-		popUpMessage.setBounds(500, 500, 400, 400);
-		
-		JPanel popUpPanel = new JPanel();
-		popUpPanel.setBounds(500, 500, 300, 100);
-		
-		JLabel inefficientFund = new JLabel("돈이 모자릅니다. 돈 더 넣으세요");
-		inefficientFund.setVisible(true);
-		popUpPanel.add(inefficientFund);
-		
-		JButton exitButton = new JButton("알겠어요");
-		exitButton.setBounds(50, 50, 70, 50);
-		exitButton.addMouseListener(new MouseAdapter(){
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			
-				popUpMessage.dispose();
-			}
-		});
-		inefficientFund.setVisible(true);
-		popUpPanel.add(exitButton);
-		
-		popUpPanel.setVisible(true);
-		popUpMessage.add(popUpPanel);
-		
-		popUpMessage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		popUpMessage.setVisible(true);
-	}
+
 
 
 
