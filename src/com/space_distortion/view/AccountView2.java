@@ -144,7 +144,7 @@ public class AccountView2 extends SpaceActionEvent implements ViewIndex {
 				
 				if(email.equals(a)) {
 					JOptionPane.showMessageDialog(null, "email을 입력해주세요.");
-				} else if(6>=pw.length()){
+				} else if(6>pw.length()){
 					JOptionPane.showMessageDialog(null, "패스워드는 6글자이상으로 입력해주세요.");						
 				} else if(pw.equals(a)) {
 					JOptionPane.showMessageDialog(null, "pw을 입력해주세요.");

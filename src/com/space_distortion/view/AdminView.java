@@ -68,6 +68,8 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 	private JButton btn8Back;
 	// 쿠폰 버튼
 	private JButton btnCoupon; 
+	// adminSnack
+	private JButton btnAdminSnack;
 	// 이름 입력 텍스트
 	private JTextField nameField;
 	// 인덱스 입력 텍스트
@@ -422,6 +424,19 @@ public class AdminView extends SpaceActionEvent implements ViewIndex, TableCellR
 		btnCoupon.setFocusPainted(false);
 		btnCoupon.setOpaque(false);	
 		subBackLabel.add(btnCoupon);
+		
+		
+//		btnAdminSnack = new JButton();
+//		btnAdminSnack.setName("AdminSnack");
+//		btnAdminSnack.setBounds(10, 30, 117, 48);	
+//		btnAdminSnack.setBorderPainted(false);
+//		btnAdminSnack.setContentAreaFilled(false);
+//		btnAdminSnack.setFocusPainted(false);
+//		btnAdminSnack.setOpaque(false);	
+//		subBackLabel.add(btnAdminSnack);
+		
+		
+		//btnAdminSnack.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_NUM, ADMIN_VIEW_BUTTON9, sc, mainJframe,jp));
 		
 		// 삭제 버튼 이미지
 		btn6Delete.addMouseListener(new MouseAdapter() {

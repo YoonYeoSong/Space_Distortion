@@ -169,6 +169,7 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 				System.out.println(dateNow); //2016/11/16 12:08:43
 				
 				sc.finalTime(list.get(list.size()-1).getHour());
+				
 				confirmButton.addMouseListener(new MouseAdapter() {
 					
 					public void mousePressed(MouseEvent e) {
@@ -178,7 +179,8 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 				});
 				confirmButton.addMouseListener(new SpaceActionEvent(PAYMENTFINAL_VIEW_NUM,1,sc,mainJframe,jp));
 //				sc.paymentDonePopUp();
-				
+				sc.dataInit();
+				 
 //			돈을 덜 입력했을때 보이는 메소드	
 				
 			}else if (changePrice<0) {
@@ -186,6 +188,8 @@ public class FinalPaymentView extends SpaceActionEvent implements ViewIndex {
 				sc.popUp();
 				
 				}
+			
+			
 			}
 		});
 		

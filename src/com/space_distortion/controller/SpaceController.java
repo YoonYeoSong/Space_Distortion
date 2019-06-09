@@ -40,6 +40,7 @@ import com.space_distortion.model.vo.SnackBar;
 import com.space_distortion.view.AccountView;
 import com.space_distortion.view.AccountView2;
 import com.space_distortion.view.AddTimeRoomView;
+import com.space_distortion.view.AdminSnackView;
 import com.space_distortion.view.AdminView;
 import com.space_distortion.view.FinalPaymentView;
 import com.space_distortion.view.LoginView;
@@ -89,6 +90,9 @@ public class SpaceController implements ViewIndex{
 	private FinalPaymentView finalpv = new FinalPaymentView(); // 마지막 뷰 창
 	private JFrame mainJframe;			//메인 프레임 생성
 	private int finalTime; // 최종 시가을 보여주는 변수
+	private int finalroomNumber; // 방번호를 받아온다.
+	private AdminSnackView adminSnackV = new AdminSnackView(); // 관리자 스낵 추가뷰
+	private List tempPayment = new ArrayList();
 	
 	
 	/* 메인 컨트롤러 생성자 */
@@ -138,7 +142,7 @@ public class SpaceController implements ViewIndex{
 //		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
 //		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
 //		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
-        
+       
 		
 		mainJframe = new JFrame("Space Distorition");
 		mainJframe.setBounds(0, 0, 1024, 768);
@@ -153,7 +157,11 @@ public class SpaceController implements ViewIndex{
 	
 	public void dataInit() {
 		snackPaylList.clear();
+		tempPayment.clear();
 	}
+	
+	
+	
 
 	AdminView adminView;
 		
@@ -173,38 +181,31 @@ public class SpaceController implements ViewIndex{
 	
 	
 	// LoginView 로그인확인
-	public boolean logincheck(String inputid, String inputpw) 
-	{	
+	public boolean logincheck(String inputid, String inputpw) {
 		System.out.println(inputid);
 		System.out.println(inputpw);
-		
+
 		boolean check = false;
-		System.out.println("맵 사이즈 : " + mMap.size()); //맴버 사이즈 확인
-		
-		
-//		Set<Entry<Integer, Member>> set = mMap.entrySet();	
-//		Iterator<Map.Entry<Integer,Member>> it = set.iterator();
-//		
-//		while(it.hasNext())
-//		{
-//			Entry<Integer, Member> obj = it.next();
-//			
-//			if( (obj.getValue().getEmailId().equals(inputid)) && (obj.getValue().getMemberPw().equals(inputpw)) )
-//			{
-//				check = true;
-//			}
-//		}
-		
-		for(int i=0;i<mMap.size();i++) {
-			System.out.println(((Member)mMap.get(i)).getEmailId().equals(inputid));//아이디가 일치하는지, 일치하면true출력
-			System.out.println(((Member)mMap.get(i)).getMemberPw().equals(inputpw));//패스워드가 일치하는지, 일치하면 true출력
-			if(((Member)mMap.get(i)).getEmailId().equals(inputid) && ((Member)mMap.get(i)).getMemberPw().equals(inputpw)) {
-					//System.out.println("로그인 확인");
-				System.out.println("로그인"+  ((Member)mMap.get(i)).getEmailId().equals(inputid));//아이디가 일치하는지, 일치하면true출력
-				System.out.println("로그인"+((Member)mMap.get(i)).getMemberPw().equals(inputpw));//패스워드가 일치하는지, 일치하면 true출력
-				check = true;		
+		System.out.println("맵 사이즈 : " + mMap.size()); // 맴버 사이즈 확인
+
+		for (int i = 0; i < mMap.size(); i++) {
+			if (((Member) mMap.get(i)).getEmailId().equals(inputid)
+					&& ((Member) mMap.get(i)).getMemberPw().equals(inputpw)) {
+				System.out.println("로그인 : " + ((Member) mMap.get(i)).getEmailId().equals(inputid));// 아이디가 일치하는지,
+																									// 일치하면true출력
+				System.out.println("로그인 : " + ((Member) mMap.get(i)).getMemberPw().equals(inputpw));// 패스워드가 일치하는지, 일치하면
+																									// true출력
+
+				// 로그인한 맴버 키값 구하기
+				for (Object o : mMap.keySet()) {
+					if (mMap.get(o).getEmailId().equals(mMap.get(i).getEmailId())) {
+						System.out.println("로그인한 키 값 : " + o);
+					}
+				}
+
+				check = true;
 			}
-			
+
 		}
 		return check;
 	}
@@ -250,6 +251,9 @@ public class SpaceController implements ViewIndex{
 		
 
 	}
+	
+	
+	
 			
 		
 /////////////////////////////////(동규)로그인기능 끝///////////////////////////////////////////
@@ -259,47 +263,40 @@ public class SpaceController implements ViewIndex{
 	
 	
 ////////////////////////////////////// (헌수)스낵 관련 기능 시작//////////////////////////	
-	
-	
+
 	/*
-	 * 1 : 과자
-	 * 2 : 음료
+	 * 1 : 과자 2 : 음료
 	 */
-	
+
+	// 사용 안됨  *****
 	// 스낵 뷰가 로드될때 데이터 로드
 	public void snackViewDidload() {
-			
 		// 음료만 리스트로 생성
-		for (SnackBar snackBar : snackBarList) {
-			if(snackBar.getSnackBarIndex() == 2) {
-				snackTmpList.add(snackBar);
+		for (SnackBar sb : snackBarList) {
+			if (sb.getSnackBarIndex() == 1) {
+				snackTmpList.add(sb);
+//				System.out.println("kkk"+snackTmpList.size());
+
 			}
-		}//for
-	} //snackViewDidload
-		
-	public void snackSel(int i) {
-		
+		} // for
+	} // snackViewDidload
+
+	// 스낵 코너의 스낵 종류 분류해서 snackTmpList 추가
+	public List<SnackBar> snackSel(int i) {
 		// 초기화
-		if(!snackTmpList.isEmpty())
+		if (!snackTmpList.isEmpty()) {
 			snackTmpList.clear();
+		}
 		
-		if(i == 2) {
-			for (SnackBar snackBar : snackBarList) {
-				if(snackBar.getSnackBarIndex() == 2) {
-					snackTmpList.add(snackBar);
-				}
-			}//for
-		}else {
-			for (SnackBar snackBar : snackBarList) {
-				if(snackBar.getSnackBarIndex() == 1) {
-					snackTmpList.add(snackBar);
-				}
-			
-			}//for
-		}//else
+		for (SnackBar sb : snackBarList) {
+			if (sb.getSnackBarIndex() == i) {
+				snackTmpList.add(sb);
+			}
+		} // for
+		return snackTmpList;
 
 	}// snackSel
-	
+
 	// 과자버튼 선택 후 과자 종류 선택
 	public List<SnackBar> snackSelList(int btnIndex) {
 //		System.out.println("과자 세부선택");
@@ -307,114 +304,121 @@ public class SpaceController implements ViewIndex{
 //		System.out.println("1 :" +((SnackBar)snackBarList).getSnackComment());	//err
 
 		boolean snackOverlapChk = false;
-		
-		if(snackPaylList.isEmpty()) {
+
+		int tmpIndext = 0;
+		// 기존 주문한 상품이 없을경우 상품을 추가 (비여있을경우 null error)
+		if (snackPaylList.isEmpty()) {
 			snackPaylList.add(snackTmpList.get(btnIndex));
-//			snackPaylList.get(btnIndex).setSnackQuantity(1);
 			return snackPaylList;
 		}
-		
-		System.out.println(snackPaylList);
-		
+		// 같은 상품이 있는지 체크후 주문한 상품의 리스트 인덱스를 저장
 		for (int i = 0; i < snackPaylList.size(); i++) {
-			if( snackTmpList.get(btnIndex).getSnack().equals(
-					snackPaylList.get(i).getSnack()
-					)){
+			if (snackTmpList.get(btnIndex).getSnack().equals(snackPaylList.get(i).getSnack())) {
 				snackOverlapChk = true;
-//				snackPaylList.get(i).setSnackQuantity(1);
+				tmpIndext = i;
 			}
 		}
-
-		if(!snackOverlapChk)
-//		{
+		
+		// 주문한 상품의 수량을 추가
+		if (snackOverlapChk)
+		{
 //			System.out.println("상품 갯수 추가");
-//			
-//			// 상품 선택 수량 증가 코드 필요
-//			//
-//			//
-//			//
-//		}else
-			{
+			snackPaylList.get(tmpIndext).setSnackQty( snackPaylList.get(tmpIndext).getSnackQty() + 1 );
+			tmpIndext = 0;
+			snackOverlapChk = false;
+		}else
+		{
 			snackPaylList.add(snackTmpList.get(btnIndex));
-//			snackPaylList.get(btnIndex).setSnackQuantity(1);
-			}
+		}
 
 		return snackPaylList;
-	}//snackSelList
-		
-//			if( ((SnackBar)snackPaylList).getSnack().equals(
-//					snackPaylList.get(btnIndex).getSnack()
-//					)){
-//				System.out.println("같은 상품 선택");
-//				break;
-//			}else {
-//				System.out.println("다른 상품 선택");
-//				snackPaylList.add(snackTmpList.get(btnIndex));
-//				break;
-//			}
-		
-		
-		
-//		snackPaylList.add(snackTmpList.get(btnIndex));
-//		for (SnackBar s : snackPaylList) {
-//			System.out.println(s);
-//		}
+	}// snackSelList
 
 	// 선택된 간식 리스트
 	public List<SnackBar> snackSelList() {
 		return snackPaylList;
-	}//snackSel
-	
+	}// snackSel
+
+	// 스낵뷰의 테이블 재 생성, 콤보(레이블) 제거
 	public void snackTableRe() {
 		snackV.rightTableInit(this);
+		snackV.rightComboDel(this);
 	}
-		
-//		List<SnackBar> tmpList = new ArrayList<SnackBar>(); // = snackTmpList;
-		
-//		System.out.println(tmpList);
-//		System.out.println(snackBarList.get(0).getSnackBarIndex());
-		
-//		System.out.println(tmpList.get(btnIndex).getSnackBarIndex());
 	
-//		SnackBar snackTmp = new SnackBar();
+	// 간식의 종류 이름 
+	public String[] snackTitle() {
 		
-//		tmpList.add(e)
+		Set<String> set = new HashSet();
 		
-//		int a = 0;
-//		a += tmpList.get(btnIndex).getSnackPrice();
+		for (SnackBar s : snackBarList) {
+			set.add(s.getSnackKind());
+		}
+		
+		List list = new ArrayList(set);
 
-//		if ( tmpList.get(btnIndex).getSnackBarIndex() == 1) {
-//			System.out.println("dfdfdfdfadfwerwer");
-//		}
+		String str[] = new String[list.size()];
+		for(int i = 0; i < list.size(); i++) {
+			str[i] = list.get(i).toString();
+		}
 		
-//		if(((SnackBar)snackBarList).getSnackBarIndex() == 1) {
-//			tmpList = snackBarList;
-//			
-//		}
-//		
-//		if(((SnackBar)snackBarList).getSnackBarIndex() == 2) {
-//			tmpList = snackBarList;
-			
-//		}//if
+		return str;
+	}
+	
+	
+	// 선택된 콤보 수량 반
+	public void snackComboSelected(int row, String i) {
+		snackPaylList.get(row).setSnackQty( Integer.parseInt(i) );
 		
+	}
 	
-//	public List<SnackBar> snackPay(){
-//		return this.snackPaylList;
-//	}
-	
-	
-	
-	
+	// 리스트 반환 테스
+	public void snackTtttttttttttt() {
+		
+		for (SnackBar s : snackPaylList) {
+			System.out.println(s);
+		}
+	}
 	
 //////////////////////////////////////(헌수)스낵 기능 끝/////////////////////
 	
+//////////방에 대한 번호를 받아온다/////////////////
+public void roomNumber(int num)
+{
+	finalroomNumber = num;
+}
 	
+	
+//////////////////////////////////////////////
 	
 	
 	
 	
 	
 /////////////////////////////////////(무관)Payment 기능 시작 //////////////////////////////
+
+	public void dataInputForPayment() {
+		
+		if(tempPayment != null)
+			tempPayment.clear();
+		
+		tempPayment = new ArrayList();
+		tempPayment.add(finalroomNumber);
+		tempPayment.add(snackPaylList);
+		tempPayment.add("nonMember");
+	}
+	
+	public void dataInputForPaymentMember() {
+		
+		if(tempPayment != null)
+			tempPayment.clear();
+		
+		tempPayment = new ArrayList();
+		tempPayment.add(finalroomNumber);
+		tempPayment.add(snackPaylList);
+		tempPayment.add("Member");
+	}
+
+
 	// 모든 가격을 계산하고 프린트함
 	public void totalCostCalculator(List<Payment> list) {
 			
@@ -477,7 +481,6 @@ public class SpaceController implements ViewIndex{
 		System.out.println("getPpl during hourlyCalc: "+ (list.get(list.size()-1)).getPpl());
 	}
 	
-	
 	// 거스름돈이 얼마인지 계산해주는 메소드
 	// 달력도 보여줌
 	public int changeCalculator(JButton confirmButton, List<Payment> list, JTextField inputCash) {
@@ -490,7 +493,10 @@ public class SpaceController implements ViewIndex{
 	}
 	
 	public void finalTime(int finalTime) {
-		this.finalTime = finalTime;
+		this.finalTime = finalTime;		
+		roomInfoList.get(finalroomNumber-1).setRemTime(finalTime*3600);
+		//finalTime = 0;
+		//finalroomNumber = 0;
 	}
 		
 		
@@ -591,29 +597,42 @@ public class SpaceController implements ViewIndex{
         roomInfoList.get(7).setRemTime(9);
 		
 		//임시 스낵 생성
-		snackBarList.add(new SnackBar(1, "치토스", 30, 1000,"물량부족"));
-		snackBarList.add(new SnackBar(1, "포카칩", 20,1000, "물량부족"));
-		snackBarList.add(new SnackBar(2, "포카리", 15,1000, "물량부족"));
-		snackBarList.add(new SnackBar(2, "콜라", 10,1000, "물량부족"));
-		snackBarList.add(new SnackBar(2, "마운틴듀", 33,1000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));		
-		snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족"));
-		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족"));
-		snackBarList.add(new SnackBar(2, "포카리", 15, 600, "물량부족"));
-		snackBarList.add(new SnackBar(2, "콜라", 10, 700, "물량부족"));
-		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 4000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 1111, "물량부족"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2222, "물량부족"));
-		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 3333, "물량부족"));
-		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 4444, "물량부족"));
-		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 5555, "물량부족"));
-		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
-		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
-		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "치토스", 30, 1000,"물량부족"));
+//		snackBarList.add(new SnackBar(1, "포카칩", 20,1000, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "포카리", 15,1000, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "콜라", 10,1000, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "마운틴듀", 33,1000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11,1000, "물량부족"));		
+//		snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "포카리", 15, 600, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "콜라", 10, 700, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 4000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 1111, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2222, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 3333, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 4444, "물량부족"));
+//		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 5555, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
+//		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
+        snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2000, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "새우깡", 11, 1000, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "개구리", 11, 5000, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(2, "포카리", 15, 900, "물량부족", 1, "음료"));
+		snackBarList.add(new SnackBar(2, "콜라", 10, 1200, "물량부족", 1, "음료"));
+		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족", 1, "음료"));
+		snackBarList.add(new SnackBar(1, "오리온땅꽁", 11, 1200, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "별사탕", 11, 1200, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "허니땅콩", 11, 2222, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "버터칩", 11, 3333, "물량부족", 1, "과자"));
 		
 		
 		// 방이름 방번호 수용인원 빔프로젝트 사용여부
@@ -818,9 +837,7 @@ public class SpaceController implements ViewIndex{
 				e.printStackTrace();
 			}
 		}
-		
-		
-		
+
 	}
 	
 	
@@ -1516,8 +1533,6 @@ public class SpaceController implements ViewIndex{
 	public void adminView() {
 		adminV1.initialize(this, mainJframe);
 	}
-
-	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////	
 	
@@ -1532,7 +1547,7 @@ public class SpaceController implements ViewIndex{
 		
 	//			Method 1 (the create a new object)
 		//paymentList.add(new Payment());
-		payV.initialize(this, mainJframe, paymentList);
+		payV.initialize(this, mainJframe, paymentList,tempPayment);
 	}
 	
 	// 마지막 결제뷰
@@ -1544,6 +1559,11 @@ public class SpaceController implements ViewIndex{
 	// 간식 뷰
 	public void snackView() {
 		snackV.initialize(this, mainJframe, snackTmpList);
+	}
+	
+	public void adminSnackView()
+	{
+		adminSnackV.initialize(this, mainJframe, snackBarList);
 	}
 
 }

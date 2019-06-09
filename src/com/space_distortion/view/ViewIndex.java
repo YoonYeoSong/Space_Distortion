@@ -23,6 +23,9 @@ public interface ViewIndex {
 	static final int ADMIN_VIEW_BUTTON6 = 56; //버튼6
 	static final int ADMIN_VIEW_BUTTON7 = 57; //버튼7
 	static final int ADMIN_VIEW_BUTTON8 = 58; // 버튼 8
+	static final int ADMIN_VIEW_BUTTON9 = 59;
+	static final int ADMIN_VIEW_SNACK = 100;
+	
 	////////////////////////////////////ADMIN///////////////////////////////////
 	
 	
