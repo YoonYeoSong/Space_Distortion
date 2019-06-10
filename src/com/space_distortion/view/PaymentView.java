@@ -95,8 +95,11 @@ public PaymentView() {
 			if (o instanceof SnackBar) {
 				//System.out.println("2222" + snackBarList.toString());
 				System.out.println(o);
-				((SnackBar)o).getSnackPrice();
+				int a = ((SnackBar)o).getSnackQty();
+				int b = ((SnackBar)o).getSnackPrice();
+				snackPrice = a * b; 
 				
+//				((Payment)tempPayment).set
 				snackBarList.add((SnackBar)o);
 			}
 			if(o instanceof String)

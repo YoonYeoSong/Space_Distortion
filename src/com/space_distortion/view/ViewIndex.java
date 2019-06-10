@@ -29,6 +29,7 @@ public interface ViewIndex {
 	////////////////////////////////////ADMIN///////////////////////////////////
 	
 	
+	static final int RESERVATION_VIEW = 110;
 	
 	static final int PAYMENT_VIEW_NUM = 60;
 	static final int PAYMENTFINAL_VIEW_NUM = 80;

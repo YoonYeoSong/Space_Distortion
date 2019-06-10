@@ -411,7 +411,7 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 				
 			{
 				return;
-			}
+			} 
 			else
 			{
 				if( jt.getColumnCount() == 4) // ÀÏ¶§ ½º³¼
@@ -537,14 +537,21 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	
 	public void adminSnackSelected()
 	{
-		if(buttonIndex == 1)
+		System.out.println("µé¾î¿È");
+		if(buttonIndex == 2)
 		{
-			System.out.println("µé¾î¿È");
+			System.out.println("µé¾î¿È222");
 			jf.remove(jp);
-			sc.adminView();		
+			sc.adminView();
+			
+			jf.setBounds(20, 20, 1024, 768);
 		}
 	}
-
+	
+	public void rv() {
+		jf.remove(jp);
+		sc.reserView();
+	}
 	
 ///////// ºä ÀÌº¥Æ®          /////////////////////////////////////////////////////////////////
 	
@@ -587,6 +594,9 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 			break;
 		case ADMIN_VIEW_SNACK:
 			this.adminSnackSelected();
+			break;
+		case RESERVATION_VIEW:
+			this.rv();
 			break;
 
 		default:

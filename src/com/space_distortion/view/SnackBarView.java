@@ -3,6 +3,7 @@ package com.space_distortion.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,7 +12,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -26,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.space_distortion.controller.SpaceController;
@@ -53,7 +57,7 @@ public class SnackBarView implements ViewIndex{
 	private int index = 1;	// jlist 인덱스
 	private List<SnackBar> snackOrderList;
 	private Object rowData [][];
-	private ImageIcon rightImage;
+	private ImageIcon rightImage, leftImage;
 	private JScrollPane jSrp;
 	private JComboBox<Integer> rightMiCombo;
 	private JLabel rightMiLb;
@@ -62,8 +66,8 @@ public class SnackBarView implements ViewIndex{
 	
 	public void initialize(SpaceController smc, JFrame mainJFrame, List<SnackBar> list) {
 
-//		System.out.println("list size : " + list.size());
-		rightImage = new ImageIcon("file:///Users/veso/eclipse-workspace/Space_Distortion/src/right_bg.png");
+		System.out.println("list size : " + list.size());
+		rightImage = new ImageIcon(this.getClass().getResource("right_bg.png"));
 		
 		mainJFrame.setLayout(null);
 
@@ -71,12 +75,25 @@ public class SnackBarView implements ViewIndex{
 		JPanel mainJp = new JPanel();
 		mainJp.setBounds(0, 0, mainJFrame.getWidth(), mainJFrame.getHeight()); //(0,0,1024,768)
 		mainJp.setLayout(null);
+		
+		// 타이틀 레이블
+		JLabel titleLb = new JLabel("SNACK");
+		titleLb.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
+		titleLb.setBounds(90, 45, 500, 50);
+		mainJp.add(titleLb);
+		
+		JLabel lblNewLabel_5 = new JLabel();
+		lblNewLabel_5.setBorder(new LineBorder(Color.GRAY));
+		lblNewLabel_5.setBounds(85, 95, 335, 2);
+		mainJp.add(lblNewLabel_5);
+		
 
 		//////////// 좌우 패널 셋팅   ////////////
 		// 좌측 패널
-		JPanel leftJp = new JPanel() {
+		leftImage = new ImageIcon(this.getClass().getResource("bgImg_2.png"));
+		JPanel leftJp = new JPanel(){
 			public void paintComponent(Graphics g) {
-				g.drawImage(rightImage.getImage(), 0, 0, null);
+				g.drawImage(leftImage.getImage(), 0, 0, null);
 				setOpaque(false);
 				super.paintComponent(g);
 			}
@@ -105,7 +122,7 @@ public class SnackBarView implements ViewIndex{
 		// 좌측 상단 패널1
 		leftTopIconPj = new JPanel();
 //		leftTopIconPj.setBounds(0, 0, leftJp.getWidth()/2, leftJp.getHeight()/3);
-		leftTopIconPj.setBorder(BorderFactory.createLineBorder(Color.red));
+		leftTopIconPj.setBorder(BorderFactory.createLineBorder(Color.gray));
 
 		// 스크롤 패널 추가
 		jSrp = new JScrollPane(leftTopIconPj);	// 스크롤에 패널추가
@@ -121,7 +138,8 @@ public class SnackBarView implements ViewIndex{
 		// 우 상단 패널 생성
 		rightTopPj = new JPanel();
 		rightTopPj.setBounds(rightJp.getWidth()/6, rightJp.getHeight()/7, rightJp.getWidth()/6 * 4, (rightJp.getHeight()/7) * 3);
-		rightTopPj.setBackground(Color.cyan);
+//		rightTopPj.setBackground(Color.cyan);
+		rightTopPj.setBorder(BorderFactory.createLineBorder(Color.gray));
 		rightTopPj.setLayout(new GridLayout());
 
 		// 우 상단 테이블 생성
@@ -165,13 +183,15 @@ public class SnackBarView implements ViewIndex{
 		JPanel leftMiPj = new JPanel();
 		leftMiPj.setBounds(leftJp.getWidth()/6, leftJp.getHeight()/5 + jSrp.getHeight() - 15
 		, jSrp.getWidth(), jSrp.getHeight() / 2);
-//		leftMiPj.setBackground(Color.lightGray);
+//		leftMiPj.setBackground(Color.white);
+		leftMiPj.setBorder(BorderFactory.createLineBorder(Color.gray));
 		leftMiPj.setLayout(null);
 
 		// 우 중단 패널2
 		rightMiJp = new JPanel();
-		rightMiJp.setBounds(rightJp.getWidth()/6, rightJp.getHeight()/7 + rightTopPj.getHeight()
+		rightMiJp.setBounds(rightJp.getWidth()/6, rightJp.getHeight()/7 + rightTopPj.getHeight() + 10
 				, rightTopPj.getWidth(), rightTopPj.getHeight()/4);
+		rightMiJp.setBorder(BorderFactory.createLineBorder(Color.gray));
 		rightMiJp.setLayout(null);
 //		rightMiPj.setBackground(Color.orange);
 		
@@ -191,7 +211,9 @@ public class SnackBarView implements ViewIndex{
 
 		// 좌측 버튼 생성 하단 (음료, 과자)
 		JButton leftDrinkBtn = new JButton("홈으로");
-		leftDrinkBtn.setBounds(0, (leftMiPj.getHeight()/5)*4, 100, 30);
+		URL menuBackpath = this.getClass().getResource("next.png");
+		leftDrinkBtn.setIcon(new ImageIcon(menuBackpath));
+		leftDrinkBtn.setBounds(5, (leftMiPj.getHeight()/5)*4 - 20, 330, 50);
 
 		// 좌측 버튼(이벤트)
 		leftDrinkBtn.addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, SNACK_BAR_VIEW_CANSLE,smc , mainJFrame, mainJp));
@@ -199,8 +221,11 @@ public class SnackBarView implements ViewIndex{
 		// 우측 버튼 생성 하단 (뒤로가기, 다음)
 		JButton rightBackBtn = new JButton("수량 변경");
 		rightBackBtn.setBounds(30, 0, 100, 30);
+		rightBackBtn.setVisible(false);
+		URL menuBackpath1 = this.getClass().getResource("pay_now.png");
 		JButton rightNextBtn = new JButton("결  재");
-		rightNextBtn.setBounds(30, (rightMiJp.getHeight()/8)*5, 100, 30);
+		rightNextBtn.setIcon(new ImageIcon(menuBackpath1));
+		rightNextBtn.setBounds(5, (rightMiJp.getHeight()/5)*4 - 20, 330, 50);
 		
 		// 우측 버튼(이벤트)
 		rightNextBtn.addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, SNACK_BAR_VIEW_NEXT, smc, mainJFrame, mainJp));
@@ -209,7 +234,11 @@ public class SnackBarView implements ViewIndex{
 		// 파싱
 		
 		String[] fstr = smc.snackTitle();
-//		System.out.println(fstr[1]);
+		
+//		for (int i = 0; i < fstr.length; i++) {
+//			System.out.println("리스트 순서 : " + fstr[i]);
+//		}
+		
 		JList jlist = new JList(fstr);
 //		char str = Character.toLowerCase('a');
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	// 단일 선택
@@ -242,7 +271,7 @@ public class SnackBarView implements ViewIndex{
 
 		jlist.setVisibleRowCount(5);
 		JScrollPane jsr = new JScrollPane(jlist);
-		jsr.setBounds(10, 20, jSrp.getWidth()-20, leftMiPj.getHeight()/2);
+		jsr.setBounds(10, 15, jSrp.getWidth()-20, leftMiPj.getHeight()/2);
 
 		/*
 		 *  패널 합
@@ -273,8 +302,8 @@ public class SnackBarView implements ViewIndex{
 		mainJp.revalidate();
 		mainJp.repaint();
 
-		mainJFrame.setDefaultCloseOperation(3);
-		mainJFrame.setVisible(true);
+//		mainJFrame.setDefaultCloseOperation(3);
+//		mainJFrame.setVisible(true);
 
 	}
 	
@@ -289,42 +318,84 @@ public class SnackBarView implements ViewIndex{
 //		rightMiJp = new JPanel();
 //	}
 	
+	int iconNum = 0;
+	String strTmp[] = new String[smc.snackTitle().length];
+//	Arrays.sort(strTmp);
+	strTmp = smc.snackTitle();
+	
+	// 9가지 900 종류의 아이콘 이미지
+	int intTmp[] = {0, 100, 200, 300, 400, 500, 600, 700, 800, 900};
+	
+	// 콤보박스의 아이템 갯수를 구해 첫번째 값과 일치하면 intTmp의 첫번째 배열과 매칭하여
+	// 아이콘 숫자를 리턴한다. 
+	
+	for(int y = 0; y < strTmp.length; y++) {
+		if( strTmp[index-1].equals( strTmp[y] )) {
+			iconNum = intTmp[y];
+			System.out.println(iconNum);
+			break;
+		}
+	}
+	
+	
+	// test
+//	if( list.get(index).getSnackBarIndex() == 1) {
+//		iconNum = 0;
+//	}else
+//		iconNum = 100;
+	
+	
+	
 	leftItemBtn = new JButton[list.size()];	// 아이템 갯수만큼 크기를 가져와야함
 	jSrpColumnpanel = new JPanel[list.size()];
 	leftItemLb = new JLabel[list.size()];
 	
 	leftTopIconPj.setLayout(new GridLayout(3, 10, 10, 10));
-//	leftTopIconPj.setPreferredSize(new Dimension(100,110));
+	leftTopIconPj.setBackground(Color.white);
 
-//	jSrp.revalidate();
 	leftTopIconPj.revalidate();
 	leftTopIconPj.repaint();
 	
 //	int width = 0; // 스크롤 크기에 대한 정보변
 	// 스크롤 내부 패널 추가
 //	System.out.println("사이즈 : " + list.size());
+	String[] strImg = new String[list.size()];
+	
+	
 	for (int i = 0; i < list.size(); i++) {
 		
 //		if(i != 0) width += 120;
 		// 패널 생성
 		jSrpColumnpanel[i] = new JPanel();
-		jSrpColumnpanel[i].setBackground(Color.blue);
+		jSrpColumnpanel[i].setBackground(Color.lightGray);
 //		jSrpColumnpanel[i].setBounds(0, 0, 90, 95);
 		jSrpColumnpanel[i].setPreferredSize( new Dimension(90 , 95 ));
 		jSrpColumnpanel[i].setLayout(null);
 		
-
+		// icon 0 번째  + 배열 아이콘 크기 + 1 개로 아이콘 이름을 넘겨줌
+		strImg[i] = (i + iconNum + 1) + ".png";
+		
+		// 이미지 파닐 체크후 없으면 기본값 이미지를 사용
+		String imgStr = "/com/space_distortion/view/" + strImg[i];
+		if( SnackBarView.class.getResource(imgStr) == null){
+			System.out.println("이미지 파일 없음 !!!!!!!!!");
+			imgStr = "/com/space_distortion/view/empty1.png";
+		}
+		ImageIcon imgCon = new ImageIcon(SnackBarView.class.getResource(imgStr));
 		// 내부 패널의 버튼 생성
+//		System.out.println("i 값 : " + i);
 		leftItemBtn[i] = new JButton(list.get(i).getSnack() + " Image");
+		leftItemBtn[i].setIcon(imgCon);
 		leftItemBtn[i].setBounds(2, 2, 86, 75);
 		
 		leftItemBtn[i].addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, i, smc));
 
 		// 내부 레이블 생성
 		leftItemLb[i] = new JLabel();
+		leftItemLb[i].setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 		leftItemLb[i].setText(list.get(i).getSnack() + "  " + list.get(i).getSnackPrice());
 		leftItemLb[i].setBounds(2, 81, 86, 12);
-		leftItemLb[i].setForeground(Color.orange);
+//		leftItemLb[i].setForeground(Color.orange);
 
 		jSrpColumnpanel[i].add(leftItemBtn[i]);
 		jSrpColumnpanel[i].add(leftItemLb[i]);
@@ -398,12 +469,12 @@ public class SnackBarView implements ViewIndex{
 		snackOrderList = new ArrayList<SnackBar>();
 //		System.out.println(str);
 		rightMiLb = new JLabel(str);
-		rightMiLb.setBounds(10, 10, 100, 20);
+		rightMiLb.setBounds(200, 21, 100, 30);
 		
 		if(!rightMiLb.getText().equals(str))
 			rightMiLb.setText(str);
 		
-		rightMiLb.setBackground(Color.red);
+//		rightMiLb.setBackground(Color.red);
 		
 		// 콤보 박스 아이템 갯수 +1로 0부터 갯수 까지입
 		Integer[] num = new Integer[val+1];
@@ -413,7 +484,7 @@ public class SnackBarView implements ViewIndex{
 
 		// 콤보 박스 아이템 초기
 		rightMiCombo =  new JComboBox<Integer>(num);
-		rightMiCombo.setBounds(130, 10, 60, 30);
+		rightMiCombo.setBounds(265, 20, 60, 30);
 		rightMiCombo.addActionListener(new ActionListener() {
 			
 			@Override
@@ -425,6 +496,8 @@ public class SnackBarView implements ViewIndex{
 				int ix = (int)rightMiCombo.getSelectedItem();
 				if( ix == 0) {
 					snackOrderList.remove(row);
+					rightMiCombo.setVisible(false);
+					rightMiLb.setVisible(false);
 				}
 				// 선택된 아이템을 가져와다시 출력
 				rightTopPj.removeAll();
@@ -456,320 +529,3 @@ public class SnackBarView implements ViewIndex{
 } //class
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-// 패널1
-class JPanelR01 extends JPanel implements ViewIndex{
-	
-	private SnackBarView sv;
-	
-	public JPanelR01(SnackBarView sv, SpaceController smc, int size) {
-		
-		// 초기 디폴트 버튼 생성
-		JButton[] btn = new JButton[size];
-		
-		this.sv = sv;
-		this.setLayout(new GridLayout(3,5));
-		this.setBackground(Color.red);
-
-		for (int i = 0; i < size; i++) {	// 개체 수만큼 버튼을 생성
-			this.add(btn[i] = new JButton(i + "aaaaa"));
-			btn[i].addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, i, smc));
-
-		}
-		
-	}
-	
-	
-}
-//패널2
-class JPanelR02 extends JPanel implements ViewIndex{
-	
-	private SnackBarView sv;
-	
-	public JPanelR02(SnackBarView sv, SpaceController smc, int size) {
-		
-		this.sv = sv;
-		this.setLayout(new GridLayout(5,5));
-		this.setBackground(Color.red);
-
-	}
-}
-
-// 메인 클래
-public class SnackBarView implements ViewIndex{
-
-	// 간식 판매 리스트 뷰
-	
-	// 시작시 데이터 list 를 로드
-	// 
-
-	private JPanelR01 jp01 = null;
-	private JPanelR02 jp02 = null;
-	
-	
-	public void initialize(SpaceController smc, JFrame mainJFrame, List<SnackBar> list) {
-		
-	
-		mainJFrame.setLayout(null);
-		
-		JPanel mainPl = new JPanel();
-		mainPl.setBounds(0, 0, 800, 800);
-		mainPl.setLayout(null);
-		
-		JPanel jpL = new JPanel();
-		jpL.setBounds(0, 0, 180, 800);
-		jpL.setLayout(null);
-		
-		JPanel jpD = new JPanel();
-		jpD.setBounds(0, 500, 680, 200);
-		jpD.setLayout(null);
-		jpD.setBackground(Color.BLUE);
-		
-		JButton btnDrink = new JButton("drink");
-		JButton btnSnack = new JButton("snack");
-		JButton btnCancle = new JButton("cancle");
-		JButton btnNext = new JButton("Next");
-		
-		btnDrink.setForeground(new Color(0,0,0));
-		btnDrink.setFont(new Font("Ravie", Font.PLAIN, 20));
-		btnDrink.setBounds(10, 30, 150, 50);
-		
-		btnSnack.setForeground(new Color(0,0,0));
-		btnSnack.setFont(new Font("Ravie", Font.PLAIN, 20));
-		btnSnack.setBounds(10, 80, 150, 50);
-		
-		btnCancle.setForeground(new Color(0,0,0));
-		btnCancle.setFont(new Font("Ravie", Font.BOLD, 20));
-		btnCancle.setBounds(30, 10, 150, 50);
-		
-		btnNext.setForeground(new Color(0,0,0));
-		btnNext.setFont(new Font("Ravie", Font.BOLD, 20));
-		btnNext.setBounds(180, 10, 150, 50);
-		
-		JTextArea jta = new JTextArea();
-		
-		
-		
-		jpL.add(btnDrink);
-		jpL.add(btnSnack);
-		
-		// 다음, 취소 버튼 이벤트
-		btnCancle.addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, SNACK_BAR_VIEW_CANSLE,smc , mainJFrame, mainPl));
-		btnNext.addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, SNACK_BAR_VIEW_NEXT, smc, mainJFrame, mainPl));
-		
-		jpD.add(btnCancle);
-		jpD.add(btnNext);
-		
-//		System.out.println("리스트 사이즈 :" + list.size());
-		
-		// 좌측에 서로 바꿔줄 패널 2개 객체 생성
-		jp01 = new JPanelR01(this, smc, list.size());
-		jp01.setBounds(180, 10, 500, 500);
-		jp02 = new JPanelR02(this, smc, list.size());
-		jp02.setBounds(180, 10, 500, 500);
-	
-		
-		
-		mainPl.add(jpD);
-		mainPl.add(jpL);
-		mainPl.add(jp01);
-		
-		mainJFrame.add(mainPl);
-		
-		// 음료 버튼후 패널 교체
-		btnDrink.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				smc.snackSel(2);	// 음료 객체 수
-				JButton[] btnDrinkArray = new JButton[list.size()];
-				
-				jp02.removeAll();	//	중복 되지 않게 패널의 버튼을 클리어
-				mainJFrame.remove(jp01);	// 패널 교체를 위한 패널을 제거
-				jp02.setLayout(new GridLayout(3,2));
-				
-				for (int i = 0; i < list.size(); i++) {	// 개체 수만큼 버튼을 생성
-
-//					jp02.add(btnDrinkArray[i] = new JButton(i + "aaaaa"));
-					btnDrinkArray[i] = new JButton(i + "aaaaa");
-					btnDrinkArray[i].setBounds(50, 50, 550, 550);
-					btnDrinkArray[i].setLayout(null);
-					jp02.add(btnDrinkArray[i]);
-					btnDrinkArray[i].addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, i, smc));
-				}
-				
-				mainJFrame.add(jp02);	// 생성후 패널을 추가
-
-				jp02.revalidate();
-				jp02.repaint();
-//				mainJFrame.revalidate();
-//				mainJFrame.repaint();
-				
-			}
-		});
-
-		// 스낵 버튼 후 패널 교체
-		btnSnack.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				smc.snackSel(1);	// 과자 객체 수
-				JButton[] btnSnackArray = new JButton[list.size()];
-				
-//				System.out.println(list.size());
-				jp01.removeAll();
-				mainJFrame.remove(jp02);
-//				System.out.println(jp01);
-//				jp01.remove(jp01);
-				jp01.setLayout(new GridLayout(3,2));
-				for (int i = 0; i < list.size(); i++) {
-//					System.out.println(btnSnackArray);
-//					System.out.println(list.size());
-//					System.out.println(i);
-					btnSnackArray[i] = new JButton(i + "bbbbb");
-					btnSnackArray[i].setBounds(50, 50, 550, 550);
-					btnSnackArray[i].setLayout(null);
-					jp01.add(btnSnackArray[i]);
-					btnSnackArray[i].addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, i, smc));
-				}
-				jp01.setBackground(Color.green);
-				mainJFrame.add(jp01);
-				
-				jp01.revalidate();
-				jp01.repaint();
-//				mainJFrame.revalidate();
-//				mainJFrame.repaint();
-				
-			}
-		});
-		
-		mainJFrame.revalidate();
-		mainJFrame.repaint();
-		
-	}// init
-	
-	
-	// 화면 새로 고침
-	public void jFrameClear() {
-	
-	}
-		
-		
-		 //  수정전 코드
-		 
-		
-		
-//		list = smc.snackViewDidload();
-
-//		smc.snackSel(1);
-//		System.out.println(list);
-//		smc.snackSel(2);
-//		System.out.println(list);
-		
-		
-		
-		JPanel jpL = new JPanel();
-		jpL.setBounds(0, 10, 150, 700);
-		jpL.setLayout(null);
-		
-		JPanel jpR = new JPanel();
-		jpR.setBounds(155, 10, 550, 700);
-		jpR.setLayout(new GridLayout(5, 5));
-		
-		JButton btnDrink = new JButton("drink");
-		JButton btnSnack = new JButton("snack");
-		
-		JButton btn;
-		
-		btnDrink.setForeground(new Color(0,0,0));
-		btnDrink.setFont(new Font("Ravie", Font.PLAIN, 25));
-		btnDrink.setBounds(10, 10, 150, 50);
-		
-		btnSnack.setForeground(new Color(0,0,0));
-		btnSnack.setFont(new Font("Ravie", Font.PLAIN, 25));
-		btnSnack.setBounds(10, 60, 150, 50);
-		
-		jpL.add(btnDrink);
-		jpL.add(btnSnack);
-		
-		// 버튼 선택시 좌, 우측 이벤트
-		btnDrink.addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, SNACK_BAR_DRINK_LEFT, smc, mainJFrame, jpR));
-		btnSnack.addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, SNACK_BAR_SNACK_LEFT, smc, mainJFrame, jpR));
-		
-		
-		
-/////////////////////////////////////////////////////////////////////////////
-//		list.add();
-//		System.out.println(list);
-		
-		// 1 과자
-//		for (SnackBar snack : list) {
-//			if(snack.getSnackBarIndex() == 1) {
-//				System.out.println("음료 =/= " + snack);
-//			}
-//		}
-		
-//		list = smc.snackSel();		// 기본 음료선택으로 셋팅
-//		System.out.println(list.get(0));
-		
-//		System.out.println(list.get(0).getSnack());
-//		System.out.println(((SnackBar)list).getSnackComment());
-		
-//		for (int i = 0; i < list.size(); i++) {
-//			jpR.add( btn = new JButton(i + " " +list.get(i).getSnack()) );
-//			btn.addMouseListener(new SpaceActionEvent(SNACK_BAR_VIEW_NUM, i, smc, mainJFrame, jpR));
-//		}
-
-		
-//		JButton btn1 = new JButton()
-
-//		// 1 과자
-//		for (SnackBar snack : list) {
-//			if(snack.getSnackBarIndex() == 1) {
-//				System.out.println("과자 / " + snack);
-//			}
-//		}
-//		
-//		// 2 음료
-//		for (SnackBar snack : list) {
-//			if(snack.getSnackBarIndex() == 2) {
-//				System.out.println("음료 / " + snack);
-//			}
-//		}
-//		
-//		System.out.println("-- end --");
-		
-//		mainJFrame.add(jpR);
-//		mainJFrame.add(jpL);
-//		
-//		jpR.revalidate();
-//		jpR.repaint();
-//		jpL.revalidate();
-//		jpL.repaint();
-//		
-//		jpL.setVisible(true);
-//		jpR.setVisible(true);
-		
-//	}//init
-}
-
-
-*/

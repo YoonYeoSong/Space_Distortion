@@ -89,10 +89,10 @@ public class SubRoomView extends SpaceActionEvent implements ViewIndex {
 		jp.add(btnNoMember);
 
 		btnReservation = new JButton("¿¹¾à");
-		btnReservation.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		
+		btnReservation.addMouseListener(new SpaceActionEvent(RESERVATION_VIEW, 1, sc, mainJframe, jp));
+		
+	
 		btnReservation.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 		btnReservation.setForeground(Color.WHITE);
 		btnReservation.setBackground(Color.CYAN);

@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,8 +34,9 @@ import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import javax.swing.border.LineBorder;
 
-public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
+public class AdminSnackView implements ViewIndex {
 	
 	private JTextField qty;
 	private JTextField price;
@@ -41,49 +44,56 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 	private JTextField snackName;
 //	private JPanel mainJp;
 	private ImageIcon bgImage;
-	
-	public AdminSnackView() {
-		// TODO Auto-generated constructor stub
-	}
-	
+	private JLabel lblNewLabel_7;
+	private JPanel mainJp;
+	private JButton adminSnackNext;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	public void initialize(SpaceController smc, JFrame mainJframe, List<SnackBar> list)
 	{	
 //		bgImage = new ImageIcon("C:\\workspace\\Space_Distortion\\src\\right_bg.png");
-		
-		//mainJframe.setBounds(0, 0, 265, 400);
+		bgImage = new ImageIcon(this.getClass().getResource("admin_snack_bg.png"));
+		mainJframe.setBounds(25, 25, 359, 538);
 		
 		System.out.println(list);
 		String[] nameStr = smc.snackTitle();
+//		Arrays.sort(nameStr);
 		
-		JPanel mainJp = new JPanel();
+		
+		mainJp = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(bgImage.getImage(), 0, 0, null);
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};
 		
 		mainJp.setBounds(0, 0, 1024, 768);
+		
 		mainJp.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("\uAC00 \uACA9");
-		lblNewLabel.setBounds(35, 137, 61, 16);
+		lblNewLabel.setBounds(48, 206, 61, 16);
 		mainJp.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("\uD488 \uBA85");
-		lblNewLabel_1.setBounds(35, 66, 61, 16);
+		lblNewLabel_1.setBounds(48, 127, 61, 16);
 		mainJp.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("\uC218 \uB7C9");
-		lblNewLabel_2.setBounds(35, 104, 61, 16);
+		lblNewLabel_2.setBounds(48, 168, 61, 16);
 		mainJp.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("\uC885 \uB958");
-		lblNewLabel_3.setBounds(35, 175, 61, 16);
+		lblNewLabel_3.setBounds(48, 253, 61, 16);
 		mainJp.add(lblNewLabel_3);
 		
 		qty = new JTextField();
-		qty.setBounds(108, 99, 130, 26);
+		qty.setBounds(121, 164, 166, 26);
 		qty.setColumns(10);
 		
-		//
+		// 
 		qty.addKeyListener(new KeyAdapter() {
 			
 			@Override
@@ -99,7 +109,7 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 		
 		
 		price = new JTextField();
-		price.setBounds(108, 132, 130, 26);
+		price.setBounds(121, 202, 166, 26);
 		mainJp.add(price);
 		price.setColumns(10);
 
@@ -117,7 +127,8 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 		
 		
 		kind = new JTextField();
-		kind.setBounds(108, 170, 130, 26);
+		kind.setEditable(false);
+		kind.setBounds(121, 243, 166, 26);
 		mainJp.add(kind);
 		kind.setColumns(10);
 		
@@ -137,7 +148,7 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 		
 		
 		snackName = new JTextField();
-		snackName.setBounds(108, 61, 130, 26);
+		snackName.setBounds(121, 123, 166, 26);
 		mainJp.add(snackName);
 		snackName.setColumns(10);
 		
@@ -160,8 +171,8 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 		
 		
 		
-		JButton adminSnackNext = new JButton("\uB4F1   \uB85D");
-		adminSnackNext.setBounds(153, 288, 85, 76);
+		adminSnackNext = new JButton("\uB4F1   \uB85D");
+		adminSnackNext.setBounds(195, 361, 92, 37);
 		mainJp.add(adminSnackNext);
 		
 		JList listSnack = new JList(nameStr);
@@ -171,14 +182,13 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 		listSnack.addMouseListener(new MouseListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {		}
+			public void mouseReleased(MouseEvent e) {}
 			@Override
-			public void mousePressed(MouseEvent e) {		}
+			public void mousePressed(MouseEvent e) {}
 			@Override
-			public void mouseExited(MouseEvent e) {			}
+			public void mouseExited(MouseEvent e) {}
 			@Override
-			public void mouseEntered(MouseEvent e) {	}
-			
+			public void mouseEntered(MouseEvent e) {}
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
@@ -198,48 +208,43 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 		
 		listSnack.setVisibleRowCount(5);
 		JScrollPane jsr = new JScrollPane(listSnack);
-		jsr.setBounds(35, 290, 105, 73);
+		jsr.setBounds(48, 361, 136, 86);
 		mainJp.add(jsr);
 		
-		
-		
-		
 		JTextArea txtA = new JTextArea();
-		txtA.setBounds(35, 217, 204, 60);
+		txtA.setBounds(48, 291, 239, 60);
 		mainJp.add(txtA);
 		
-		mainJframe.getContentPane().add(mainJp);
-		
 		JLabel lblNewLabel_4 = new JLabel();
-		lblNewLabel_4.setBackground(Color.RED);
-		lblNewLabel_4.setBorder(BorderFactory.createLineBorder(Color.red));
-		lblNewLabel_4.setBounds(35, 48, 204, 2);
+		lblNewLabel_4.setBackground(Color.GRAY);
+		lblNewLabel_4.setBorder(new LineBorder(Color.GRAY));
+		lblNewLabel_4.setBounds(47, 106, 239, 2);
 		mainJp.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel();
 //		lblNewLabel_5.setBackground(Color.RED);
-		lblNewLabel_5.setBorder(BorderFactory.createLineBorder(Color.red));
-		lblNewLabel_5.setBounds(35, 203, 204, 2);
+		lblNewLabel_5.setBorder(new LineBorder(Color.GRAY));
+		lblNewLabel_5.setBounds(48, 279, 239, 2);
 		mainJp.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel();
 //		lblNewLabel_6.setBackground(Color.red);
-		lblNewLabel_6.setBorder(BorderFactory.createLineBorder(Color.red));
-		lblNewLabel_6.setBounds(203, 13, 30, 30);
+		URL searchpath = this.getClass().getResource("empty1.png");
+		lblNewLabel_6.setIcon(new ImageIcon(searchpath));
+		lblNewLabel_6.setBorder(new LineBorder(Color.WHITE, 1, true));
+		lblNewLabel_6.setBounds(231, 48, 45, 45);
 		mainJp.add(lblNewLabel_6);
 		
 		JLabel label = new JLabel("상품 추가");
 		label.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-		label.setBounds(36, 30, 61, 16);
+		label.setBounds(48, 77, 61, 16);
 		mainJp.add(label);
 		
-		JLabel lblNewLabel_7 = new JLabel("New label");
-		lblNewLabel_7.setBounds(0, 0, 265, 400);
+		lblNewLabel_7 = new JLabel("\uB2EB  \uAE30");
+		lblNewLabel_7.setBounds(418, 137, 265, 400);
 		mainJp.add(lblNewLabel_7);
-		adminSnackNext.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_SNACK, 1, smc, mainJframe, mainJp));
 		
-		mainJframe.revalidate();
-		mainJframe.repaint();
+//		adminSnackNext.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_SNACK, 1, smc, mainJframe, mainJp));
 		
 		//qty,  price,  kind, snackName, txtA
 		adminSnackNext.addActionListener(new ActionListener() {
@@ -258,22 +263,43 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 				String str[] = new String[len];
 				str = smc.snackTitle();
 				
+				// 새로운 아이템 체크
 				for(int i = 0; i < len; i++) {
-					if( str[i].equals(kind.getText()) ) {
-						tempIndext = i;
+//					if(  kind.getText().equals( str[i].toString() )) {
+					if(  kind.getText().equals( str[i].toString() )) {
+						tempIndext = i+1;
 						break;
 					}else {
-						tempIndext = i;
+						tempIndext = i+1;
 						//
 					}
+				}// for
+				
+				int msgOk = 0;
+				String s1 = qty.getText();
+				String s2 = price.getText();
+
+				
+				if(snackName.getText().isEmpty() || kind.getText().isEmpty() || s1.isEmpty()
+						|| s2.isEmpty()) {
+
+					msgOk = 1;
+					
+				}else {
+					int a1 = Integer.parseInt(s1);
+					int a2 = Integer.parseInt(s2);
+					if( a1 < 1 || a2 < 1 ) {
+						msgOk = 1;
+					}
+					else
+						msgOk = JOptionPane.showConfirmDialog(null, "추가하시겠습니까?", "ok", JOptionPane.YES_NO_OPTION);
 				}
 				
 				
-				int msgOk = JOptionPane.showConfirmDialog(null, "추가하시겠습니까?", "ok", JOptionPane.YES_NO_OPTION);
 				
 				// 확인 했을경우 데이터를 저장
 				if (msgOk == 0) {
-					System.out.println(list);
+//					System.out.println(list);
 					list.add(new SnackBar( tempIndext, snackName.getText(), snackQty , snackPrice , kind.getText(), txtA.getText() ));
 					snackName.setText("");
 					kind.setText("");
@@ -281,19 +307,31 @@ public class AdminSnackView extends SpaceActionEvent implements ViewIndex {
 					price.setText("");
 					txtA.setText("");
 					
-					
-					//adminSnackNext.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_SNACK, 1, smc, mainJframe, mainJp));
-					System.out.println("마지막");
+
+//					adminSnackNext.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_SNACK, 1, smc, mainJframe, mainJp));
+					System.out.println("마지막2");
 					System.out.println(list);
 				}
 				else
-					System.out.println("취소하셨습니다.");
+					JOptionPane.showConfirmDialog(null, "잘 못 되었습니다", "OK", JOptionPane.CLOSED_OPTION);
 
 				
 			}
 			
 		});		
+		mainJframe.getContentPane().add(mainJp);
+		
+		JButton closeBtn = new JButton("\uB2EB  \uAE30");
+		closeBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		closeBtn.setBounds(195, 408, 92, 39);
+		closeBtn.addMouseListener(new SpaceActionEvent(ADMIN_VIEW_SNACK, 2, smc, mainJframe, mainJp));
+		mainJp.add(closeBtn);
 
+		mainJp.revalidate();
+		mainJp.repaint();
 		
 		
 	}//initialize

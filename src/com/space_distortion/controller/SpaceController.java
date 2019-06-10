@@ -35,6 +35,7 @@ import com.space_distortion.model.vo.Coupon;
 import com.space_distortion.model.vo.Member;
 import com.space_distortion.model.vo.NonMember;
 import com.space_distortion.model.vo.Payment;
+import com.space_distortion.model.vo.Reservation;
 import com.space_distortion.model.vo.RoomInfo;
 import com.space_distortion.model.vo.SnackBar;
 import com.space_distortion.view.AccountView;
@@ -47,6 +48,7 @@ import com.space_distortion.view.LoginView;
 import com.space_distortion.view.MainRoomView;
 import com.space_distortion.view.NaccountView;
 import com.space_distortion.view.PaymentView;
+import com.space_distortion.view.ReservationView;
 import com.space_distortion.view.SnackBarView;
 import com.space_distortion.view.SubRoomView;
 import com.space_distortion.view.ViewIndex;
@@ -93,6 +95,7 @@ public class SpaceController implements ViewIndex{
 	private int finalroomNumber; // 방번호를 받아온다.
 	private AdminSnackView adminSnackV = new AdminSnackView(); // 관리자 스낵 추가뷰
 	private List tempPayment = new ArrayList();
+	private ReservationView reV = new ReservationView();
 	
 	
 	/* 메인 컨트롤러 생성자 */
@@ -128,21 +131,21 @@ public class SpaceController implements ViewIndex{
 //        roomInfoList.get(7).setRemTime(9);
 //        
 //        
-//      snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "포카리", 15, 600, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "콜라", 10, 700, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 4000, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 1111, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2222, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 3333, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 4444, "물량부족"));
-//		snackBarList.add(new SnackBar(2, "허니버터칩", 11, 5555, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
-//		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
-       
+		snackBarList.add(new SnackBar(1, "튀김", 11, 5000, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "버터칩", 11, 3333, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "별사탕", 11, 1200, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "새우깡", 11, 1000, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "오리온땅꽁", 11, 1200, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "허니땅콩", 11, 2222, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2000, "물량부족", 1, "과자"));
+		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족", 1, "음료"));
+		snackBarList.add(new SnackBar(2, "콜라", 10, 1200, "물량부족", 1, "음료"));
+		snackBarList.add(new SnackBar(2, "포카리", 15, 900, "물량부족", 1, "음료"));
+//        snackBarList.add(new SnackBar(3, "허니버터칩", 11, 4444, "물량부족", 1));
+//        snackBarList.add(new SnackBar(3, "허니버터칩", 11, 5555, "물량부족", 1));
 		
 		mainJframe = new JFrame("Space Distorition");
 		mainJframe.setBounds(0, 0, 1024, 768);
@@ -288,9 +291,11 @@ public class SpaceController implements ViewIndex{
 		if (!snackTmpList.isEmpty()) {
 			snackTmpList.clear();
 		}
-		
+//		System.out.println("iiii == " + i);
+//		System.out.println("ss : " + snackBarList.size());
 		for (SnackBar sb : snackBarList) {
 			if (sb.getSnackBarIndex() == i) {
+//				System.out.println("temp : " + snackTmpList.size());
 				snackTmpList.add(sb);
 			}
 		} // for
@@ -349,6 +354,7 @@ public class SpaceController implements ViewIndex{
 	// 간식의 종류 이름 
 	public String[] snackTitle() {
 		
+	
 		Set<String> set = new HashSet();
 		
 		for (SnackBar s : snackBarList) {
@@ -356,12 +362,25 @@ public class SpaceController implements ViewIndex{
 		}
 		
 		List list = new ArrayList(set);
+		
+//		System.out.println("정렬 전 : " + list);
+//		Collections.sort(list);
+//		System.out.println("정렬 후 : " + list);
 
 		String str[] = new String[list.size()];
 		for(int i = 0; i < list.size(); i++) {
 			str[i] = list.get(i).toString();
 		}
 		
+//		for (SnackBar s : list) {
+//			str[0] = s.getSnackKind();
+//		}
+//		
+//		System.out.println(list.size()+ " + error");
+//			String str1 = list.get(i).toString();
+//			System.out.println(str1);
+		set.clear();
+		list.clear();
 		return str;
 	}
 	
@@ -379,7 +398,6 @@ public class SpaceController implements ViewIndex{
 			System.out.println(s);
 		}
 	}
-	
 //////////////////////////////////////(헌수)스낵 기능 끝/////////////////////
 	
 //////////방에 대한 번호를 받아온다/////////////////
@@ -476,7 +494,9 @@ public void roomNumber(int num)
 				(list.get(list.size()-1)).getHourlyCost()*
 				(list.get(list.size()-1)).getPpl())+
 				((list.get(list.size()-1)).getLaptop()*
-						(list.get(list.size()-1)).getLaptopCost()));
+				(list.get(list.size()-1)).getLaptopCost())
+				
+				);
 //			System.out.println("getHour: " + (list.get(list.size()-1)).getHour());
 		System.out.println("getHourlyCost during hourlyCalc: "+ (list.get(list.size()-1)).getHourlyCost());
 		System.out.println("getPpl during hourlyCalc: "+ (list.get(list.size()-1)).getPpl());
@@ -624,20 +644,20 @@ public void roomNumber(int num)
 //		snackBarList.add(new SnackBar(1, "새우깡", 11, 6000, "물량부족"));
 //		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족"));
 //		snackBarList.add(new SnackBar(1, "개구리", 11, 10000, "물량부족"));
-        snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2000, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "새우깡", 11, 1000, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "개구리", 11, 5000, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(2, "포카리", 15, 900, "물량부족", 1, "음료"));
-		snackBarList.add(new SnackBar(2, "콜라", 10, 1200, "물량부족", 1, "음료"));
-		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족", 1, "음료"));
-		snackBarList.add(new SnackBar(1, "오리온땅꽁", 11, 1200, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "별사탕", 11, 1200, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "허니땅콩", 11, 2222, "물량부족", 1, "과자"));
-		snackBarList.add(new SnackBar(1, "버터칩", 11, 3333, "물량부족", 1, "과자"));
-		
+//        snackBarList.add(new SnackBar(1, "치토스", 30, 1400, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "포카칩", 20, 1500, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "허니버터칩", 11, 2000, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "새우깡", 11, 1000, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "칸쵸", 11, 1200, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "개구리", 11, 5000, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(2, "포카리", 15, 900, "물량부족", 1, "음료"));
+//		snackBarList.add(new SnackBar(2, "콜라", 10, 1200, "물량부족", 1, "음료"));
+//		snackBarList.add(new SnackBar(2, "마운틴듀", 33, 1000, "물량부족", 1, "음료"));
+//		snackBarList.add(new SnackBar(1, "오리온땅꽁", 11, 1200, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "별사탕", 11, 1200, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "허니땅콩", 11, 2222, "물량부족", 1, "과자"));
+//		snackBarList.add(new SnackBar(1, "버터칩", 11, 3333, "물량부족", 1, "과자"));
+//		
 		
 		// 방이름 방번호 수용인원 빔프로젝트 사용여부
 //		roomInfoList.add(new RoomInfo("HARVARD", 1, 4, "※ 빔프로젝트사용가능 ※"));
@@ -1454,7 +1474,7 @@ public void roomNumber(int num)
 				r.setNoteBook(r.getNoteBook() + 1 );
 				System.out.println(r);
 			}
-		}		
+		}		 
 	}
 	
 
@@ -1583,6 +1603,10 @@ public void roomNumber(int num)
 	public void adminSnackView()
 	{
 		adminSnackV.initialize(this, mainJframe, snackBarList);
+	}
+	
+	public void reserView() {
+		reV.initialize(this, mainJframe);
 	}
 
 }

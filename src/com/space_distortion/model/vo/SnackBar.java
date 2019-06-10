@@ -1,6 +1,6 @@
 package com.space_distortion.model.vo;
 
-public class SnackBar {
+public class SnackBar implements Comparable<SnackBar>{
 
 	// 간식 종류
 	// 은료 : 커피(5종류), 음료(10 종류)
@@ -152,5 +152,15 @@ public class SnackBar {
 				+ ", snackKind=" + snackKind + "]";
 	}
 
+	@Override
+	public int compareTo(SnackBar s) {
+		
+		if(this.snackBarIndex > s.snackBarIndex) {
+			return 1;
+		}else if(this.snackBarIndex < s.snackBarIndex) {
+			return -1;
+		}else
+			return 0;
+	}
 	
 }
