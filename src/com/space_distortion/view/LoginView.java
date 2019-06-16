@@ -207,7 +207,6 @@ public class LoginView extends SpaceActionEvent implements ViewIndex {
 				URL memberReleased = this.getClass().getResource("skip register1.png");
 				button_Skip.setIcon(new ImageIcon(memberReleased));
 			}
-		});
-		
+		});		
 	}
 }

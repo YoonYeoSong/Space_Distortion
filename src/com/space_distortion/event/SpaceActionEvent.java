@@ -23,7 +23,7 @@ import com.space_distortion.controller.SpaceController;
 import com.space_distortion.main.Main;
 import com.space_distortion.view.ViewIndex;
 
-public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelListener ,WindowListener {
+public class SpaceActionEvent implements MouseListener, ViewIndex ,WindowListener {
 
 	
 	private SpaceController spaceController = Main.getSpaceController();
@@ -36,9 +36,6 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 	private JTable jt;
 	private JTextField jtf;
 	private DefaultTableModel dt;
-	
-	//sdfsdfdsfsfsdfsdfdsf
-	
 	
 	
 	
@@ -608,70 +605,6 @@ public class SpaceActionEvent implements MouseListener, ViewIndex, TableModelLis
 		
 	}
 	
-	
-	
-//	@Override
-//	public void tableChanged(TableModelEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//		SpaceController sc = Main.getSpaceController();
-//		TableModel model = (TableModel) e.getSource();
-//		String colName = null;
-//		String userValue = null;
-//		String userCode = null;
-//		int column = 0;
-//		int row = 0;
-//		int columnCode = 0;
-//		
-//		
-//		System.out.println("로우 카운트 : " +  model.getRowCount());
-//		System.out.println("칼럼 갯수 : "  + model.getColumnCount());
-//		
-//		if(model.getColumnCount() == 8) // 학생 컬럼 카운트
-//		{
-//			
-//			row = e.getFirstRow();
-//			column = e.getColumn();
-//			columnCode = 0;
-//			System.out.println(column);
-//			
-//			
-//			if (column > 0) // 이름
-//			{ 	
-//				//System.out.println("여기");
-//				//System.out.println(column);
-//				//System.out.println(model.toString());
-//				//userCode = (String)model.getValueAt(row , columnCode);
-//				// 컬럼번호가 2이면 "나이" 컬럼이다. 컬럼인덱스는 0부터 시작한다.
-//				colName = model.getColumnName(column); //해당 인덱스의 컬럼이름을 받아온다.
-//				userCode = (String)model.getValueAt(row , columnCode); // 코드
-//				userValue = (String) model.getValueAt(row, column); // data는 object 타입이므로 형변환해야 한다.	 //패스워드			
-//				System.out.println(userCode+ "  " + userValue);
-//			}			
-//			//if(e.getSource() == )
-//			sc.adminModifyMember(Integer.parseInt(userCode),userValue); 
-//		}
-//		
-//		else if( model.getColumnCount() == 4)
-//		{
-//			return;
-////			row = e.getFirstRow();
-////			column = e.getColumn();	
-//		}
-//		
-//		//colName = null;
-//		//userCode = null;
-//		//userValue = null;
-//		//column = 0;
-//	}
-//	
-	
-
-	@Override
-	public void tableChanged(TableModelEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 	@Override
